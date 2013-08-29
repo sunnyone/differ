@@ -55,6 +55,7 @@
     </util:list>
     <util:list id="fitsAcceptedVersionValues">
         <value>0.6.1</value>
+        <value>0.6.2</value>
     </util:list>
 
     <bean id="elapsedTime" class="cz.nkp.differ.cmdline.ValueTester.ElapsedTime">

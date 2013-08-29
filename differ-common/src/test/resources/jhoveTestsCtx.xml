@@ -41,7 +41,6 @@
         <value>Resolution vertical</value>
         <value>Resolution horizontal</value>
         <value>File last modified</value>
-        <value>Compression</value>
 
     </util:list>
 
@@ -50,6 +49,7 @@
     </util:map>
     <util:list id="image14Test01IgnoredProperties">
         <value>Type of format</value>
+        <value>Compression</value>
 
         <!--ABOVE TODO -->
         <value>Validation (well formed and valid)</value>
