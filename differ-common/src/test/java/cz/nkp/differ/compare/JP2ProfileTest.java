@@ -1,7 +1,8 @@
 package cz.nkp.differ.compare;
 
+import cz.nkp.differ.compare.metadata.JP2Kernel;
 import cz.nkp.differ.compare.metadata.JP2Profile;
-import cz.nkp.differ.compare.metadata.JP2Profile.Size;
+import cz.nkp.differ.compare.metadata.JP2Size;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
@@ -33,11 +34,11 @@ public class JP2ProfileTest {
     @Test
     public void serializationTest() throws Exception {
         JP2Profile profile1 = new JP2Profile();
-        profile1.setKernel(JP2Profile.Kernel.Revesible5x3);
-        profile1.setPreccintSizes(Arrays.asList(new Size(64, 64), new Size(128, 128)));
+        profile1.setKernel(JP2Kernel.Revesible5x3);
+        profile1.setPreccintSizes(Arrays.asList(new JP2Size(64, 64), new JP2Size(128, 128)));
         profile1.setDecompositionLevels(Arrays.asList(4, 5, 6, 7));
         profile1.setProgressionOrders(Arrays.asList("RPCL"));
-        profile1.setTileSizes(Arrays.asList(new Size(1024, 1024)));
+        profile1.setTileSizes(Arrays.asList(new JP2Size(1024, 1024)));
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         Result result = new StreamResult(bos);
         marshaller.marshal(profile1, result);
