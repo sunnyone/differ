@@ -16,9 +16,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {"kernel", "preccintSizes", "tileSizes", "decompositionLevels", "progressionOrders", "minQualityLayers", "maxQualityLayers"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JP2Profile {
-    
-    public JP2Profile() {
-    }
 
     @XmlElement(name = "kernel")
     private JP2Kernel kernel;
@@ -44,6 +41,9 @@ public class JP2Profile {
     
     @XmlElement(name = "max-quality-layers")
     private int maxQualityLayers;
+    
+    public JP2Profile() {
+    }
 
     public JP2Kernel getKernel() {
         return kernel;
