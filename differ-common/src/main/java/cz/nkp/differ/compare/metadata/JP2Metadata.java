@@ -1,18 +1,28 @@
 package cz.nkp.differ.compare.metadata;
 
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author xrosecky
  */
+@XmlRootElement(name="profile")
+@XmlType(propOrder = {"kernel", "preccintSizes", "tileSize", "decompositionLevel", "progressionOrder", "qualityLayers"})
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JP2Metadata {
 
     @XmlElement(name = "kernel")
     private JP2Kernel kernel;
     
+    @XmlElementWrapper(name = "preccints")
     @XmlElement(name = "preccint")
-    private JP2Size preccintSize;
+    private List<JP2Size> preccintSizes;
     
     @XmlElement(name = "tile")
     private JP2Size tileSize;
@@ -37,12 +47,12 @@ public class JP2Metadata {
         this.kernel = kernel;
     }
 
-    public JP2Size getPreccintSize() {
-        return preccintSize;
+    public List<JP2Size> getPreccintSizes() {
+        return preccintSizes;
     }
 
-    public void setPreccintSize(JP2Size preccintSize) {
-        this.preccintSize = preccintSize;
+    public void setPreccintSizes(List<JP2Size> preccintSizes) {
+        this.preccintSizes = preccintSizes;
     }
 
     public JP2Size getTileSize() {

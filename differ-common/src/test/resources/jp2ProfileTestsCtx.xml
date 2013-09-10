@@ -14,6 +14,7 @@
 	<property name="classesToBeBound">
 	    <list>
 		<value>cz.nkp.differ.compare.metadata.JP2Profile</value>
+                <value>cz.nkp.differ.compare.metadata.JP2Metadata</value>
 	    </list>
 	</property>
 	<property name="marshallerProperties">

@@ -59,7 +59,7 @@
 
     </bean>
     
-    <bean id="kakaduMetadataTransformer" class="cz.nkp.differ.compare.metadata.external.RegexpTransformer">
+    <bean id="kakaduMetadataTransformerInner" class="cz.nkp.differ.compare.metadata.external.RegexpTransformer">
       <property name="mapOfRegexp">
     	<map>
     	  <entry key="Color depth"   value="Sprecision=[\ \t]*(.*)"/>
@@ -84,6 +84,7 @@
 	  <entry key="Type of algorithm" value="Ckernels=[\ \t]*(.*)"/>
 	  <entry key="ATK" value="Catk=[\ \t]*(.*)"/>
 	  <entry key="Precints" value="Cuse_precincts=[\ \t]*(.*)"/>
+          <entry key="Preccints size" value="Cprecincts=[\ \t]*(.*)"/>
 	  <entry key="Code block size" value="Cblk=[\ \t]*(.*)"/>
 	  <entry key="Coding bypass" value="Cmodes=[\ \t]*(.*)"/>
 	  <entry key="Derived" value="Cabs_steps=[\ \t]*(.*)"/>
@@ -117,8 +118,12 @@
 	  <value>jp2</value>
 	  <value>jpf</value>
 	  <value>jpp</value>
-
-    </list>
+        </list>
       </property>
     </bean>
+    
+    <bean id="kakaduMetadataTransformer" class="cz.nkp.differ.compare.metadata.external.KakaduMetadataTransformer">
+        <property name="innerTransformer" ref="kakaduMetadataTransformerInner"/>
+    </bean>
+    
 </beans>
