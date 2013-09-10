@@ -2,6 +2,7 @@ package cz.nkp.differ.compare.metadata.external;
 
 import cz.nkp.differ.compare.metadata.JP2Kernel;
 import cz.nkp.differ.compare.metadata.JP2Metadata;
+import cz.nkp.differ.compare.metadata.JP2Profile;
 import cz.nkp.differ.compare.metadata.JP2Size;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -91,6 +92,29 @@ public class KakaduMetadataTransformer implements ResultTransformer {
         return metadata;
     }
     
+    private List<String> validate(JP2Metadata metadata, JP2Profile profile) {
+        List<String> conflicts = new ArrayList<String>();
+        if (profile.getKernel() != null && !profile.getKernel().equals(metadata.getKernel())) {
+            conflicts.add("Kernel");
+        }
+        if (profile.getMaxQualityLayers() > metadata.getQualityLayers()) {
+            conflicts.add("Max quality layers");
+        }
+        if (profile.getMinQualityLayers() < metadata.getQualityLayers()) {
+            conflicts.add("Min quality layers");
+        }
+        if (validatePropertyAgainstList(profile.getProgressionOrders(), metadata.getProgressionOrder())) {
+            conflicts.add("Progression orders");
+        }
+        if (validatePropertyAgainstList(profile.getDecompositionLevels(), metadata.getDecompositionLevel())) {
+            conflicts.add("Decomposition levels");
+        }
+        if (validatePropertyAgainstList(profile.getTileSizes(), metadata.getTileSize())) {
+            conflicts.add("Tile size");
+        }
+        return conflicts;
+    }
+    
     private JP2Size parseRange(String value) {
         Matcher matcher = KDU_RANGE_PATTERN.matcher(value);
         boolean matchFound = matcher.find();
@@ -112,6 +136,18 @@ public class KakaduMetadataTransformer implements ResultTransformer {
 
     public void setInnerTransformer(RegexpTransformer innerTransformer) {
         this.innerTransformer = innerTransformer;
+    }
+    
+    private static <T> boolean validatePropertyAgainstList(List<T> list, T value) {
+        if (empty(list)) {
+            return true;
+        } else {
+            return list.contains(value);
+        }
+    }
+    
+    private static <T> boolean empty(List<T> list) {
+        return (list == null || list.isEmpty());
     }
     
 }
