@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author xrosecky
  */
-@XmlRootElement(name="profile")
+@XmlRootElement(name="jp2-metadata")
 @XmlType(propOrder = {"kernel", "preccintSizes", "tileSize", "decompositionLevel", "progressionOrder", "qualityLayers"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JP2Metadata {

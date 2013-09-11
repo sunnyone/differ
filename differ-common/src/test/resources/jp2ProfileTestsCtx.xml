@@ -29,4 +29,12 @@
 	</property>
     </bean>
     
+    <bean id="jp2ProfileProvider" class="cz.nkp.differ.compare.metadata.external.StaticJP2ProfileProvider">
+        <property name="resources">
+            <util:list>
+                <value>classpath:ndk_jp2_profile.xml</value>
+            </util:list>
+        </property>
+    </bean>
+    
 </beans>

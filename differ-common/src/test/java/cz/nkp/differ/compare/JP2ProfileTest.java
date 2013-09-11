@@ -44,6 +44,7 @@ public class JP2ProfileTest {
         marshaller.marshal(profile1, result);
         ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         Source source = new StreamSource(bis);
+        System.out.println(new String(bos.toByteArray()));
         JP2Profile profile2 = (JP2Profile) marshaller.unmarshal(source);
     }
     

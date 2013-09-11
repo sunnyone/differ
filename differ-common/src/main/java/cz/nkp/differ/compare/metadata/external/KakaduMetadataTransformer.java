@@ -3,6 +3,7 @@ package cz.nkp.differ.compare.metadata.external;
 import cz.nkp.differ.compare.metadata.JP2Kernel;
 import cz.nkp.differ.compare.metadata.JP2Metadata;
 import cz.nkp.differ.compare.metadata.JP2Profile;
+import cz.nkp.differ.compare.metadata.JP2ProfileValidationResult;
 import cz.nkp.differ.compare.metadata.JP2Size;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class KakaduMetadataTransformer implements ResultTransformer {
 
     private RegexpTransformer innerTransformer;
     
+    @Autowired
     private JP2ProfileProvider jp2ProfileProvider;
     
     @Autowired
@@ -37,6 +39,9 @@ public class KakaduMetadataTransformer implements ResultTransformer {
     public List<Entry> transform(byte[] stdout, byte[] stderr) throws IOException {
         List<Entry> entries = innerTransformer.transform(stdout, stderr);
         JP2Metadata metadata = getMetadata(entries);
+        for (JP2Profile profile : jp2ProfileProvider.getProfiles()) {
+            JP2ProfileValidationResult result = this.validate(metadata, profile);
+        }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         Result result = new StreamResult(bos);
         marshaller.marshal(metadata, result);
@@ -92,27 +97,21 @@ public class KakaduMetadataTransformer implements ResultTransformer {
         return metadata;
     }
     
-    private List<String> validate(JP2Metadata metadata, JP2Profile profile) {
-        List<String> conflicts = new ArrayList<String>();
-        if (profile.getKernel() != null && !profile.getKernel().equals(metadata.getKernel())) {
-            conflicts.add("Kernel");
+    private JP2ProfileValidationResult validate(JP2Metadata metadata, JP2Profile profile) {
+        JP2ProfileValidationResult result = new JP2ProfileValidationResult();
+        result.setProfile(profile);
+        result.setMetadata(metadata);
+        result.setKernel(profile.getKernel() == null || profile.getKernel().equals(metadata.getKernel()));
+        result.setQualityLayers(profile.getMaxQualityLayers() < metadata.getQualityLayers() || 
+                profile.getMinQualityLayers() > metadata.getQualityLayers());
+        result.setProgressionOrder(validatePropertyAgainstList(profile.getProgressionOrders(), metadata.getProgressionOrder()));
+        result.setDecompositionLevel(validatePropertyAgainstList(profile.getDecompositionLevels(), metadata.getDecompositionLevel()));
+        result.setTileSize(validatePropertyAgainstList(profile.getTileSizes(), metadata.getTileSize()));
+        if (result.isKernel() && result.isQualityLayers() && result.isProgressionOrder() 
+                && result.isDecompositionLevel() && result.isTileSize()) {
+            result.setValid(true);
         }
-        if (profile.getMaxQualityLayers() > metadata.getQualityLayers()) {
-            conflicts.add("Max quality layers");
-        }
-        if (profile.getMinQualityLayers() < metadata.getQualityLayers()) {
-            conflicts.add("Min quality layers");
-        }
-        if (validatePropertyAgainstList(profile.getProgressionOrders(), metadata.getProgressionOrder())) {
-            conflicts.add("Progression orders");
-        }
-        if (validatePropertyAgainstList(profile.getDecompositionLevels(), metadata.getDecompositionLevel())) {
-            conflicts.add("Decomposition levels");
-        }
-        if (validatePropertyAgainstList(profile.getTileSizes(), metadata.getTileSize())) {
-            conflicts.add("Tile size");
-        }
-        return conflicts;
+        return result;
     }
     
     private JP2Size parseRange(String value) {
@@ -136,6 +135,22 @@ public class KakaduMetadataTransformer implements ResultTransformer {
 
     public void setInnerTransformer(RegexpTransformer innerTransformer) {
         this.innerTransformer = innerTransformer;
+    }
+
+    public JP2ProfileProvider getJp2ProfileProvider() {
+        return jp2ProfileProvider;
+    }
+
+    public void setJp2ProfileProvider(JP2ProfileProvider jp2ProfileProvider) {
+        this.jp2ProfileProvider = jp2ProfileProvider;
+    }
+
+    public Jaxb2Marshaller getMarshaller() {
+        return marshaller;
+    }
+
+    public void setMarshaller(Jaxb2Marshaller marshaller) {
+        this.marshaller = marshaller;
     }
     
     private static <T> boolean validatePropertyAgainstList(List<T> list, T value) {
