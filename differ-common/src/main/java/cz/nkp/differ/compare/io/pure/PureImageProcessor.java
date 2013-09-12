@@ -45,6 +45,7 @@ public class PureImageProcessor extends ImageProcessor {
     public PureImageProcessor(ImageLoader imageLoader, MetadataExtractors extractors) {
         this.imageLoader = imageLoader;
         this.extractors = extractors;
+        this.pdfReporter = new ReportGenerator();
     }
 
     private class ProcessImageTask implements Callable<PureImageProcessorResult> {

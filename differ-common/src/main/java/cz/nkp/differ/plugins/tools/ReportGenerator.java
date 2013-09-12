@@ -19,9 +19,14 @@ import net.sf.dynamicreports.jasper.builder.export.JasperPdfExporterBuilder;
 
 public class ReportGenerator{
 
-    private void build() {
-        JasperPdfExporterBuilder pdfExporter = export.pdfExporter(System.getProperty("user.dir"));
+    public ReportGenerator(){
+        build();
+    }
 
+    private void build() {
+        String path=System.getProperty("user.dir")+"/report.pdf";
+        JasperPdfExporterBuilder pdfExporter = export.pdfExporter(path);
+        System.out.println("Saving to "+path);
         StyleBuilder boldStyle         = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalAlignment(HorizontalAlignment.CENTER);
         StyleBuilder columnTitleStyle  = stl.style(boldCenteredStyle)
