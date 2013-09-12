@@ -1,5 +1,5 @@
 package cz.nkp.differ.compare.io.pure;
-
+import cz.nkp.differ.plugins.tools.ReportGenerator;
 import cz.nkp.differ.compare.io.ImageProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
@@ -38,6 +38,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class PureImageProcessor extends ImageProcessor {
 
     private ImageLoader imageLoader;
+    private ReportGenerator pdfReporter;
     private MetadataExtractors extractors;
     private MetadataSource core = new MetadataSource(0, "", "", "core");
 
