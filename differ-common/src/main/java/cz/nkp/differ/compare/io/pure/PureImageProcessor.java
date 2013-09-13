@@ -130,6 +130,8 @@ public class PureImageProcessor extends ImageProcessor {
             data.setConflict(conflicts.contains(key));
         }
         result.setType(ImageProcessorResult.Type.IMAGE);
+        pdfReporter.setDataSource(result);
+        pdfReporter.buildAndExport();
         return result;
     }
 
@@ -169,6 +171,8 @@ public class PureImageProcessor extends ImageProcessor {
             ex.printStackTrace();
             results[2] = null;
         }
+        pdfReporter.setDataSource(results);
+        pdfReporter.buildAndExport();
         return results;
     }
 
