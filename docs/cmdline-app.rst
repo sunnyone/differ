@@ -70,6 +70,13 @@ Example output: Compare two images and validate
 .. literalinclude:: outputs/cmdline-compare.txt
 
 
+
+Example output: PDF Export
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The application also exports a simple PDF using DynamicReports library.
+See :download:`this example export <outputs/report.pdf>`.
+
 .. note::
 
    You can see many more examples in the /docs/ folder 
