@@ -88,6 +88,10 @@ public class DifferApplication extends TPTApplication {
 	userManager = (UserManager) applicationContext.getBean("userManager");
 	imageManager = (ImageManager) applicationContext.getBean("imageManager");
 	resultManager = (ResultManager) applicationContext.getBean("resultManager");
+        
+        String resultsPath = "/tmp/differ/" + userManager.getLoggedInUser() + "/results";
+        new File(resultsPath).mkdirs(); //create results folder if doesn't exist
+        resultManager.setDirectory(resultsPath);
         GoogleAnalyticsConfiguration gaConf = (GoogleAnalyticsConfiguration)
                 applicationContext.getBean("googleAnalyticsConfiguration");
 
