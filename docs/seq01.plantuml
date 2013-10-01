@@ -1,6 +1,6 @@
 @startuml
 skinparam componentStyle uml2
-title Sequence of processing of an image
+title Sequence of processing of an image analysis
 
 box "Client Application"
 participant "Request Sender" as CL_RS
