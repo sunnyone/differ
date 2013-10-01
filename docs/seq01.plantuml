@@ -1,0 +1,32 @@
+@startuml
+skinparam componentStyle uml2
+title Sequence of processing of an image
+
+box "Client Application"
+participant "Request Sender" as CL_RS
+participant "Progress Consument" as CL_PC
+participant "Results Consument" as CL_RC
+end box
+
+box "Message Broker"  #lightBlue
+participant "Image Analysis \nRequest Consument"  as MB_ImA
+participant "Progress Queue" as MB_ProgressQ
+participant "Results Queue" as MB_ResultsQ
+end box
+
+
+CL_RS -> MB_ImA : request for image analysis
+... later ...
+MB_ImA -> MB_ProgressQ : progress of image analysis
+MB_ProgressQ -> CL_PC :  progress of image analysis
+MB_ImA -> MB_ProgressQ : progress of image analysis
+MB_ProgressQ -> CL_PC :  progress of image analysis
+MB_ImA -> MB_ProgressQ : progress of image analysis
+MB_ProgressQ -> CL_PC :  progress of image analysis
+... later ...
+MB_ImA -> MB_ResultsQ : result of an image analysis 
+MB_ResultsQ -> CL_RC : result of an image analysis
+
+@enduml
+
+

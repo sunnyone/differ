@@ -20,3 +20,10 @@ There are a few solutions:
    2) upload images and after it finishes send message to RabbitMQ to process uploaded images.
       Progress of a job will be taken from a queue that informs about progress.
 
+
+
+AMQP Integration
+...............................
+
+.. image:: dm01.png
+.. image:: seq01.png

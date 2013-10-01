@@ -1,0 +1,43 @@
+@startuml
+skinparam componentStyle uml2
+left to right direction
+title Processing of an image
+
+class RequestForImageAnalysis {
+      String uuid
+      String imagePath
+}
+
+class RequestForImageComparison {
+      String uuid
+      String image01Path
+      String image02Path
+}
+
+class ResponseOfImageAnalysis {
+      String uuidOfRequest
+      String response
+      String status
+      String resultMessage
+}
+
+class ResponseOfImageComparison {
+      String uuidOfRequest
+      String response
+      String status
+      String resultMessage
+}
+
+class ProgressOfImageAnalysis {
+      String uuidOfRequest
+      String progressMessage
+      Decimal finishedAmount
+}
+
+class ProgressOfImageComparison {
+      String uuidOfRequest
+      String progressMessage
+      Decimal finishedAmount
+}
+
+@enduml
