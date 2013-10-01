@@ -17,6 +17,7 @@ The Image Validator - DIFFER
    important-links
    source
    gsoc2013-ideas-list
+   running-jobs
 
 .. raw:: html
 
