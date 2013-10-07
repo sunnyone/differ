@@ -11,9 +11,7 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-
-    <context:component-scan base-package="cz.nkp.differ"/>
-    
+    <import resource="appCtx-differ-common-test.xml"/>    
     <import resource="metadataFinishing.xml"/>
     <import resource="metadataSignificantProperties.xml"/>
     <import resource="extractorProperties.xml"/>

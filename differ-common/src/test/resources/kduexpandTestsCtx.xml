@@ -14,6 +14,8 @@
 
     <context:component-scan base-package="cz.nkp.differ"/>
     
+    <import resource="appCtx-differ-common-test.xml"/>
+    <import resource="jp2ProfileTestsCtx.xml"/>
     <import resource="metadataFinishing.xml"/>
     <import resource="metadataSignificantProperties.xml"/>
     <import resource="extractorProperties.xml"/>

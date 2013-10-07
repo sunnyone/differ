@@ -10,6 +10,7 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
     
+    <import resource="classpath:appCtx-differ-common-test.xml"/>
     <import resource="classpath:metadataFinishing.xml"/>
     <import resource="classpath:kakaduMetadataExtractor.xml"/>
     
