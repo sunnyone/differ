@@ -98,7 +98,7 @@
       </property>
     </bean>
     
-    <bean id="kakaduMetadataExtractor" class="cz.nkp.differ.compare.metadata.external.ExternalMetadataExtractor">
+    <bean id="kakaduMetadataExtractor" class="cz.nkp.differ.compare.metadata.external.KduExpandMetadataExtractor">
       <property name="source" value="kakadu"/>
       <property name="transformer" ref="kakaduMetadataTransformer"/>
       <property name="programArguments">

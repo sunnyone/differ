@@ -16,9 +16,9 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
  */
 public class StaticJP2ProfileProvider implements JP2ProfileProvider, InitializingBean {
 
-    List<String> resources;
+    private List<String> resources;
     
-    List<JP2Profile> profiles;
+    private List<JP2Profile> profiles;
     
     @Autowired
     private Jaxb2Marshaller marshaller;
