@@ -1,7 +1,6 @@
 *.class
 *.iml
 *.sh
-*.raw
 .idea
 .classpath
 .project
