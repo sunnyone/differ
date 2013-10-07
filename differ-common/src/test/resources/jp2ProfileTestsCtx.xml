@@ -17,14 +17,10 @@
         <property name="mockedClass" value="cz.nkp.differ.plugins.tools.CommandRunnerImpl"/>
     </bean>
     
-    <!--
-    <bean id="commandRunner" class="cz.nkp.differ.plugins.tools.CommandRunnerImpl"/>
-    -->
-    
     <bean id="jp2ProfileProvider" class="cz.nkp.differ.compare.metadata.external.StaticJP2ProfileProvider">
         <property name="resources">
             <util:list>
-                <value>classpath:ndk_jp2_profile.xml</value>
+                <value>classpath:jp2_profiles/ndk_jp2_profile.xml</value>
             </util:list>
         </property>
     </bean>

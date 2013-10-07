@@ -37,6 +37,9 @@ public class KduExpandMetadataExtractor extends ExternalMetadataExtractor {
     @Override
     public List<ImageMetadata> getMetadata(File file) {
         List<ImageMetadata> result = super.getMetadata(file);
+        if (result.isEmpty()) {
+            return result;
+        }
         for (JP2Profile profile : jp2ProfileProvider.getProfiles()) {
             JP2Metadata metadata = getMetadata(result);
             JP2ProfileValidationResult validationResult = validate(metadata, profile);
