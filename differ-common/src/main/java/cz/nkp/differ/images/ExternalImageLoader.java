@@ -8,12 +8,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author xrosecky
  */
 public class ExternalImageLoader implements ImageLoader {
+    
+    @Autowired
+    private CommandRunner commandRunner;
 
     private List<String> programArguments;
     private ImageLoader imageLoader;
@@ -65,7 +69,7 @@ public class ExternalImageLoader implements ImageLoader {
 		throw new ImageDifferException(ImageDifferException.ErrorCode.IMAGE_READ_ERROR,
 			"Output file not specified in argument list!");
 	    }
-	    CommandOutput cmdResult = CommandRunner.runCommandAndWaitForExit(null, arguments);
+	    CommandOutput cmdResult = commandRunner.runCommandAndWaitForExit(null, arguments);
 	    if (cmdResult.getExitCode() != 0) {
 		throw new ImageDifferException(ImageDifferException.ErrorCode.IMAGE_READ_ERROR,
 			String.format("External process returned nonzero exit code: %s", cmdResult.getExitCode()));

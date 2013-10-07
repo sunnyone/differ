@@ -13,12 +13,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author xrosecky
  */
 public class ExternalMetadataExtractor extends AbstractMetadataExtractor {
 
+    @Autowired
+    private CommandRunner commandRunner;
+    
     private List<String> programArguments;
     private ResultTransformer transformer;
     private String source;
@@ -76,7 +80,7 @@ public class ExternalMetadataExtractor extends AbstractMetadataExtractor {
             }
         }
         try {
-            CommandOutput cmdResult = CommandRunner.runCommandAndWaitForExit(null, arguments);
+            CommandOutput cmdResult = commandRunner.runCommandAndWaitForExit(null, arguments);
             MetadataSource metadataSource = new MetadataSource(cmdResult.getExitCode(), new String(cmdResult.getStdout()),
                     new String(cmdResult.getStderr()), source);
             int exitCode = cmdResult.getExitCode();

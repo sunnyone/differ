@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<profile>
+    <name>NDK profile</name>
+    <kernel>Revesible5x3</kernel>
+    <preccints>
+        <preccint>
+            <width>64</width>
+            <height>64</height>
+        </preccint>
+        <preccint>
+            <width>128</width>
+            <height>128</height>
+        </preccint>
+    </preccints>
+    <tiles>
+        <tile>
+            <width>1024</width>
+            <height>1024</height>
+        </tile>
+    </tiles>
+    <decomposition-levels>
+        <decomposition-level>4</decomposition-level>
+        <decomposition-level>5</decomposition-level>
+        <decomposition-level>6</decomposition-level>
+        <decomposition-level>7</decomposition-level>
+    </decomposition-levels>
+    <progression-orders>
+        <progression-order>RPCL</progression-order>
+    </progression-orders>
+    <min-quality-layers>0</min-quality-layers>
+    <max-quality-layers>0</max-quality-layers>
+</profile>

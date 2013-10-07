@@ -9,15 +9,12 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	<property name="locations">
-
-	    <list>
-		<value>classpath:/common.properties</value>
-		<value>classpath:/application.properties</value>
-	    </list>
-	</property>
+    
+    <import resource="classpath:metadataFinishing.xml"/>
+    <import resource="classpath:kakaduMetadataExtractor.xml"/>
+    
+    <bean id="commandRunner" class="cz.nkp.differ.test.util.EasyMockFactoryBean">
+        <property name="mockedClass" value="cz.nkp.differ.plugins.tools.CommandRunnerImpl"/>
     </bean>
     
     <bean id="jp2ProfileProvider" class="cz.nkp.differ.compare.metadata.external.StaticJP2ProfileProvider">
@@ -28,21 +25,10 @@
         </property>
     </bean>
 
-    <!-- web to collect results of comparison -->
-    <bean id="reportHTTPSender" class="cz.nkp.differ.cmdline.ReportHTTPSender">
-      <property name="url" value="${reportingWeb.url}"/>
-      <property name="password" value="${reportingWeb.password}"/>
-      <property name="user" value="${reportingWeb.user}"/>
-    </bean>
-
-    <context:component-scan base-package="cz.nkp.differ"/>
-
     <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
 	<property name="classesToBeBound">
 	    <list>
-		<value>cz.nkp.differ.compare.io.SerializableImageProcessorResult</value>
-                <value>cz.nkp.differ.compare.io.SerializableImageProcessorResults</value>
-                <value>cz.nkp.differ.compare.metadata.JP2Profile</value>
+		<value>cz.nkp.differ.compare.metadata.JP2Profile</value>
                 <value>cz.nkp.differ.compare.metadata.JP2Metadata</value>
 	    </list>
 	</property>
@@ -57,4 +43,5 @@
 	    </map>
 	</property>
     </bean>
+    
 </beans>
