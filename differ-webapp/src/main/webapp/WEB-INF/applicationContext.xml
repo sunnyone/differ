@@ -55,6 +55,14 @@
         <property name="directory" value="${differ.home}/results/"/>
     </bean>
     
+    <bean id="jp2ProfileProvider" class="cz.nkp.differ.compare.metadata.external.StaticJP2ProfileProvider">
+        <property name="resources">
+            <util:list>
+                <value>classpath:jp2_profiles/ndk_jp2_profile.xml</value>
+            </util:list>
+        </property>
+    </bean>
+    
     <!-- Google Analytics -->
     <bean id="googleAnalyticsConfiguration" class="cz.nkp.differ.configuration.GoogleAnalyticsConfiguration">
         <property name="domainName" value="${ga.domainName}"/>
@@ -69,6 +77,8 @@
             <list>
                 <value>cz.nkp.differ.compare.io.SerializableImageProcessorResult</value>
                 <value>cz.nkp.differ.compare.io.SerializableImageProcessorResults</value>
+                <value>cz.nkp.differ.compare.metadata.JP2Profile</value>
+                <value>cz.nkp.differ.compare.metadata.JP2Metadata</value>
             </list>
         </property>
         <property name="marshallerProperties">
