@@ -1,9 +1,14 @@
-# differ-selenium
+Differ Selenium tests
+=====================
 
-A Clojure library designed to ... well, that part is up to you.
+It is written using clojure.
 
+## Prepositions
+   install lein
+   
 ## Usage
 
+   
 FIXME
 
 ## License

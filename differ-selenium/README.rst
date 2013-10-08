@@ -1,0 +1,39 @@
+Differ Selenium tests
+=====================
+
+The tests are written in Clojure.
+
+Installation
+-----------------------
+
+1. Make sure you have a Java JDK version 6 or later.
+2. Download the script.
+3. Place it on your $PATH. (~/bin is a good choice if it is on your path.)
+4. Set it to be executable. (chmod 755 ~/bin/lein)
+
+   
+Usage
+---------
+
+- using source
+
+  .. raw::
+     
+     cd differ-selenium
+     lein run
+
+- using jar
+
+  .. raw::
+
+     cd differ-selenium
+     lein uberjar
+     java -jar target/differ-selenium-0.1.0-SNAPSHOT-standalone.jar 
+
+
+License
+--------------
+
+Copyright © 2013 Jan Stavěl (stavel.jan at gmail.com)
+
+Distributed under the Eclipse Public License, the same as Clojure.
