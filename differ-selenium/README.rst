@@ -1,7 +1,14 @@
-Differ Selenium tests
-=====================
+Differ Selenium tests and utils
+========================================================================================
 
 The tests are written in Clojure.
+
+You can even use the tests for using web application from command line.
+
+
+You can:
+
+- upload two images and compare them as anonymous
 
 Installation
 -----------------------
