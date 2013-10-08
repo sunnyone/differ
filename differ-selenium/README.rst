@@ -12,10 +12,12 @@ or:
 
 http://leiningen-win-installer.djpowell.net/ for Windows
 
+in shortly:
+
 1. Make sure you have a Java JDK version 6 or later.
 2. Download the script:
-   [[https://raw.github.com/technomancy/leiningen/stable/bin/lein][script for Unix]]
-   [[https://raw.github.com/technomancy/leiningen/stable/bin/lein.bat][script for Windows]]
+   `script for UNIX <https://raw.github.com/technomancy/leiningen/stable/bin/lein>`_
+   `script for Windows <https://raw.github.com/technomancy/leiningen/stable/bin/lein.bat>`_
 3. Place it on your $PATH. (~/bin is a good choice if it is on your path.)
 4. Set it to be executable. (chmod 755 ~/bin/lein)
 
