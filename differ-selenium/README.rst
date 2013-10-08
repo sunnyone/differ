@@ -16,6 +16,7 @@ in shortly:
 
 1. Make sure you have a Java JDK version 6 or later.
 2. Download the script:
+
    `script for UNIX <https://raw.github.com/technomancy/leiningen/stable/bin/lein>`_
 
    `script for Windows <https://raw.github.com/technomancy/leiningen/stable/bin/lein.bat>`_
