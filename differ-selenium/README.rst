@@ -16,14 +16,14 @@ Usage
 
 - using source
 
-  .. raw::
+  ::
      
      cd differ-selenium
      lein run
 
 - using jar
 
-  .. raw::
+  ::
 
      cd differ-selenium
      lein uberjar
