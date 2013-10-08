@@ -15,6 +15,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
+	      <value>classpath:/common.properties</value>
                 <value>WEB-INF/differ.properties</value>
                 <value>WEB-INF/differ.local.properties</value>
             </list>

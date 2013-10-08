@@ -40,7 +40,7 @@ Differ Documentation
 
 You can read documentation https://differ.readthedocs.org/en/latest/ .
 
-You can read documentation docs/_build/dirhtml/index.html .
+You can read documentation docs/_build/html/index.html .
 
 You can build documentation:
 

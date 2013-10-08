@@ -89,13 +89,13 @@
         </property>
     </bean>
 
-    <bean id="metadataExtractors" class="cz.nkp.differ.compare.metadata.MetadataExtractors">
-        <property name="extractors">
-            <list>
-                <ref bean="kduexpandMetadataExtractor"/>
-                <ref bean="jhoveMetadataExtractor"/>
-            </list>
-        </property>
-    </bean>
+    <!-- <bean id="metadataExtractors" class="cz.nkp.differ.compare.metadata.MetadataExtractors"> -->
+    <!--     <property name="extractors"> -->
+    <!--         <list> -->
+    <!--             <ref bean="kduexpandMetadataExtractor"/> -->
+    <!--             <ref bean="jhoveMetadataExtractor"/> -->
+    <!--         </list> -->
+    <!--     </property> -->
+    <!-- </bean> -->
 
 </beans>
