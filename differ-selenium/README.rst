@@ -17,6 +17,7 @@ in shortly:
 1. Make sure you have a Java JDK version 6 or later.
 2. Download the script:
    `script for UNIX <https://raw.github.com/technomancy/leiningen/stable/bin/lein>`_
+
    `script for Windows <https://raw.github.com/technomancy/leiningen/stable/bin/lein.bat>`_
 3. Place it on your $PATH. (~/bin is a good choice if it is on your path.)
 4. Set it to be executable. (chmod 755 ~/bin/lein)
