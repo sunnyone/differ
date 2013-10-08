@@ -31,7 +31,7 @@ Usage
   ::
      
      cd differ-selenium
-     lein run
+     lein run -- --image-01 PATH_01 --image-02 PATH_02
 
 - using jar
 
@@ -39,8 +39,14 @@ Usage
 
      cd differ-selenium
      lein uberjar
-     java -jar target/differ-selenium-0.1.0-SNAPSHOT-standalone.jar 
+     java -jar target/differ-selenium-0.1.0-SNAPSHOT-standalone.jar --image-01 PATH_01 --image-02 PATH_02
 
+- using bat file
+
+  ::
+
+     cd differ-selenium
+     compare.bat PATH_01 PATH_02
 
 License
 --------------

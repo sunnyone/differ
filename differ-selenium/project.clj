@@ -7,6 +7,7 @@
                  [clj-webdriver/clj-webdriver "0.6.0"
                   :exclusions [org.seleniumhq.selenium/selenium-server]]
                  [org.seleniumhq.selenium/selenium-server "2.35.0"]
+                 [org.clojure/tools.cli "0.2.4"]
                  ]
   :main differ-selenium.core
   )
