@@ -3,11 +3,13 @@
   (:require [clojure.tools.cli :as c]
             [differ-selenium.pages.index :as page-index] 
             [differ-selenium.pages.comparison :as page-comparison]
+            [differ-selenium.utils :as utils]            
             )
   )
 
 (use 'clojure.test)
 (use 'clj-webdriver.taxi)
+(use 'clj-webdriver.window)
 
 (defn compare-images [image-01-path image-02-path]
   (page-index/do-compare image-01-path image-02-path)
@@ -31,8 +33,9 @@
       (System/exit 0))
     
     (set-driver! {:browser :firefox} "http://differ.nkp.cz")
+    (window-maximize)
     (Thread/sleep 2000)
-    (compare-images (:image-01 options) (:image-02 options))
+    (compare-images (utils/normalize-path (:image-01 options)) (utils/normalize-path (:image-02 options)))
     (println "Press any key to quit.")
     (read-line)
     (quit)

@@ -1,5 +1,4 @@
 (ns differ-selenium.pages.comparison
-  (:gen-class)
   )
 (use 'clj-webdriver.taxi)
 

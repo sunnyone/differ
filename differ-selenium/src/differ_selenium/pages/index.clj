@@ -1,6 +1,6 @@
 (ns differ-selenium.pages.index
-  (:gen-class)
   )
+
 (use 'clj-webdriver.taxi)
 
 (defstruct page-input  :button-compare :image-01 :image-02)
