@@ -33,6 +33,12 @@ in shortly:
 Usage
 ---------
 
+From source
+...........
+
+download sources from repository:
+https://github.com/Differ-GSOC/differ.git
+
 - using source
 
   ::
@@ -54,6 +60,19 @@ Usage
 
      cd differ-selenium
      compare.bat PATH_01 PATH_02
+
+Using jar
+..........
+
+- download jar file:
+
+  https://github.com/Differ-GSOC/differ/blob/master/differ-selenium/target/differ-selenium-0.1.0-SNAPSHOT-standalone.jar
+
+::
+     java -jar differ-selenium-0.1.0-SNAPSHOT-standalone.jar --image-01 PATH_01 --image-02 PATH_02
+
+
+  
 
 License
 --------------
