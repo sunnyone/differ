@@ -224,6 +224,9 @@ public class PureImageProcessor extends ImageProcessor {
         markConflicts(results[0]);
         markConflicts(results[1]);
         logger.info("processing of images finished in {} ms.", time.getTime());
+        if (results[2].getPreview() == null) {
+            results[2] = null;
+        }
         return results;
     }
 
