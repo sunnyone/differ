@@ -29,6 +29,8 @@ import java.util.Set;
  */
 @SuppressWarnings("serial")
 public class DifferProgramTab extends HorizontalLayout {
+    
+    private static final String BTN_BACK_ID = "main.button.back";
 
     private Layout loggedInView, loggedOutView, customViewWrapper;
     private Button customLayoutBackButton;
@@ -92,6 +94,7 @@ public class DifferProgramTab extends HorizontalLayout {
             customViewWrapper = new VerticalLayout();
             customLayoutBackButton = new Button("<b>↵</b> Back");
             customLayoutBackButton.setHtmlContentAllowed(true);
+            customLayoutBackButton.setDebugId(BTN_BACK_ID);
             customLayoutBackButton.addListener(customViewWrapperBackButtonListener);
         }
         customViewWrapper.removeAllComponents();

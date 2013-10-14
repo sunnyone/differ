@@ -27,15 +27,17 @@ import java.io.File;
  */
 public class AnonymousUserView extends HorizontalLayout {
     
+    private static long MAX_FILE_SIZE = 5242880; //size in bytes (5MB)
+    private static String BTN_TXT_COMPARE = "<div class=\"compare-button-caption\">Compare</div>";
+    private static String BTN_TXT_PROCEED = "<div class=\"compare-button-caption\">Proceed</div>";
+    private static String BTN_COMPARE_ID = "main.button.compare";
+    private static String BTN_RESET_ID = "main.button.reset";
+    
     private DifferProgramTab parent;
     private AnonymousUserView internal_this = this;
     private Button compareButton;
     private File uploadA;
     private File uploadB;
-    
-    static private long MAX_FILE_SIZE = 5242880; //size in bytes (5MB)
-    static private String BTN_TXT_COMPARE = "<div class=\"compare-button-caption\">Compare</div>";
-    static private String BTN_TXT_PROCEED = "<div class=\"compare-button-caption\">Proceed</div>";
     
     public AnonymousUserView(DifferProgramTab parent) {
         this.parent = parent;
@@ -59,6 +61,7 @@ public class AnonymousUserView extends HorizontalLayout {
         compareButton.setHtmlContentAllowed(true);
         compareButton.addStyleName("v-bigbutton");
         compareButton.setEnabled(false);
+        compareButton.setDebugId(BTN_COMPARE_ID);
 
         compareButton.addListener(new Button.ClickListener() {
 
@@ -119,6 +122,7 @@ public class AnonymousUserView extends HorizontalLayout {
                 internal_this.getComponent();
             }
         });
+        resetButton.setDebugId(BTN_RESET_ID);
 
         innerUploadSection.addComponent(addFileUploadComponent(0), "left: 10px; top: 10px;");
         innerUploadSection.addComponent(addFileUploadComponent(1), "left: 10px; top: 250px;");
