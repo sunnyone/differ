@@ -23,9 +23,13 @@
           )
   )
 
-(defn wait-for-page []
-  (wait-until #(exists? ((page-elements :image-01) :thumbnail)) 10000)
-  (wait-until #(exists? ((page-elements :image-01) :histogram)))
-  (wait-until #(exists? ((page-elements :image-02) :thumbnail)))
-  (wait-until #(exists? ((page-elements :image-02) :histogram)))
+(defn wait-for-page [timeout]
+  (wait-until #(exists? ((page-elements :image-01) :thumbnail)) timeout)
+  (wait-until #(exists? ((page-elements :image-01) :histogram)) timeout)
+  (wait-until #(exists? ((page-elements :image-02) :thumbnail)) timeout)
+  (wait-until #(exists? ((page-elements :image-02) :histogram)) timeout)
+  )
+
+(defn go-back [timeout]
+  (click (page-elements :button-back))
   )

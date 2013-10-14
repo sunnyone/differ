@@ -9,6 +9,7 @@
                  [org.seleniumhq.selenium/selenium-server "2.35.0"]
                  [org.clojure/tools.cli "0.2.4"]
                  [org.apache.commons/commons-io "1.3.2"]
+                 [me.raynes/fs "1.4.4"]
                  ]
   :main differ-selenium.core
   )
