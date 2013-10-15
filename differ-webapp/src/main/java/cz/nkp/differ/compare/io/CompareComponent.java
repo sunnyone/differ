@@ -49,26 +49,27 @@ public class CompareComponent {
 	application.getMainWindow().showNotification(errorNotif);
     }
 
+    //FIXME: bad method name
     public void addImages(Image[] images) {
 	this.images = images;
     }
 
-    public void setPluginDisplayComponentCallback(final ProgressListener c) {
+    public void setPluginDisplayComponentCallback(final ProgressListener listener) {
 	try {
-	    currentThread = new PluginPollingThread(this, c);
+	    currentThread = new PluginPollingThread(this, listener);
 	    currentThread.start();
 	} catch (Exception e) {
 	    showSeriousError(e.getLocalizedMessage());
 	}
     }
 
-    public Component getPluginDisplayComponent(ProgressListener c) {
+    public Component getPluginDisplayComponent(ProgressListener listener) {
         VerticalLayout layout = new VerticalLayout();
 	ImageProcessor imageProcessor = (ImageProcessor) DifferApplication.getApplicationContext().getBean("imageProcessor");
 	if (images.length == 2) {
 	    ImageProcessorResult[] result = null;
 	    try {
-		result = imageProcessor.processImages(images[0].getFile(), images[1].getFile(), c);
+		result = imageProcessor.processImages(images[0].getFile(), images[1].getFile(), listener);
 	    } catch (Exception ex) {
 		ex.printStackTrace();
 	    }
@@ -115,7 +116,7 @@ public class CompareComponent {
             final ImageProcessorResult[] result = new ImageProcessorResult[images.length];
             for (int i = 0; i < images.length; i++) {
 		try {
-		    result[i] = imageProcessor.processImage(images[i].getFile(), c);
+		    result[i] = imageProcessor.processImage(images[i].getFile(), listener);
 		    ImageFileAnalysisContainer iFAC = new ImageFileAnalysisContainer(result[i], this, i, images[i].getFileName());
 		    childLayout.addComponent(iFAC.getComponent());
 		    iFACs.add(iFAC);

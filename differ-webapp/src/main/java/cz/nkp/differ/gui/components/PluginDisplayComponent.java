@@ -10,10 +10,12 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.VerticalLayout;
 import cz.nkp.differ.compare.io.CompareComponent;
+import cz.nkp.differ.compare.io.ImageProcessorResult;
+import cz.nkp.differ.listener.Message;
+import cz.nkp.differ.listener.ProgressType;
 import cz.nkp.differ.model.Image;
 
-import cz.nkp.differ.listener.ProgressListener;
-
+// TODO: rename
 public class PluginDisplayComponent extends CustomComponent {
 
     private static final long serialVersionUID = -5172306282663506101L;
@@ -35,10 +37,12 @@ public class PluginDisplayComponent extends CustomComponent {
     }
 }
 
-class PluginDisplayPanel extends VerticalLayout implements ProgressListener {
+// TODO: rename and move to separate class
+class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
 
     private static final long serialVersionUID = -4597810967107465071L;
     private ProgressIndicator progress = new ProgressIndicator();
+    private int numberOfTasks = 0;
     static Logger LOGGER = Logger.getLogger(PluginDisplayPanel.class);
 
     public PluginDisplayPanel(CompareComponent d, Image[] images) {
@@ -55,15 +59,27 @@ class PluginDisplayPanel extends VerticalLayout implements ProgressListener {
     }
 
     @Override
-    public void ready(Object c) {
-	this.removeAllComponents();
-	this.addComponent((Component) c);
+    public void onStart(String identifier, int numberOfTasks) {
+        this.numberOfTasks = numberOfTasks;
     }
 
     @Override
-    public void setCompleted(int percentage) {
-	synchronized (progress) {
-	    progress.setValue(((float) (percentage)) / 100f);
-	}
+    public void onProgress(Message message) {
+        if (message.getProgressType() == ProgressType.FINISH) {
+            int finished = message.getNumberOfFinishedTaks();
+            float doneInPercent = finished / (numberOfTasks * 1.0f);
+            progress.setValue(doneInPercent);
+        }
+    }
+
+    @Override
+    public void onFinish(String identifier, ImageProcessorResult[] results) {
+        
+    }
+
+    @Override
+    public void ready(Object c) {
+        this.removeAllComponents();
+	this.addComponent((Component) c);
     }
 }
