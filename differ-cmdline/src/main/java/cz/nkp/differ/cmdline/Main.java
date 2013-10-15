@@ -162,7 +162,7 @@ public class Main {
 				ArrayList<File[]> pairs = getPairsToCompare(files);
 				for( File[] fpair: pairs){
                     System.out.println(String.format("processing: \t%s\n\t\t%s", fpair[0], fpair[1]));
-                    ImageProcessorResult[] results = processor.processImages(fpair[0], fpair[1]);
+                    ImageProcessorResult[] results = processor.processImages(fpair[0], fpair[1], new CmdLineProgressListener());
 					System.out.println(String.format("   process results: \t%s",fpair[0]));
                     processFile(context, fpair[0], results[0], true);
                     System.out.println(String.format("   process results: \t%s",fpair[1]));
@@ -172,7 +172,7 @@ public class Main {
  				}
 				System.out.println("Done\n");
 			} else {
-                ImageProcessorResult[] results = processor.processImages(files[0], files[1]);
+                ImageProcessorResult[] results = processor.processImages(files[0], files[1], new CmdLineProgressListener());
                 System.out.println(processFiles(context, files, results));
 			}
 		} else {
@@ -180,7 +180,7 @@ public class Main {
 			if( file.isDirectory()){
                 System.out.println("argument is the only directory. I do not know what to do with it.");
 			} else {
-                ImageProcessorResult result = processor.processImage(file);
+                ImageProcessorResult result = processor.processImage(file, new CmdLineProgressListener());
                 System.out.println(processFile(context, file, result, false));
 			}
 		}
