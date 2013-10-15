@@ -8,12 +8,15 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.ProgressIndicator;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.listener.Message;
 import cz.nkp.differ.listener.ProgressType;
 import cz.nkp.differ.model.Image;
+import java.text.SimpleDateFormat;
 
 // TODO: rename
 public class PluginDisplayComponent extends CustomComponent {
@@ -41,7 +44,9 @@ public class PluginDisplayComponent extends CustomComponent {
 class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
 
     private static final long serialVersionUID = -4597810967107465071L;
-    private ProgressIndicator progress = new ProgressIndicator();
+    private final ProgressIndicator progress = new ProgressIndicator();
+    private final TextArea progressDetails = new TextArea();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
     private int numberOfTasks = 0;
     static Logger LOGGER = Logger.getLogger(PluginDisplayPanel.class);
 
@@ -49,6 +54,7 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
 	d.addImages(images);
 	d.setPluginDisplayComponentCallback(this);
 	synchronized (progress) {
+            progress.setWidth("300px");
 	    progress.setIndeterminate(false);
 	    progress.setImmediate(true);
 	    progress.setPollingInterval(750);
@@ -56,11 +62,18 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
 	    progress.setValue(0f);
 	    this.addComponent(progress);
 	}
+        synchronized(progressDetails) {
+            progressDetails.setWidth("300px");
+            this.addComponent(progressDetails);
+        }
     }
 
     @Override
     public void onStart(String identifier, int numberOfTasks) {
         this.numberOfTasks = numberOfTasks;
+        synchronized (progressDetails) {
+            progressDetails.setRows(numberOfTasks);
+        }
     }
 
     @Override
@@ -68,7 +81,18 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
         if (message.getProgressType() == ProgressType.FINISH) {
             int finished = message.getNumberOfFinishedTaks();
             float doneInPercent = finished / (numberOfTasks * 1.0f);
-            progress.setValue(doneInPercent);
+            String newLine = "\n";
+            String text = dateFormat.format(message.getTime()) + 
+                    String.format(" %s missing done", message.getEventType())
+                    + newLine;
+            synchronized (progressDetails) {
+                progress.setValue(doneInPercent);
+                if (((String) progressDetails.getValue()).isEmpty()) {
+                    progressDetails.setValue(text);
+                } else {
+                    progressDetails.setValue(progressDetails.getValue() + text);
+                }
+            }
         }
     }
 
