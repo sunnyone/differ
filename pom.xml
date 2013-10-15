@@ -39,7 +39,7 @@
         <module>differ-webapp</module>
         <module>differ-common</module>
         <module>differ-cmdline</module>
-    <module>differ-selenium</module>
+        <!-- <module>differ-selenium</module> -->
   </modules>
 	
     <build>
