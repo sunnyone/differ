@@ -9,7 +9,10 @@ import cz.nkp.differ.compare.metadata.MetadataSource;
 import cz.nkp.differ.exceptions.ImageDifferException;
 import cz.nkp.differ.images.ImageLoader;
 import cz.nkp.differ.images.ImageManipulator;
+import cz.nkp.differ.listener.EventType;
+import cz.nkp.differ.listener.Message;
 import cz.nkp.differ.listener.ProgressListener;
+import cz.nkp.differ.listener.ProgressType;
 import cz.nkp.differ.plugins.tools.ReportGenerator;
 import cz.nkp.differ.tools.ExecutionTime;
 import java.awt.Color;
@@ -49,6 +52,37 @@ public class PureImageProcessor extends ImageProcessor {
     private ReportGenerator pdfReporter;
     private MetadataExtractors extractors;
     private MetadataSource core = new MetadataSource(0, "", "", "core");
+    
+    private static class CostumProgressListener implements ProgressListener {
+        
+        private ProgressListener inner;
+        
+        private int finishedTasks = 0;
+
+        public CostumProgressListener(ProgressListener inner) {
+            this.inner = inner;
+        }
+        
+        @Override
+        public void onStart(String identifier, int numberOfTasks) {
+            inner.onStart(identifier, numberOfTasks);
+        }
+
+        @Override
+        public void onProgress(Message message) {
+            if (message.getProgressType().equals(ProgressType.FINISH)) {
+                finishedTasks++;
+            }
+            message.setNumberOfFinishedTaks(finishedTasks);
+            inner.onProgress(message);
+        }
+
+        @Override
+        public void onFinish(String identifier, ImageProcessorResult[] results) {
+            inner.onFinish(identifier, results);
+        }
+        
+    }
 
     public PureImageProcessor(ImageLoader imageLoader, MetadataExtractors extractors) {
         this.imageLoader = imageLoader;
@@ -56,20 +90,63 @@ public class PureImageProcessor extends ImageProcessor {
         this.pdfReporter = new ReportGenerator();
     }
     
-    private class OpenImageTask implements Callable<PureImageProcessorResult> {
+    private abstract class AbstractTask<T> implements Callable<T> {
+        
+        private final CostumProgressListener listener;
+        private final EventType eventType;
+        private final String toolName;
+
+        public AbstractTask(CostumProgressListener listener, EventType eventType, String toolName) {
+            this.listener = listener;
+            this.eventType = eventType;
+            this.toolName = toolName;
+        }
+        
+        @Override
+        public T call() throws Exception {
+            onStart();
+            try {
+                return callInner();
+            } finally {
+                onFinish();
+            }
+        }
+        
+        protected abstract <T> T callInner() throws Exception;
+        
+        protected void onStart() {
+            Message message = new Message();
+            message.setEventType(eventType);
+            message.setProgressType(ProgressType.START);
+            message.setToolName(toolName);
+            listener.onProgress(message);
+        }
+        
+        protected void onFinish() {
+            Message message = new Message();
+            message.setEventType(eventType);
+            message.setProgressType(ProgressType.FINISH);
+            message.setToolName(toolName);
+            listener.onProgress(message);
+        }
+        
+    }
+    
+    private class OpenImageTask extends AbstractTask<PureImageProcessorResult> {
         
         private final File image;
         private final PureImageProcessorResult result;
         private final CountDownLatch latch;
         
-        public OpenImageTask(PureImageProcessorResult result, File image, CountDownLatch latch) {
+        public OpenImageTask(PureImageProcessorResult result, File image, CountDownLatch latch, CostumProgressListener listener) {
+            super(listener, EventType.THUMBNAIL, null);
             this.result = result;
             this.image = image;
             this.latch = latch;
         }
         
         @Override
-        public PureImageProcessorResult call() throws Exception {
+        protected PureImageProcessorResult callInner() throws Exception {
             BufferedImage fullImage = null;
             try {
                 fullImage = imageLoader.load(image);
@@ -100,22 +177,25 @@ public class PureImageProcessor extends ImageProcessor {
         
     }
     
-    private class ProcessImagesComparison implements Callable<PureImageProcessorResult> {
+    private class ProcessImagesComparison extends AbstractTask<PureImageProcessorResult> {
 
         private final PureImageProcessorResult result1;
         private final PureImageProcessorResult result2;
         private final PureImageProcessorResult resultOfComparison;
         private final CountDownLatch latch;
+        private final CostumProgressListener listener;
 
-        public ProcessImagesComparison(PureImageProcessorResult result1, PureImageProcessorResult result2, PureImageProcessorResult resultOfComparison, CountDownLatch latch) {
-            this.result1 = result1;
-            this.result2 = result2;
-            this.resultOfComparison = resultOfComparison;
+        public ProcessImagesComparison(PureImageProcessorResult[] results, CountDownLatch latch, CostumProgressListener listener) {
+            super(listener, EventType.COMPARISON, null);
+            this.result1 = results[0];
+            this.result2 = results[1];
+            this.resultOfComparison = results[2];
             this.latch = latch;
+            this.listener = listener;
         }
         
         @Override
-        public PureImageProcessorResult call() throws Exception {
+        public PureImageProcessorResult callInner() throws Exception {
             latch.await();
             try {
                 getImagesDifference(result1, result2, resultOfComparison);
@@ -130,23 +210,24 @@ public class PureImageProcessor extends ImageProcessor {
             resultOfComparison.setType(ImageProcessorResult.Type.COMPARISON);
             return resultOfComparison;
         }
-        
+
     }
 
-    private class ImageMetadataTask implements Callable<PureImageProcessorResult> {
+    private class ImageMetadataTask extends AbstractTask<PureImageProcessorResult> {
 
         private MetadataExtractor extractor;
         private File image;
         private final PureImageProcessorResult result;
 
-        public ImageMetadataTask(MetadataExtractor extractor, File image, PureImageProcessorResult result) {
+        public ImageMetadataTask(MetadataExtractor extractor, File image, PureImageProcessorResult result, CostumProgressListener listener) {
+            super(listener, EventType.EXTERNAL_TOOL, null); //FIXME
             this.extractor = extractor;
             this.image = image;
             this.result = result;
         }
 
         @Override
-        public PureImageProcessorResult call() throws Exception {
+        public PureImageProcessorResult callInner() throws Exception {
             List<ImageMetadata> metadata = extractor.getMetadata(image);
             synchronized (result) {
                 result.getMetadata().addAll(metadata);
@@ -157,6 +238,8 @@ public class PureImageProcessor extends ImageProcessor {
     
     @Override
     public PureImageProcessorResult processImage(File image, ProgressListener callback) throws ImageDifferException {
+        CostumProgressListener listener = new CostumProgressListener(callback);
+        listener.onStart(null, extractors.getExtractors().size());
         BufferedImage fullImage = imageLoader.load(image);
         if (fullImage == null) {
             throw new ImageDifferException(ImageDifferException.ErrorCode.IMAGE_READ_ERROR, "Unsupported file type");
@@ -172,7 +255,7 @@ public class PureImageProcessor extends ImageProcessor {
         result.getMetadata().add(new ImageMetadata("File path", image.getAbsolutePath(), core));
         List<Callable<PureImageProcessorResult>> tasks = new ArrayList<Callable<PureImageProcessorResult>>();
         for (MetadataExtractor extractor : extractors.getExtractors()) {
-            tasks.add(new ImageMetadataTask(extractor, image, result));
+            tasks.add(new ImageMetadataTask(extractor, image, result, listener));
         }
         List<Future<PureImageProcessorResult>> futures = execute(tasks);
         markConflicts(result);
@@ -204,6 +287,8 @@ public class PureImageProcessor extends ImageProcessor {
 
     @Override
     public ImageProcessorResult[] processImages(File file1, File file2, ProgressListener callback) throws ImageDifferException {
+        CostumProgressListener listener = new CostumProgressListener(callback);
+        listener.onStart(null, 3 + ( 2 * extractors.getExtractors().size()));
         ExecutionTime time = new ExecutionTime();
         logger.info("processing of images started");
         PureImageProcessorResult results[] = new PureImageProcessorResult[3];
@@ -211,14 +296,14 @@ public class PureImageProcessor extends ImageProcessor {
         results[1] = new PureImageProcessorResult();
         results[2] = new PureImageProcessorResult();
         CountDownLatch latch = new CountDownLatch(2);
-        Callable<PureImageProcessorResult> task1 = new OpenImageTask(results[0], file1, latch);
-        Callable<PureImageProcessorResult> task2 = new OpenImageTask(results[1], file2, latch);
-        Callable<PureImageProcessorResult> lastTask = new ProcessImagesComparison(results[0], results[1], results[2], latch);
+        Callable<PureImageProcessorResult> task1 = new OpenImageTask(results[0], file1, latch, listener);
+        Callable<PureImageProcessorResult> task2 = new OpenImageTask(results[1], file2, latch, listener);
+        Callable<PureImageProcessorResult> lastTask = new ProcessImagesComparison(results, latch, listener);
         List<Callable<PureImageProcessorResult>> tasks = new ArrayList<Callable<PureImageProcessorResult>>();
         tasks.addAll(Arrays.asList(task1, task2, lastTask));
         for (MetadataExtractor extractor : extractors.getExtractors()) {
-            tasks.add(new ImageMetadataTask(extractor, file1, results[0]));
-            tasks.add(new ImageMetadataTask(extractor, file2, results[1]));
+            tasks.add(new ImageMetadataTask(extractor, file1, results[0], listener));
+            tasks.add(new ImageMetadataTask(extractor, file2, results[1], listener));
         }
         List<Future<PureImageProcessorResult>> futures = execute(tasks);
         markConflicts(results[0]);
@@ -227,6 +312,7 @@ public class PureImageProcessor extends ImageProcessor {
         if (results[2].getPreview() == null) {
             results[2] = null;
         }
+        listener.onFinish(null, results);
         return results;
     }
 

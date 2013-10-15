@@ -21,8 +21,10 @@ public abstract class ImageProcessor {
     }
 
     public abstract ImageProcessorResult processImage(File image, ProgressListener callback) throws ImageDifferException;
+    
     public abstract ImageProcessorResult[] processImages(File a, File b, ProgressListener callback) throws ImageDifferException;
 
+    /*
     public ImageProcessorResult processImage(File image) throws ImageDifferException {
 	return processImage(image, null);
     }
@@ -30,5 +32,6 @@ public abstract class ImageProcessor {
     public ImageProcessorResult[] processImages(File a, File b) throws ImageDifferException {
 	return processImages(a, b, null);
     }
+    */
 
 }
