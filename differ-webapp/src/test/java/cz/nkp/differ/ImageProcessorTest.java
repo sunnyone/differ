@@ -4,6 +4,7 @@ import cz.nkp.differ.compare.io.ImageProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
 import cz.nkp.differ.exceptions.ImageDifferException;
+import cz.nkp.differ.listener.NullProgressListener;
 import cz.nkp.differ.model.Image;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class ImageProcessorTest {
 	    System.err.println("processing: " + file.getCanonicalPath());
 	    Image image = new Image();
 	    image.setFile(file);
-	    ImageProcessorResult result = imageProcessor.processImage(image.getFile());
+	    ImageProcessorResult result = imageProcessor.processImage(image.getFile(), new NullProgressListener());
 	    assert(result.getFullImage() != null);
 	    assert(result.getPreview() != null);
 	    assert(result.getHistogram() != null);
@@ -53,7 +54,7 @@ public class ImageProcessorTest {
 		    File file2 = entry2.getKey();
 		    Image image2 = new Image();
 		    image2.setFile(file2);
-		    ImageProcessorResult[] results = imageProcessor.processImages(image1.getFile(), image2.getFile());
+		    ImageProcessorResult[] results = imageProcessor.processImages(image1.getFile(), image2.getFile(), new NullProgressListener());
 		}
 	    }
 	}
