@@ -112,7 +112,7 @@ public class PureImageProcessor extends ImageProcessor {
             }
         }
         
-        protected abstract <T> T callInner() throws Exception;
+        protected abstract T callInner() throws Exception;
         
         protected void onStart() {
             Message message = new Message();
