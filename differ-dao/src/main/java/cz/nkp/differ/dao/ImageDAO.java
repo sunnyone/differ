@@ -8,12 +8,9 @@ import java.util.List;
  *
  * @author xrosecky
  */
-public interface ImageDAO {
+public interface ImageDAO extends GenericDAO<Image, Long> {
 
-    public void addImage(Image image);
-    public void deleteImage(Image image);
-    public void updateImage(Image image);
-    public List<Image> getImagesForUser(User user);
-    public List<Image> getSharedImages();
+    public List<Image> findImagesByUser(User user);
+    public List<Image> findSharedImages();
 
 }

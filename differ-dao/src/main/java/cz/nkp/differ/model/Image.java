@@ -2,29 +2,49 @@ package cz.nkp.differ.model;
 
 import java.io.File;
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author xrosecky
  */
+@Entity
+@Table(name = Image.TABLE)
 public class Image implements Serializable {
 
-    private int id;
+    public static final String TABLE = "image";
+    
+    @Id
+    @Column(name = "id")
+    private Long id;
+    
+    @Column(name = "filename")
     private String fileName;
+    
+    @Column(name = "unique_name")
     private String uniqueName;
+    
+    @Column(name = "owner_id")
     private int ownerId;
+    
+    @Column(name = "file_size")
     private int size;
+    
     private boolean shared = false;
+    
     private File file;
 
     public Image() {
     }
 
-    public int getId() {
+    public Long getId() {
 	return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 

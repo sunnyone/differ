@@ -7,9 +7,8 @@ import cz.nkp.differ.model.User;
  *
  * @author xrosecky
  */
-public interface UserDAO {
+public interface UserDAO extends GenericDAO<User, Long> {
 
-    public User getUserByUserName(String userName) throws UserDifferException;
-    public void addUser(User user) throws UserDifferException;
+    public User findUserByUserName(String userName) throws UserDifferException;
 
 }
