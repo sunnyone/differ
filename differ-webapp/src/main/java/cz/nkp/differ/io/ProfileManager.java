@@ -1,6 +1,5 @@
 package cz.nkp.differ.io;
 
-import cz.nkp.differ.model.Profile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,9 +24,12 @@ public class ProfileManager {
 
     public List<String> getProfiles() {
         List<String> profiles = new ArrayList<String>();
-        for (File file : profileDirectory.listFiles()) {
-            if (file.isFile() && file.canRead()) {
-                profiles.add(file.getName());
+        File[] files = profileDirectory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile() && file.canRead()) {
+                    profiles.add(file.getName());
+                }
             }
         }
         return profiles;

@@ -173,6 +173,12 @@
 	    <version>0.0.1-SNAPSHOT</version>
 	</dependency>
         
+        <dependency>
+	    <groupId>cz.nkp</groupId>
+	    <artifactId>differ-dao</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+        
 	<dependency>
 	    <groupId>org.apache.derby</groupId>
 	    <artifactId>derbynet</artifactId>

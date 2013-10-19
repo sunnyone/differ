@@ -87,6 +87,9 @@ public class ImageManager {
     }
 
     public Image uploadImage(User user, File source, String fileName) throws ImageDifferException {
+        if (user == null) {
+            throw new NullPointerException("user");
+        }
 	if (fileName != null) {
 	    if (!isSupportedByExtension(fileName)) {
 		StringBuilder extensions = new StringBuilder();
@@ -121,13 +124,13 @@ public class ImageManager {
 	image.setOwnerId(user.getId());
 	image.setSize((int) destination.length());
 	image.setFile(destination);
-	imageDAO.addImage(image);
+	imageDAO.persist(image);
 	return image;
     }
 
     public List<Image> getImages(User user) {
-	List<Image> images = imageDAO.getImagesForUser(user);
-	List<Image> sharedImages = imageDAO.getSharedImages();
+	List<Image> images = imageDAO.findImagesByUser(user);
+	List<Image> sharedImages = imageDAO.findSharedImages();
 	for (Image img : sharedImages) {
 	    if (img.getOwnerId() != user.getId()) {
 		images.add(img);
@@ -143,7 +146,7 @@ public class ImageManager {
     public boolean deleteImage(User user, Image image) {
 	if (image.getOwnerId() == user.getId()) {
 	    if (image.getFile().delete() || !image.getFile().exists()) {
-		imageDAO.deleteImage(image);
+		imageDAO.delete(image);
 	    }
 	    return true;
 	} else {
@@ -152,10 +155,10 @@ public class ImageManager {
     }
 
     public void updateImage(Image image) {
-	imageDAO.updateImage(image);
+	imageDAO.persist(image);
     }
 
-    protected File getUserDirectory(int userId) {
-	return new File(uploadDirectory, Integer.toString(userId));
+    protected File getUserDirectory(Long userId) {
+	return new File(uploadDirectory, Long.toString(userId));
     }
 }

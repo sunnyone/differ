@@ -16,6 +16,7 @@ import cz.nkp.differ.exceptions.ImageDifferException;
 import cz.nkp.differ.gui.components.UploadFile;
 import cz.nkp.differ.gui.components.UserFilesWidget;
 import cz.nkp.differ.model.Image;
+import cz.nkp.differ.model.User;
 
 @SuppressWarnings("serial")
 public class UploadFilesWindow extends Window {
@@ -41,7 +42,8 @@ public class UploadFilesWindow extends Window {
 
                 if (isValid(fileName, length)) {
                     try {
-                        Image image = DifferApplication.getImageManager().uploadImage(app.getLoggedUser(), file, fileName);
+                        User user = DifferApplication.getCurrentApplication().getLoggedUser();
+                        Image image = DifferApplication.getImageManager().uploadImage(user, file, fileName);
                         for (UserFilesWidget widget : mainWindow.getUserFilesWidgets()) {
                             widget.refresh();
                         }

@@ -1,9 +1,9 @@
 package cz.nkp.differ.user;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import cz.nkp.differ.dao.UserDAO;
-import cz.nkp.differ.dao.UserDAOImpl;
 import cz.nkp.differ.exceptions.UserDifferException;
+import cz.nkp.differ.model.User;
+import cz.nkp.differ.util.GeneralMacros;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -11,13 +11,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.log4j.Logger;
-
-import cz.nkp.differ.model.User;
-import cz.nkp.differ.util.GeneralMacros;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Class for application wide user authentication.
@@ -27,7 +23,6 @@ import org.apache.commons.codec.binary.Base64;
 public class UserManager {
 
     private static Logger LOGGER = Logger.getLogger(UserManager.class);
-    private static UserManager _instance = null;
     private static final String PASSWORD_HASH_ALGORITHM_NAME = "SHA-1";
     private static String currentUser = null;
     protected UserDAO userDAO;
@@ -58,28 +53,15 @@ public class UserManager {
 	this.userDAO = userDAO;
     }
 
-    public static UserManager getInstance() {
-	if (_instance == null) {
-	    MysqlDataSource ds = new MysqlDataSource();
-	    ds.setUser("differ");
-	    ds.setPassword("differ");
-	    ds.setServerName("localhost");
-	    ds.setDatabaseName("differ");
-	    _instance = new UserManager(new UserDAOImpl(ds));
-	}
-	return _instance;
-    }
-
     /**
      * Checks the supplied username and password against the user database.
      *
-     * TODO:Implement
      * @param username
      * @param userSuppliedPassword
      * @return
      */
     public User attemptLogin(String username, String userSuppliedPassword) throws UserDifferException {
-	User user = userDAO.getUserByUserName(username);
+	User user = userDAO.findByUserName(username);
 	if (user == null) {
 	    throw new UserDifferException(UserDifferException.ErrorCode.BAD_PASSWORD_OR_USERNAME, "User does not exist");
 	}
@@ -115,7 +97,7 @@ public class UserManager {
 	}
 	user.setPasswordHash(encode(hashedPassword));
 	user.setPasswordSalt(encode(salt));
-	userDAO.addUser(user);
+	userDAO.persist(user);
 	return user;
     }
 

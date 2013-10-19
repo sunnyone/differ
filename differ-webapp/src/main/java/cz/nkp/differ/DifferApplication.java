@@ -1,31 +1,22 @@
 package cz.nkp.differ;
 
 import com.vaadin.terminal.ExternalResource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.Security;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.configuration.GoogleAnalyticsConfiguration;
-
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ImageManager;
 import cz.nkp.differ.io.ResultManager;
 import cz.nkp.differ.model.User;
 import cz.nkp.differ.user.UserManager;
 import eu.livotov.tpt.TPTApplication;
+import java.io.File;
+import java.security.Security;
+import java.util.Locale;
 import javax.servlet.ServletContext;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
@@ -38,6 +29,9 @@ import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
  */
 @SuppressWarnings("serial")
 public class DifferApplication extends TPTApplication {
+    
+    private static final String DIFFER_THEME_NAME = "differ";
+    private static Logger LOGGER = Logger.getLogger(DifferApplication.class);
 
     /* static class members */
     protected static UserManager userManager = null;
@@ -155,53 +149,9 @@ public class DifferApplication extends TPTApplication {
     public static Window getMainApplicationWindow() {
         return mainDifferWindow;
     }
-    /*
-    public static File getHomeDirectory() {
-	if (differHome == null) {
-	    differHome = System.getProperty("user.home");
-	    differHome += File.separatorChar + ".differ";
-	    LOGGER.trace("Differ Home Directory: " + differHome);
-
-	    //If the home directory doesnt exist create it
-	    File differHomeFile = new File(differHome);
-	    if (!differHomeFile.exists()) {
-		differHomeFile.mkdir();
-	    }
-
-	    //Same with the plugin subdirectory
-	    File differHomeFilePluginDirectory = new File(differHomeFile, "plugins");
-	    if (!differHomeFilePluginDirectory.exists()) {
-		differHomeFilePluginDirectory.mkdir();
-	    }
-
-	    //Same with users subdirectory
-	    File differHomeFileUsersDirectory = new File(differHomeFile, "users");
-	    if (!differHomeFileUsersDirectory.exists()) {
-		differHomeFileUsersDirectory.mkdir();
-	    }
-
-	    //Same with logs subdirectory
-	    File differHomeLogsDirectory = new File(differHomeFile, "logs");
-	    if (!differHomeLogsDirectory.exists()) {
-		differHomeLogsDirectory.mkdir();
-	    }
-
-	}
-
-	File homeDir = new File(differHome);
-
-	if (!homeDir.exists()) {
-	    LOGGER.error("Differ home directory unable to be created at " + homeDir.getAbsolutePath());
-	}
-
-	return homeDir;
-    }
-    */ 
 
     public float getScreenWidth() {
 	return getMainWindow().getWidth();
     }
-    private static String differHome;
-    private static final String DIFFER_THEME_NAME = "differ";
-    private static Logger LOGGER = Logger.getLogger(DifferApplication.class);
+
 }

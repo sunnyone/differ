@@ -83,9 +83,9 @@ public class AnonymousUserView extends HorizontalLayout {
                         selectedImages[indx].setFile(uploadA);
                         selectedImages[indx].setFileName(uploadA.getName());
                         selectedImages[indx].setUniqueName(uploadA.getName());
-                        selectedImages[indx].setId(indx);
+                        selectedImages[indx].setId((long) indx);
                         selectedImages[indx].setShared(false);
-                        selectedImages[indx].setOwnerId(-1);
+                        selectedImages[indx].setOwnerId(-1L);
                         selectedImages[indx].setSize((int)uploadA.length());
                         indx++;
                     }
@@ -96,9 +96,9 @@ public class AnonymousUserView extends HorizontalLayout {
                         selectedImages[indx].setFile(uploadB);
                         selectedImages[indx].setFileName(uploadB.getName());
                         selectedImages[indx].setUniqueName(uploadB.getName());
-                        selectedImages[indx].setId(indx);
+                        selectedImages[indx].setId((long) indx);
                         selectedImages[indx].setShared(false);
-                        selectedImages[indx].setOwnerId(-1);
+                        selectedImages[indx].setOwnerId(-1L);
                         selectedImages[indx].setSize((int)uploadB.length());
                     }
 
