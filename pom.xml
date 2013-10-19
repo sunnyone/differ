@@ -40,7 +40,8 @@
         <module>differ-common</module>
         <module>differ-cmdline</module>
         <!-- <module>differ-selenium</module> -->
-  </modules>
+        <module>differ-dao</module>
+    </modules>
 	
     <build>
         <plugins>
