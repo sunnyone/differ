@@ -1,6 +1,5 @@
 package cz.nkp.differ.dao;
 
-import cz.nkp.differ.exceptions.UserDifferException;
 import cz.nkp.differ.model.User;
 
 /**
@@ -9,6 +8,6 @@ import cz.nkp.differ.model.User;
  */
 public interface UserDAO extends GenericDAO<User, Long> {
 
-    public User findUserByUserName(String userName) throws UserDifferException;
+    public User findByUserName(String userName);
 
 }

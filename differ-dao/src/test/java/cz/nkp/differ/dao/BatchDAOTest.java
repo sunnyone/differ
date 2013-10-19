@@ -1,13 +1,11 @@
-package cz.nkp.differ;
+package cz.nkp.differ.dao;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import cz.nkp.differ.dao.BatchDAO;
 import cz.nkp.differ.model.Batch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  *
@@ -21,9 +19,13 @@ public class BatchDAOTest extends AbstractTransactionalTestNGSpringContextTests 
     
     @Test
     public void test() {
+        String ident = "test";
         Batch batch = new Batch();
+        batch.setIdentifier(ident);
         batchDao.persist(batch);
-        Assert.assertTrue(true);
+        Assert.assertNotNull(batch.getId());
+        Assert.assertNotNull(batchDao.findByIdentifier(ident));
+        Assert.assertNotNull(batchDao.findById(batch.getId()));
     }
     
 }

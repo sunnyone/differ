@@ -22,7 +22,7 @@ public class Batch implements Serializable {
     public static final String TABLE = "batch";
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Long id;
     

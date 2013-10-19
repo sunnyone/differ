@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -18,6 +21,7 @@ public class Image implements Serializable {
     public static final String TABLE = "image";
     
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Long id;
     
@@ -28,13 +32,15 @@ public class Image implements Serializable {
     private String uniqueName;
     
     @Column(name = "owner_id")
-    private int ownerId;
+    private Long ownerId;
     
     @Column(name = "file_size")
     private int size;
     
+    @Column(name = "shared")
     private boolean shared = false;
     
+    @Transient
     private File file;
 
     public Image() {
@@ -64,11 +70,11 @@ public class Image implements Serializable {
 	this.uniqueName = uniqueName;
     }
 
-    public int getOwnerId() {
+    public Long getOwnerId() {
 	return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(Long ownerId) {
 	this.ownerId = ownerId;
     }
 
