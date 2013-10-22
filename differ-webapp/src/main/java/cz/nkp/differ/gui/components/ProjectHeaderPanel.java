@@ -19,6 +19,7 @@ import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
 import cz.nkp.differ.gui.windows.LoginUserWindow;
 import cz.nkp.differ.gui.windows.RegisterUserWindow;
+import cz.nkp.differ.model.User;
 import cz.nkp.differ.util.GUIMacros;
 
 /**
@@ -109,7 +110,12 @@ public class ProjectHeaderPanel extends CustomComponent {
         loginPanel.addComponent(messagePanel);
         loginPanel.setComponentAlignment(buttonPanel, Alignment.TOP_RIGHT);
         loginPanel.setComponentAlignment(messagePanel, Alignment.BOTTOM_RIGHT);
-        setLoggedOut();
+        User user = DifferApplication.getCurrentApplication().getLoggedUser();
+        if (user == null) {
+            setLoggedOut();
+        } else {
+            setLoggedIn(user.getUserName());
+        }
         return loginPanel;
     }
     

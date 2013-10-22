@@ -6,10 +6,6 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import java.io.File;
-
-import org.vaadin.easyuploads.MultiFileUpload;
-
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.exceptions.ImageDifferException;
@@ -17,6 +13,8 @@ import cz.nkp.differ.gui.components.UploadFile;
 import cz.nkp.differ.gui.components.UserFilesWidget;
 import cz.nkp.differ.model.Image;
 import cz.nkp.differ.model.User;
+import java.io.File;
+import org.vaadin.easyuploads.MultiFileUpload;
 
 @SuppressWarnings("serial")
 public class UploadFilesWindow extends Window {
@@ -38,7 +36,6 @@ public class UploadFilesWindow extends Window {
 	    @Override
 	    protected void handleFile(File file, String fileName,
 		    String mimeType, long length) {
-		DifferApplication app = (DifferApplication) DifferApplication.getCurrentApplication();
 
                 if (isValid(fileName, length)) {
                     try {

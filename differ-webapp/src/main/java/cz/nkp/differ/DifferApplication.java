@@ -10,7 +10,6 @@ import cz.nkp.differ.io.ResultManager;
 import cz.nkp.differ.model.User;
 import cz.nkp.differ.user.UserManager;
 import eu.livotov.tpt.TPTApplication;
-import java.io.File;
 import java.security.Security;
 import java.util.Locale;
 import javax.servlet.ServletContext;
@@ -40,8 +39,6 @@ public class DifferApplication extends TPTApplication {
     protected static ApplicationContext applicationContext = null;
     protected static MainDifferWindow mainDifferWindow = null;
     protected static GoogleAnalyticsTracker gaTracker = null;
-    /* session variables */
-    private User loggedUser = null;
 
     /*
      * We dont need an X server running on a display to do graphics operations. May be slower on some machines.
@@ -82,10 +79,12 @@ public class DifferApplication extends TPTApplication {
 	userManager = (UserManager) applicationContext.getBean("userManager");
 	imageManager = (ImageManager) applicationContext.getBean("imageManager");
 	resultManager = (ResultManager) applicationContext.getBean("resultManager");
-        
+        //FIXME: hardcoded
+        /*
         String resultsPath = "/tmp/differ/" + userManager.getLoggedInUser() + "/results";
         new File(resultsPath).mkdirs(); //create results folder if doesn't exist
         resultManager.setDirectory(resultsPath);
+        */
         GoogleAnalyticsConfiguration gaConf = (GoogleAnalyticsConfiguration)
                 applicationContext.getBean("googleAnalyticsConfiguration");
 
@@ -115,11 +114,11 @@ public class DifferApplication extends TPTApplication {
     }
 
     public User getLoggedUser() {
-	return loggedUser;
+	return (User) super.getUser();
     }
 
     public void setLoggedUser(User loggedUser) {
-	this.loggedUser = loggedUser;
+	super.setUser(loggedUser);
     }
 
     public static ImageManager getImageManager() {
@@ -143,7 +142,7 @@ public class DifferApplication extends TPTApplication {
     }
 
     public static DifferApplication getCurrentApplication() {
-	return (DifferApplication) TPTApplication.getCurrentApplication();
+        return (DifferApplication) TPTApplication.getCurrentApplication();
     }
 
     public static Window getMainApplicationWindow() {

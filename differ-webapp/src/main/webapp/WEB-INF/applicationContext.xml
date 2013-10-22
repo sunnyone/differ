@@ -76,20 +76,20 @@
     </bean>
     -->
 
-    <bean id="imageManager" class="cz.nkp.differ.io.ImageManager">
+    <bean id="imageManager" class="cz.nkp.differ.io.ImageManagerImpl">
         <property name="imageDAO" ref="imageDAO"/>
         <property name="uploadDirectory" value="${differ.home}/images/"/>
     </bean>
 
-    <bean id="profileManager" class="cz.nkp.differ.io.ProfileManager">
+    <bean id="profileManager" class="cz.nkp.differ.io.ProfileManagerImpl">
         <property name="profileDirectory" value="${differ.home}/profiles/"/>
     </bean>
 
-    <bean id="userManager" class="cz.nkp.differ.user.UserManager">
+    <bean id="userManager" class="cz.nkp.differ.user.UserManagerImpl">
         <property name="userDAO" ref="userDAO"/>
     </bean>
     
-    <bean id="resultManager" class="cz.nkp.differ.io.ResultManager">
+    <bean id="resultManager" class="cz.nkp.differ.io.ResultManagerImpl">
         <!--<property name="marshaller" ref="jaxb2Marshaller"/>-->
         <property name="directory" value="${differ.home}/results/"/>
     </bean>
