@@ -3,6 +3,7 @@ package cz.nkp.differ;
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
+import cz.nkp.differ.compare.io.ImageThumbnailProvider;
 import cz.nkp.differ.configuration.GoogleAnalyticsConfiguration;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ImageManager;
@@ -36,6 +37,7 @@ public class DifferApplication extends TPTApplication {
     protected static UserManager userManager = null;
     protected static ImageManager imageManager = null;
     protected static ResultManager resultManager = null;
+    protected static ImageThumbnailProvider imageThumbnailProvider = null;
     protected static ApplicationContext applicationContext = null;
     protected static MainDifferWindow mainDifferWindow = null;
     protected static GoogleAnalyticsTracker gaTracker = null;
@@ -79,6 +81,7 @@ public class DifferApplication extends TPTApplication {
 	userManager = (UserManager) applicationContext.getBean("userManager");
 	imageManager = (ImageManager) applicationContext.getBean("imageManager");
 	resultManager = (ResultManager) applicationContext.getBean("resultManager");
+        imageThumbnailProvider = (ImageThumbnailProvider) applicationContext.getBean("imageThumbnailProvider");
         //FIXME: hardcoded
         /*
         String resultsPath = "/tmp/differ/" + userManager.getLoggedInUser() + "/results";
@@ -121,6 +124,10 @@ public class DifferApplication extends TPTApplication {
 	super.setUser(loggedUser);
     }
 
+    public static ImageThumbnailProvider getImageThumbnailProvider() {
+        return imageThumbnailProvider;
+    }
+    
     public static ImageManager getImageManager() {
 	return imageManager;
     }

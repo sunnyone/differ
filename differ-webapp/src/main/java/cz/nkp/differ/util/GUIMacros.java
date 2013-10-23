@@ -1,5 +1,7 @@
 package cz.nkp.differ.util;
 
+import com.vaadin.terminal.FileResource;
+import com.vaadin.terminal.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +15,17 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
 import cz.nkp.differ.DifferApplication;
+import cz.nkp.differ.compare.io.SerializableImage;
 import cz.nkp.differ.gui.components.HelpTooltip;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import javax.imageio.ImageIO;
 
 /**
  * Contains GUI Macros to simplify both code readability and future code modifications. These methods are
@@ -96,4 +108,31 @@ public class GUIMacros {
 		
 		return layout;
 	}
+        
+    public static Resource imageToResource(Image img) {
+        if (img == null) {
+            return null;
+        }
+        if (img instanceof SerializableImage) {
+            img = ((SerializableImage) img).getBufferedImage();
+        }
+        try {
+            String FILE_EXT = "png";
+            File temp = File.createTempFile("image", "." + FILE_EXT);
+            OutputStream stream = new BufferedOutputStream(new FileOutputStream(temp));
+            /* Write the image to a buffer. */
+            BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            Graphics g = bimage.getGraphics();
+            g.drawImage(img, 0, 0, null);
+            g.dispose();
+            ImageIO.setUseCache(false);
+            ImageIO.write(bimage, FILE_EXT, stream);
+            stream.flush();
+            stream.close();
+            return new FileResource(temp, DifferApplication.getCurrentApplication());
+        } catch (IOException e) {
+            return null;
+        }
+    }
+    
 }

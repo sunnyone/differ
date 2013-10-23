@@ -102,6 +102,11 @@
         </property>
     </bean>
     
+    <bean id="imageThumbnailProvider" class="cz.nkp.differ.compare.io.ImageThumbnailProvider">
+        <property name="imageLoaderFactory" ref="imageLoaderFactory"/>
+        <property name="width" value="100"/>
+    </bean>
+    
     <!-- Google Analytics -->
     <bean id="googleAnalyticsConfiguration" class="cz.nkp.differ.configuration.GoogleAnalyticsConfiguration">
         <property name="domainName" value="${ga.domainName}"/>
