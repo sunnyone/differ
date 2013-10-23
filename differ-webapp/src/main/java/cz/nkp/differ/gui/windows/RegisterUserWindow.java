@@ -11,23 +11,19 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
 import cz.nkp.differ.DifferApplication;
-import cz.nkp.differ.exceptions.UserDifferException;
 import cz.nkp.differ.gui.components.CaptchaComponent;
 import cz.nkp.differ.model.User;
-import cz.nkp.differ.user.UserManager;
 import cz.nkp.differ.util.GUIMacros;
-import java.util.HashMap;
-import java.util.Map;
 
 @SuppressWarnings("serial")
 public class RegisterUserWindow extends Window implements ClickListener {
-
-    RegisterUserWindow internal_this;
+    
+    private TextField nameField;
+    private PasswordField passField;
+    private CaptchaComponent captcha;
     
     public RegisterUserWindow() {
-        internal_this = this;
 	setCaption("Register User");
 	setModal(true);
 	setDraggable(false);
@@ -49,9 +45,6 @@ public class RegisterUserWindow extends Window implements ClickListener {
 
 	addComponent(buttonLayout);
     }
-    TextField nameField;
-    PasswordField passField;
-    CaptchaComponent captcha;
 
     /**
      *
@@ -90,13 +83,12 @@ public class RegisterUserWindow extends Window implements ClickListener {
                     
                     //FIXME: ensure no special characters are used in username
                     
-                    if (UserManager.getInstance().getUserDAO().getUserByUserName(nameValue) == null) { // if username doesnt exist
-
+                    if (DifferApplication.getUserManager().getUserDAO().findByUserName(nameValue) == null) { // if username doesnt exist
                         User user = new User();
                         user.setUserName(nameValue);
-                        UserManager.getInstance().registerUser(user, passValue);
+                        DifferApplication.getUserManager().registerUser(user, passValue);
                         DifferApplication.getCurrentApplication().getMainWindow().showNotification("Success", "<br/>You have successfully registered as " + nameField + ", you may now login");
-                        GUIMacros.closeWindow(internal_this);
+                        GUIMacros.closeWindow(RegisterUserWindow.this);
            
                     } else { //else username already exists
                         throw new Exception("The username you have chosen already exists");

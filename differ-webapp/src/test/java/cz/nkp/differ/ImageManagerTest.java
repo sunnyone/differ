@@ -24,7 +24,7 @@ public class ImageManagerTest extends Helper {
     @Test
     public void uploadImage() throws ImageDifferException {
 	User user = new User();
-	user.setId(25);
+	user.setId(25L);
 	user.setUserName("test");
 	List<Image> imagesBeforeInsert = imageManager.getImages(user);
 	assert(imagesBeforeInsert.isEmpty());
@@ -44,7 +44,7 @@ public class ImageManagerTest extends Helper {
     @Test
     public void updateImage() throws ImageDifferException {
 	User user = new User();
-	user.setId(26);
+	user.setId(26L);
 	user.setUserName("test2");
 	File file = new File("/home/xrosecky/6-20-16.jpg");
 	Image image = imageManager.uploadImage(user, file);

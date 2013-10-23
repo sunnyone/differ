@@ -1,14 +1,10 @@
 package cz.nkp.differ.gui.windows;
 
 import com.vaadin.data.validator.NullValidator;
-import com.vaadin.terminal.Sizeable;
-import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.LoginForm;
-import com.vaadin.ui.LoginForm.LoginEvent;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -16,10 +12,7 @@ import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.gui.components.ProjectHeaderPanel;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
-import cz.nkp.differ.user.UserManager;
 import cz.nkp.differ.util.GUIMacros;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 
@@ -29,12 +22,10 @@ public class LoginUserWindow extends Window implements ClickListener {
     
     DifferProgramTab appBody;
     ProjectHeaderPanel appHeader;
-    LoginUserWindow internal_this;
     TextField nameField;
     PasswordField passField;   
     
     public LoginUserWindow(DifferProgramTab appBody, ProjectHeaderPanel appHeader) {
-        internal_this = this;
         setCaption("Login");
 	setModal(true);
 	setDraggable(false);
@@ -84,7 +75,7 @@ public class LoginUserWindow extends Window implements ClickListener {
             if (appBody.login(nameValue, passValue)) {
                 appHeader.setLoggedIn(nameValue);
                 DifferApplication.getCurrentApplication().getMainWindow().showNotification("Success", "<br/>You are now logged in as " + nameValue);
-                GUIMacros.closeWindow(internal_this);
+                GUIMacros.closeWindow(LoginUserWindow.this);
             }               
         }
     }

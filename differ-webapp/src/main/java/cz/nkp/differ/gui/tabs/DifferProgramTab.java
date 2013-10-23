@@ -84,6 +84,7 @@ public class DifferProgramTab extends HorizontalLayout {
         } catch (Exception ex) {
             DifferApplication.getCurrentApplication().getMainWindow().showNotification("Login Problem",
                     "<br/>" + ex.getMessage(), Window.Notification.TYPE_WARNING_MESSAGE);
+            ex.printStackTrace();
             return false;
         }
         return true;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="simpleJdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+        <constructor-arg ref="dataSource" />
+    </bean>
+    
+    <bean id="genericDAO" class="cz.nkp.differ.dao.hibernate.GenericHibernateDAO" abstract="true">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    
+    <bean id="batchDAO" class="cz.nkp.differ.dao.hibernate.BatchHibernateDAO" parent="genericDAO"/>
+    
+    <bean id="imageDAO" class="cz.nkp.differ.dao.hibernate.ImageHibernateDAO" parent="genericDAO"/>
+
+    <bean id="userDAO" class="cz.nkp.differ.dao.hibernate.UserHibernateDAO" parent="genericDAO"/>
+
+</beans>

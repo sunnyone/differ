@@ -1,29 +1,56 @@
 package cz.nkp.differ.model;
 
 import java.io.File;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
  * @author xrosecky
  */
-public class Image {
+@Entity
+@Table(name = Image.TABLE)
+public class Image implements Serializable {
 
-    private int id;
+    public static final String TABLE = "image";
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "id")
+    private Long id;
+    
+    @Column(name = "filename")
     private String fileName;
+    
+    @Column(name = "unique_name")
     private String uniqueName;
-    private int ownerId;
+    
+    @Column(name = "owner_id")
+    private Long ownerId;
+    
+    @Column(name = "file_size")
     private int size;
+    
+    @Column(name = "shared")
     private boolean shared = false;
+    
+    @Transient
     private File file;
 
     public Image() {
     }
 
-    public int getId() {
+    public Long getId() {
 	return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 
@@ -43,11 +70,11 @@ public class Image {
 	this.uniqueName = uniqueName;
     }
 
-    public int getOwnerId() {
+    public Long getOwnerId() {
 	return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(Long ownerId) {
 	this.ownerId = ownerId;
     }
 

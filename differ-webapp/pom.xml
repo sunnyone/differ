@@ -173,6 +173,12 @@
 	    <version>0.0.1-SNAPSHOT</version>
 	</dependency>
         
+        <dependency>
+	    <groupId>cz.nkp</groupId>
+	    <artifactId>differ-dao</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+        
 	<dependency>
 	    <groupId>org.apache.derby</groupId>
 	    <artifactId>derbynet</artifactId>
@@ -295,6 +301,47 @@
 	    <artifactId>spring-security-config</artifactId>
 	    <version>3.1.2.RELEASE</version>
 	</dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>3.1.1.RELEASE</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.4.0.GA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>3.1.0.GA</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.1.1.RELEASE</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.3</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
 
 	<!-- MySQL -->
 	<dependency>
@@ -335,6 +382,6 @@
           <artifactId>aspectjweaver</artifactId>
           <version>1.5.4</version>
 	</dependency>
-
+        
     </dependencies>
 </project>

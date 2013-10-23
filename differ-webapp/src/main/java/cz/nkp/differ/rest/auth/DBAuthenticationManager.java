@@ -1,6 +1,5 @@
 package cz.nkp.differ.rest.auth;
 
-import cz.nkp.differ.dao.UserDAOImpl;
 import cz.nkp.differ.exceptions.UserDifferException;
 import cz.nkp.differ.model.User;
 import cz.nkp.differ.user.UserManager;

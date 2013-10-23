@@ -26,9 +26,9 @@ public class UserDAOTest extends Helper {
 	user.setPasswordHash("hash");
 	user.setPasswordSalt("salt");
 	user.setMail("user@example.com");
-	userDAO.addUser(user);
+	userDAO.persist(user);
 	assert(user.getId() != 0);
-	User user2 = userDAO.getUserByUserName("username");
+	User user2 = userDAO.findByUserName("username");
 	assert(user2.getId() != 0);
     }
 

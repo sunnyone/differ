@@ -23,19 +23,19 @@ public class ImageDAOTest extends Helper {
     public void addAndDeleteImageTest() {
 	Image image = new Image();
 	image.setFileName("test.jp2");
-	image.setOwnerId(1);
+	image.setOwnerId(1L);
 	image.setShared(true);
 	image.setSize(1000);
-	imageDAO.addImage(image);
+	imageDAO.persist(image);
 	assert (image.getId() != 0);
 	User user = new User();
-	user.setId(1);
-	List<Image> images1 = imageDAO.getImagesForUser(user);
+	user.setId(1L);
+	List<Image> images1 = imageDAO.findImagesByUser(user);
 	assert(images1.size() > 0);
-	List<Image> images2 = imageDAO.getSharedImages();
+	List<Image> images2 = imageDAO.findSharedImages();
 	assert(images2.size() > 0);
-	imageDAO.deleteImage(image);
-	List<Image> images3 = imageDAO.getSharedImages();
+	imageDAO.delete(image);
+	List<Image> images3 = imageDAO.findSharedImages();
 	assert(images3.isEmpty());
     }
 }

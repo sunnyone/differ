@@ -179,6 +179,8 @@ public class CompareComponent {
         }
         SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
         sipr.setResults(resultsList);
+        //FIXME: hardcoded
+        /*
         ResultManager resultMan = DifferApplication.getResultManager();
         String resultsDir = "/tmp/differ/" + DifferApplication.getUserManager().getLoggedInUser() + "/results";
         new File(resultsDir).mkdirs(); //make path in case it don't exist
@@ -189,5 +191,6 @@ public class CompareComponent {
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(CompareComponent.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 }
