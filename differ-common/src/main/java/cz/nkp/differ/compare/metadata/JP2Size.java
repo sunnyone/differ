@@ -66,4 +66,9 @@ public class JP2Size {
         return true;
     }
     
+    @Override
+    public String toString() {
+        return String.format("%sx%s", width, height);
+    }
+    
 }
