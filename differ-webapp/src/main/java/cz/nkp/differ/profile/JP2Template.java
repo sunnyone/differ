@@ -12,8 +12,12 @@ public interface JP2Template {
     
     public List<JP2Kernel> getKernels();
     
-    public List<JP2Size> getPreccints();
+    public List<JP2Size> getPreccintSizes();
     
-    public List<JP2Size> getTiles();
+    public List<JP2Size> getTileSizes();
+    
+    public List<String> getProgressionOrders();
+    
+    public List<Integer> getDecompositionLevels();
     
 }

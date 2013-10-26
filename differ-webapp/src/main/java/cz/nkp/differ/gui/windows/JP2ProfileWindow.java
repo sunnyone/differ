@@ -1,5 +1,9 @@
 package cz.nkp.differ.gui.windows;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -32,14 +36,26 @@ public class JP2ProfileWindow extends Window {
     }
     
     private Layout createProfileCreationWindowForm() {
+        VerticalLayout layout = new VerticalLayout();
         JP2Profile profile = new JP2Profile();
         profile.setKernel(JP2Kernel.Revesible5x3);
         profile.setMaxQualityLayers(4);
         profile.setMinQualityLayers(1);
         profile.setTileSizes(Arrays.asList(new JP2Size(1024, 1024), new JP2Size(4096, 4096)));
         profile.setPreccintSizes(Arrays.asList(new JP2Size(64, 64)));
-        JP2ProfileForm profileForm = new JP2ProfileForm(profile);
-        return profileForm.createProfileCreationWindowForm();
+        final JP2ProfileForm profileForm = new JP2ProfileForm(profile);
+        layout.addComponent(profileForm.getProfileForm());
+        Button submit = new Button();
+        submit.addListener(new ClickListener() {
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+                profileForm.getJp2Profile();
+            }
+            
+        });
+        layout.addComponent(submit);
+        return layout;
     }
     
 }
