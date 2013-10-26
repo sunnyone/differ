@@ -141,6 +141,10 @@ public class ProfileCreationWindow extends Window {
         }
         return layout;
     }
+    
+    private Layout createProfileSelectionWindowForm() {
+        
+    }
 
     private void refreshProfiles() {
         profileName.removeAllItems();
