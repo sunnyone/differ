@@ -31,7 +31,7 @@ public class PluginPollingThread extends Thread {
                 continueRun = false;
             } else {
                 try {
-                    sleep(1000);
+                    sleep(250);
                 } catch (InterruptedException e) {
                     continueRun = false;
                 }
@@ -46,7 +46,8 @@ public class PluginPollingThread extends Thread {
             return true;// Empty cycles if we have finished
         }
 
-        comp = plugin.getPluginDisplayComponent(callback);
+        plugin.waitForResults(callback);
+        comp = plugin.getPluginDisplayComponent();
         if (comp != null) {
             if (callback instanceof WebProgressListener) {
                 ((WebProgressListener) callback).ready(comp);

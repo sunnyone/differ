@@ -55,38 +55,53 @@ public class CompareComponent {
 	    showSeriousError(e.getLocalizedMessage());
 	}
     }
+    
+    public void waitForResults(ProgressListener listener) {
+        ImageProcessor imageProcessor = (ImageProcessor) DifferApplication.getApplicationContext().getBean("imageProcessor");
+        if (images.length == 2) {
+            try {
+                results = imageProcessor.processImages(images[0].getFile(), images[1].getFile(), listener);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            results = new ImageProcessorResult[images.length];
+            for (int i = 0; i < images.length; i++) {
+                try {
+                    results[i] = imageProcessor.processImage(images[i].getFile(), listener);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+    }
 
-    public Component getPluginDisplayComponent(ProgressListener listener) {
+    public Component getPluginDisplayComponent() {
         VerticalLayout layout = new VerticalLayout();
-	ImageProcessor imageProcessor = (ImageProcessor) DifferApplication.getApplicationContext().getBean("imageProcessor");
 	if (images.length == 2) {
-	    ImageProcessorResult[] result = null;
-	    try {
-		result = imageProcessor.processImages(images[0].getFile(), images[1].getFile(), listener);
-	    } catch (Exception ex) {
-		ex.printStackTrace();
-	    }
+	    
 	    HorizontalLayout childALayout = new HorizontalLayout();
             HorizontalLayout childBLayout = new HorizontalLayout();
-	    ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(result[0], this, 0, images[0].getFileName());
+	    ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, images[0].getFileName());
 	    childALayout.addComponent(iFAC1.getComponent());
-	    ImageFileAnalysisContainer iFAC2 = new ImageFileAnalysisContainer(result[1], this, 1, images[1].getFileName());
+	    ImageFileAnalysisContainer iFAC2 = new ImageFileAnalysisContainer(results[1], this, 1, images[1].getFileName());
 	    childALayout.addComponent(iFAC2.getComponent());
-            results = new ImageProcessorResult[] {result[0], result[1]};
+            ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
             
-            ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
+            ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(resultsForMetadata, this);
             ImageMetadataComponentGenerator tableComp = null;
-	    if (result[2] != null) {
+	    if (results[2] != null) {
                 Label comparedChecksum;
 		if (iFAC1.getChecksum().equals(iFAC2.getChecksum())) {
                     comparedChecksum = new Label("Image hash values are equal.", Label.CONTENT_XHTML);
                 } else {
                     comparedChecksum = new Label("Image hash values are NOT equal.", Label.CONTENT_XHTML);
                 }
-                ImageFileAnalysisContainer iFAC3 = new ImageFileAnalysisContainer(result[2], this, 2);
+                ImageFileAnalysisContainer iFAC3 = new ImageFileAnalysisContainer(results[2], this, 2);
                 iFAC3.setChecksumLabel(comparedChecksum);
 		childALayout.addComponent(iFAC3.getComponent());
-                tableComp = new ImageMetadataComponentGenerator(new ImageProcessorResult[] {result[2]}, this);
+                tableComp = new ImageMetadataComponentGenerator(new ImageProcessorResult[] {results[2]}, this);
                 tableComp.setTableName("SIMILARITY METRICS");
 	    } else {
 		TextField errorComponent = new TextField();
@@ -104,11 +119,9 @@ public class CompareComponent {
 	    return layout;
 	} else {
 	    HorizontalLayout childLayout = new HorizontalLayout();
-            final ImageProcessorResult[] result = new ImageProcessorResult[images.length];
             for (int i = 0; i < images.length; i++) {
 		try {
-		    result[i] = imageProcessor.processImage(images[i].getFile(), listener);
-		    ImageFileAnalysisContainer iFAC = new ImageFileAnalysisContainer(result[i], this, i, images[i].getFileName());
+		    ImageFileAnalysisContainer iFAC = new ImageFileAnalysisContainer(results[i], this, i, images[i].getFileName());
 		    childLayout.addComponent(iFAC.getComponent());
 		} catch (Exception ex) {
 		    ex.printStackTrace();
@@ -116,9 +129,9 @@ public class CompareComponent {
 		}
 	    }
             layout.addComponent(childLayout);
-            ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(result, this);
+            ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
             layout.addComponent(table.getComponent());
-            layout.addComponent(addExportResultsButton(result));
+            layout.addComponent(addExportResultsButton(results));
 	    return layout;
 	}
     }
