@@ -26,18 +26,6 @@ public class ComparedImagesMetadata {
     public ComparedImagesMetadata(String id) {
 	this.id = id;
     }
-    
-    public ComparedImagesMetadata(String id, String key, String imageValueA, String imageValueB, 
-                                  Button source, MetadataSource metadataSource, String unit, String sourceName,
-                                  String version) {
-        this(id);
-        this.key = key;
-        this.imageValueA = imageValueA;
-        this.imageValueB = imageValueB;
-        this.source = source;
-        this.metadataSource = metadataSource;
-        this.unit = unit;
-    }
 
     public String getId() {
         return id;
