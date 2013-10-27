@@ -49,20 +49,18 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
     static Logger LOGGER = Logger.getLogger(PluginDisplayPanel.class);
 
     public PluginDisplayPanel(CompareComponent compareComponent, Image[] images) {
-        synchronized (compareComponent.getApplication()) {
-            this.compareComponent = compareComponent;
-            compareComponent.setImages(images);
-            compareComponent.setPluginDisplayComponentCallback(this);
-            progress.setWidth("300px");
-            progress.setIndeterminate(false);
-            progress.setImmediate(true);
-            progress.setPollingInterval(750);
-            progress.setCaption("Loading plugin...");
-            progress.setValue(0f);
-            this.addComponent(progress);
-            progressDetails.setWidth("300px");
-            this.addComponent(progressDetails);
-        }
+        this.compareComponent = compareComponent;
+        compareComponent.setImages(images);
+        progress.setWidth("300px");
+        progress.setIndeterminate(false);
+        progress.setImmediate(true);
+        progress.setPollingInterval(750);
+        progress.setCaption("Loading plugin...");
+        progress.setValue(0f);
+        this.addComponent(progress);
+        progressDetails.setWidth("300px");
+        this.addComponent(progressDetails);
+        compareComponent.setPluginDisplayComponentCallback(this);
     }
 
     @Override
