@@ -9,6 +9,7 @@ import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ImageManager;
 import cz.nkp.differ.io.ResultManager;
 import cz.nkp.differ.model.User;
+import cz.nkp.differ.profile.EditableJP2ProfileProvider;
 import cz.nkp.differ.user.UserManager;
 import eu.livotov.tpt.TPTApplication;
 import java.security.Security;
@@ -40,6 +41,7 @@ public class DifferApplication extends TPTApplication {
     protected static ImageThumbnailProvider imageThumbnailProvider = null;
     protected static ApplicationContext applicationContext = null;
     protected static MainDifferWindow mainDifferWindow = null;
+    protected static EditableJP2ProfileProvider editableJP2ProfileProvider = null;
     protected static GoogleAnalyticsTracker gaTracker = null;
 
     /*
@@ -82,6 +84,7 @@ public class DifferApplication extends TPTApplication {
 	imageManager = (ImageManager) applicationContext.getBean("imageManager");
 	resultManager = (ResultManager) applicationContext.getBean("resultManager");
         imageThumbnailProvider = (ImageThumbnailProvider) applicationContext.getBean("imageThumbnailProvider");
+        editableJP2ProfileProvider = (EditableJP2ProfileProvider) applicationContext.getBean("editableJP2ProfileProvider");
         //FIXME: hardcoded
         /*
         String resultsPath = "/tmp/differ/" + userManager.getLoggedInUser() + "/results";
@@ -142,6 +145,10 @@ public class DifferApplication extends TPTApplication {
     
     public static GoogleAnalyticsTracker getGATracker() {
         return gaTracker;
+    }
+
+    public static EditableJP2ProfileProvider getEditableJP2ProfileProvider() {
+        return editableJP2ProfileProvider;
     }
 
     public static ApplicationContext getApplicationContext() {

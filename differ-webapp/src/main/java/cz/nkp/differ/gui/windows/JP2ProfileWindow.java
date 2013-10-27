@@ -8,10 +8,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.metadata.JP2Profile;
 import cz.nkp.differ.gui.components.JP2ProfileForm;
 import cz.nkp.differ.profile.EditableJP2ProfileProvider;
-import cz.nkp.differ.profile.EditableJP2ProfileProviderImpl;
 
 /**
  *
@@ -19,7 +19,7 @@ import cz.nkp.differ.profile.EditableJP2ProfileProviderImpl;
  */
 public class JP2ProfileWindow extends Window {
     
-    private EditableJP2ProfileProvider jp2ProfileProvider = new EditableJP2ProfileProviderImpl();
+    private EditableJP2ProfileProvider jp2ProfileProvider;
     
     private Layout profileForm = null;
     
@@ -47,6 +47,7 @@ public class JP2ProfileWindow extends Window {
     }
     
     public JP2ProfileWindow() {
+        jp2ProfileProvider = DifferApplication.getEditableJP2ProfileProvider();
         setCaption("JPEG2000 profile editor");
 	setModal(true);
 	setDraggable(false);

@@ -1,6 +1,7 @@
 package cz.nkp.differ.gui.components;
 
 import com.vaadin.event.MouseEvents;
+import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
@@ -16,7 +17,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Runo;
 import cz.nkp.differ.DifferApplication;
+import cz.nkp.differ.compare.metadata.JP2Profile;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
+import cz.nkp.differ.gui.windows.JP2ProfileWindow;
 import cz.nkp.differ.gui.windows.LoginUserWindow;
 import cz.nkp.differ.gui.windows.RegisterUserWindow;
 import cz.nkp.differ.model.User;
@@ -34,6 +37,7 @@ public class ProjectHeaderPanel extends CustomComponent {
     Button buttonLogin;
     Button buttonLogout;
     Button buttonRegister;
+    Button jp2ProfileButton; // REMOVE ME
     Label loginMessage;
     DifferProgramTab tabRef;
     Window parent;
@@ -116,6 +120,10 @@ public class ProjectHeaderPanel extends CustomComponent {
         } else {
             setLoggedIn(user.getUserName());
         }
+        // REMOVE ME
+        jp2ProfileButton = new Button();
+        jp2ProfileButton.addListener(GUIMacros.createWindowOpenButtonListener(parent, new JP2ProfileWindow()));
+        buttonPanel.addComponent(jp2ProfileButton);
         return loginPanel;
     }
     

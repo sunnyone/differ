@@ -94,13 +94,7 @@
         <property name="directory" value="${differ.home}/results/"/>
     </bean>
     
-    <bean id="jp2ProfileProvider" class="cz.nkp.differ.compare.metadata.external.StaticJP2ProfileProvider">
-        <property name="resources">
-            <util:list>
-                <value>classpath:jp2_profiles/ndk_jp2_profile.xml</value>
-            </util:list>
-        </property>
-    </bean>
+    <bean id="editableJP2ProfileProvider" class="cz.nkp.differ.profile.EditableJP2ProfileProviderImpl"/>
     
     <bean id="imageThumbnailProvider" class="cz.nkp.differ.compare.io.ImageThumbnailProvider">
         <property name="imageLoaderFactory" ref="imageLoaderFactory"/>
