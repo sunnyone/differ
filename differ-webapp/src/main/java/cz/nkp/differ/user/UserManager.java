@@ -4,7 +4,6 @@
  */
 package cz.nkp.differ.user;
 
-import cz.nkp.differ.dao.UserDAO;
 import cz.nkp.differ.exceptions.UserDifferException;
 import cz.nkp.differ.model.User;
 
@@ -25,6 +24,6 @@ public interface UserManager {
 
     public User registerUser(User user, String passwordPlaintext) throws UserDifferException;
     
-    public UserDAO getUserDAO();
+    public User findByUserName(String name); 
     
 }

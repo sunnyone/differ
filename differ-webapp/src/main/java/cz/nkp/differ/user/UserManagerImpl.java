@@ -14,6 +14,7 @@ import javax.crypto.spec.PBEKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,33 +27,18 @@ public class UserManagerImpl implements UserManager {
 
     private static Logger LOGGER = Logger.getLogger(UserManager.class);
     private static final String PASSWORD_HASH_ALGORITHM_NAME = "SHA-1";
+    
+    @Autowired
     protected UserDAO userDAO;
+    
     protected MessageDigest passwordHashDigest;
 
     public UserManagerImpl() {
-	init();
-    }
-
-    public UserManagerImpl(UserDAO userDAO) {
-	init();
-	this.userDAO = userDAO;
-    }
-
-    protected final void init() {
 	try {
 	    this.passwordHashDigest = MessageDigest.getInstance(PASSWORD_HASH_ALGORITHM_NAME);
 	} catch (NoSuchAlgorithmException e) {
 	    LOGGER.error("Unable to create MessageDigest. Algorithm: " + PASSWORD_HASH_ALGORITHM_NAME);
 	}
-    }
-
-    @Override
-    public UserDAO getUserDAO() {
-	return userDAO;
-    }
-
-    public void setUserDAO(UserDAO userDAO) {
-	this.userDAO = userDAO;
     }
 
     /**
@@ -96,6 +82,11 @@ public class UserManagerImpl implements UserManager {
 	return user;
     }
 
+    @Override
+    public User findByUserName(String name) {
+        return userDAO.findByUserName(name);
+    }
+    
     protected static String encode(String str) {
 	return new String(Base64.encodeBase64(str.getBytes()));
     }
@@ -113,7 +104,6 @@ public class UserManagerImpl implements UserManager {
 	} catch (NoSuchAlgorithmException e) {
 	    LOGGER.error("Unable to find SHA1PRNG provider to generate salts.");
 	    e.printStackTrace();
-	    //TODO:Implement fallback
 	}
 	return null;
     }

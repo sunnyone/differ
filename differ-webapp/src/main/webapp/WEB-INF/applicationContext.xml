@@ -64,9 +64,7 @@
         <property name="uploadDirectory" value="${differ.home}/images/"/>
     </bean>
 
-    <bean id="userManager" class="cz.nkp.differ.user.UserManagerImpl">
-        <property name="userDAO" ref="userDAO"/>
-    </bean>
+    <bean id="userManager" class="cz.nkp.differ.user.UserManagerImpl"/>
     
     <bean id="resultManager" class="cz.nkp.differ.io.ResultManagerImpl">
         <!--<property name="marshaller" ref="jaxb2Marshaller"/>-->

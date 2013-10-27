@@ -1,6 +1,5 @@
 package cz.nkp.differ.gui.windows;
 
-
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -16,96 +15,88 @@ import cz.nkp.differ.gui.components.CaptchaComponent;
 import cz.nkp.differ.model.User;
 import cz.nkp.differ.util.GUIMacros;
 
-@SuppressWarnings("serial")
-public class RegisterUserWindow extends Window implements ClickListener {
-    
+public class RegisterUserWindow extends CustomWindow {
+
     private TextField nameField;
     private PasswordField passField;
     private CaptchaComponent captcha = null;
-    
-    public RegisterUserWindow() {
-	setCaption("Register User");
-	setModal(true);
-	setDraggable(false);
-	setResizable(false);
-	center();
-	setWidth("25%");
 
-	addComponent(createRegisterUserWindow());
+    private class RegisterButtonClickListener implements ClickListener {
 
-	HorizontalLayout buttonLayout = new HorizontalLayout();
+        @Override
+        public void buttonClick(ClickEvent event) {
+            try {
+                processButtonClick(event);
+            } catch (Exception ex) {
+                DifferApplication.getCurrentApplication().getMainWindow().showNotification("Error when registering user", "<br/>" + ex.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
+                if (captcha != null) {
+                    captcha.reset();
+                }
+            }
+        }
 
-	Button register = new Button("Register");
-	register.addListener(this);
-	buttonLayout.addComponent(register);
+        private void processButtonClick(ClickEvent event) throws Exception {
+            if (captcha != null && !captcha.passedValidation()) {
+                throw new Exception("You did not enter the correct captcha, please try again");
+            }
 
-	Button close = new Button("Close");
-	close.addListener(GUIMacros.createWindowCloseButtonListener(this));
-	buttonLayout.addComponent(close);
+            String nameValue = (String) nameField.getValue();
+            String passValue = (String) passField.getValue();
+            if (nameValue.isEmpty() || passValue.isEmpty()) {
+                throw new Exception("The Username and Password fields cannot be empty");
+            }
 
-	addComponent(buttonLayout);
+            //FIXME: ensure no special characters are used in username
+            if (DifferApplication.getUserManager().findByUserName(nameValue) == null) { // if username doesnt exist
+                User user = new User();
+                user.setUserName(nameValue);
+                DifferApplication.getUserManager().registerUser(user, passValue);
+                DifferApplication.getCurrentApplication().getMainWindow().showNotification("Success",
+                        "<br/>You have successfully registered as " + nameField + ", you may now login");
+                GUIMacros.closeWindow(RegisterUserWindow.this);
+            } else { //else username already exists
+                throw new Exception("The username you have chosen already exists");
+            }
+        }
     }
 
-    /**
-     *
-     * @return
-     */
+    public RegisterUserWindow() {
+        super("Register User");
+
+        addComponent(createRegisterUserWindow());
+
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+
+        Button register = new Button("Register");
+        register.addListener(new RegisterButtonClickListener());
+        buttonLayout.addComponent(register);
+
+        Button close = new Button("Close");
+        close.addListener(GUIMacros.createWindowCloseButtonListener(this));
+        buttonLayout.addComponent(close);
+
+        addComponent(buttonLayout);
+    }
+
     private Layout createRegisterUserWindow() {
 
-	VerticalLayout layout = new VerticalLayout();
+        VerticalLayout layout = new VerticalLayout();
 
-	nameField = new TextField("Username");
-	nameField.addValidator(new NullValidator("You must provide a username!", false));
-	layout.addComponent(nameField);
+        nameField = new TextField("Username");
+        nameField.addValidator(new NullValidator("You must provide a username!", false));
+        layout.addComponent(nameField);
 
-	passField = new PasswordField("Password");
-	passField.addValidator(new NullValidator("You must provide a password!", false));
-	layout.addComponent(passField);
-        
+        passField = new PasswordField("Password");
+        passField.addValidator(new NullValidator("You must provide a password!", false));
+        layout.addComponent(passField);
+
         if (DifferApplication.getConfiguration().isCaptchaEnabled()) {
             captcha = new CaptchaComponent();
             layout.addComponent(captcha);
         }
-        
+
         layout.setSpacing(true);
-        
-	return layout;
-    }
 
-    @Override
-    public void buttonClick(ClickEvent event) {
-
-	String nameValue = (String) nameField.getValue();
-	String passValue = (String) passField.getValue();
-        
-        try {
-            if (captcha == null || captcha.passedValidation()) { //if captcha succeeded
-                
-                if (nameValue.length() > 0 && passValue.length() > 0) { //if name & pass aren't null
-                    
-                    //FIXME: ensure no special characters are used in username
-                    
-                    if (DifferApplication.getUserManager().getUserDAO().findByUserName(nameValue) == null) { // if username doesnt exist
-                        User user = new User();
-                        user.setUserName(nameValue);
-                        DifferApplication.getUserManager().registerUser(user, passValue);
-                        DifferApplication.getCurrentApplication().getMainWindow().showNotification("Success", "<br/>You have successfully registered as " + nameField + ", you may now login");
-                        GUIMacros.closeWindow(RegisterUserWindow.this);
-           
-                    } else { //else username already exists
-                        throw new Exception("The username you have chosen already exists");
-                    }
-                } else { //else user or pass was not entered
-                    throw new Exception("The Username and Password fields cannot be empty");
-                }
-            } else { //else captcha was incorrect
-                throw new Exception("You did not enter the correct captcha, please try again");
-            }            
-        } catch (Exception ex) {
-            DifferApplication.getCurrentApplication().getMainWindow().showNotification("Error when registering user", "<br/>" + ex.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
-            captcha.reset();
-        }
-
-        //TODO:password strength checking etc
+        return layout;
     }
 }
