@@ -1,37 +1,30 @@
 package cz.nkp.differ.compare.io;
 
-import cz.nkp.differ.compare.io.generators.ImageMetadataComponentGenerator;
-import org.apache.log4j.Logger;
-
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
 import cz.nkp.differ.DifferApplication;
-import cz.nkp.differ.io.ResultManager;
-import cz.nkp.differ.model.Image;
+import cz.nkp.differ.compare.io.generators.ImageMetadataComponentGenerator;
 import cz.nkp.differ.listener.ProgressListener;
+import cz.nkp.differ.model.Image;
 import cz.nkp.differ.plugins.tools.PluginPollingThread;
-import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
+import org.apache.log4j.Logger;
 
 
 public class CompareComponent {
 
     public static Logger LOGGER = Logger.getRootLogger();
-    //private ImageFileAnalysisContainer iFAC1, iFAC2, iFAC3;
-    private List<ImageFileAnalysisContainer> iFACs = new ArrayList<ImageFileAnalysisContainer>();
     private Application application = null;
     private PluginPollingThread currentThread;
     private Image[] images;
@@ -93,7 +86,6 @@ public class CompareComponent {
                 ImageFileAnalysisContainer iFAC3 = new ImageFileAnalysisContainer(result[2], this, 2);
                 iFAC3.setChecksumLabel(comparedChecksum);
 		childALayout.addComponent(iFAC3.getComponent());
-		iFACs.addAll(Arrays.asList(iFAC1, iFAC2, iFAC3));
                 tableComp = new ImageMetadataComponentGenerator(new ImageProcessorResult[] {result[2]}, this);
                 tableComp.setTableName("SIMILARITY METRICS");
 	    } else {
@@ -101,7 +93,6 @@ public class CompareComponent {
 		errorComponent.setValue("Images can't be compared.");
 		errorComponent.setReadOnly(true);
 		childALayout.addComponent(errorComponent);
-		iFACs.addAll(Arrays.asList(iFAC1, iFAC2));
 	    }  
             childBLayout.addComponent(table.getComponent());
             if (tableComp != null) {
@@ -119,7 +110,6 @@ public class CompareComponent {
 		    result[i] = imageProcessor.processImage(images[i].getFile(), listener);
 		    ImageFileAnalysisContainer iFAC = new ImageFileAnalysisContainer(result[i], this, i, images[i].getFileName());
 		    childLayout.addComponent(iFAC.getComponent());
-		    iFACs.add(iFAC);
 		} catch (Exception ex) {
 		    ex.printStackTrace();
 		    throw new RuntimeException(ex);
