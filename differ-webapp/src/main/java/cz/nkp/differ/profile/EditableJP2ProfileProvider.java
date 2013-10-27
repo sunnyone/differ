@@ -13,6 +13,8 @@ public interface EditableJP2ProfileProvider extends JP2ProfileProvider {
     
     public void update(JP2Profile profile);
     
+    public void delete(JP2Profile profile);
+    
     public void saveNew(JP2Profile profile);
     
 }

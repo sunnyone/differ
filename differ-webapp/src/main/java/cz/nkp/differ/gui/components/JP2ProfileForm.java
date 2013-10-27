@@ -143,6 +143,9 @@ public class JP2ProfileForm {
             Set<String> progressionOrders = (Set<String>) profileForm.getField("progressionOrders").getValue();
             jp2Profile.setProgressionOrders(toList(progressionOrders));
             
+            Set<Integer> decompositionLevels = (Set<Integer>) profileForm.getField("decompositionLevels").getValue();
+            jp2Profile.setDecompositionLevels(toList(decompositionLevels));
+            
             int minQualityLayers = Integer.parseInt((String) profileForm.getField("minQualityLayers").getValue());
             int maxQualityLayers = Integer.parseInt((String) profileForm.getField("maxQualityLayers").getValue());
             jp2Profile.setMinQualityLayers(minQualityLayers);

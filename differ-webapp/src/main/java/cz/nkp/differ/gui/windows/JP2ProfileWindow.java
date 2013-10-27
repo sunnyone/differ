@@ -1,10 +1,11 @@
 package cz.nkp.differ.gui.windows;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -53,7 +54,7 @@ public class JP2ProfileWindow extends Window {
 	setDraggable(false);
 	setResizable(false);
 	center();
-	setWidth("30%");
+	setWidth("33%");
         windowLayout = new VerticalLayout();
         windowLayout.setSpacing(true);
         profileForm = createProfileCreationWindowForm(new JP2Profile());
@@ -66,8 +67,8 @@ public class JP2ProfileWindow extends Window {
         VerticalLayout layout = new VerticalLayout();
         final JP2ProfileForm form = new JP2ProfileForm(profile);
         layout.addComponent(form.getProfileForm());
-        Button submit = new Button("Submit");
-        submit.addListener(new ClickListener() {
+        Button save = new Button("Save");
+        save.addListener(new ClickListener() {
 
             @Override
             public void buttonClick(ClickEvent event) {
@@ -84,19 +85,51 @@ public class JP2ProfileWindow extends Window {
             }
             
         });
-        layout.addComponent(submit);
+        layout.addComponent(save);
+        
+        Button delete = new Button("Delete");
+        delete.setEnabled(profile.getId() != null);
+        delete.addListener(new ClickListener() {
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+                JP2Profile profile = form.getJp2Profile();
+                jp2ProfileProvider.delete(profile);
+                JP2ProfileWindow.this.refresh();
+            }
+            
+        });
+        layout.addComponent(delete);
+        
         return layout;
     }
     
     private Layout createProfileSelectionWindowForm() {
         profileSelector = new ComboBox("Profile");
+        final Button editoOrCreateProfileButton = new Button("Create");
+        
         profileSelector.setInputPrompt("Name of your profile");
         for (JP2Profile profile : jp2ProfileProvider.getProfiles()) {
             profileSelector.addItem(new ProfileItem(profile));
         }
         profileSelector.setTextInputAllowed(true);
         profileSelector.setNewItemsAllowed(true);
-        Button editoOrCreateProfileButton = new Button("Edit / Create");
+        profileSelector.setImmediate(true);
+        profileSelector.addListener(new ValueChangeListener(){
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                Object obj = event.getProperty().getValue();
+                editoOrCreateProfileButton.setEnabled(obj != null && obj instanceof String);
+                if (obj != null && obj instanceof ProfileItem) {
+                    windowLayout.removeComponent(profileForm);
+                    ProfileItem profile = (ProfileItem) obj;
+                    profileForm = createProfileCreationWindowForm(profile.getProfile());
+                    windowLayout.addComponent(profileForm);
+                }
+            }
+        });
+        
         editoOrCreateProfileButton.addListener(new ClickListener() {
 
             @Override
@@ -115,7 +148,7 @@ public class JP2ProfileWindow extends Window {
             }
         });
         
-        HorizontalLayout profilePanel = new HorizontalLayout();
+        VerticalLayout profilePanel = new VerticalLayout();
         profilePanel.addComponent(profileSelector);
         profilePanel.addComponent(editoOrCreateProfileButton);
         return profilePanel;

@@ -44,6 +44,12 @@ public class EditableJP2ProfileProviderImpl implements EditableJP2ProfileProvide
     }
 
     @Override
+    public void delete(JP2Profile profile) {
+        Profile profileInDb = profileDao.findById(profile.getId());
+        profileDao.delete(profileInDb);
+    }
+    
+    @Override
     public void saveNew(JP2Profile profile) {
         Profile profileInDb = new Profile();
         profileInDb.setShared(true);
