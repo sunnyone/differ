@@ -1,15 +1,11 @@
 package cz.nkp.differ.gui.components;
 
-
-import org.apache.log4j.Logger;
-
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
@@ -17,6 +13,7 @@ import cz.nkp.differ.listener.Message;
 import cz.nkp.differ.listener.ProgressType;
 import cz.nkp.differ.model.Image;
 import java.text.SimpleDateFormat;
+import org.apache.log4j.Logger;
 
 // TODO: rename
 public class PluginDisplayComponent extends CustomComponent {
@@ -24,19 +21,19 @@ public class PluginDisplayComponent extends CustomComponent {
     private static final long serialVersionUID = -5172306282663506101L;
     private Logger LOGGER = Logger.getLogger(PluginDisplayComponent.class);
 
-    public PluginDisplayComponent(CompareComponent d, Image[] images) {
-	super();
-	if (images == null) {
-	    throw new NullPointerException("images");
-	}
-	this.setCompositionRoot(createPluginCompareComponent(d, images));
+    public PluginDisplayComponent(CompareComponent compareComponent, Image[] images) {
+        super();
+        if (images == null) {
+            throw new NullPointerException("images");
+        }
+        this.setCompositionRoot(createPluginCompareComponent(compareComponent, images));
 
     }
 
-    private Layout createPluginCompareComponent(CompareComponent d, Image[] images) {
-	HorizontalLayout layout = new HorizontalLayout();
-	layout.addComponent(new PluginDisplayPanel(d, images));
-	return layout;
+    private Layout createPluginCompareComponent(CompareComponent compareComponent, Image[] images) {
+        HorizontalLayout layout = new HorizontalLayout();
+        layout.addComponent(new PluginDisplayPanel(compareComponent, images));
+        return layout;
     }
 }
 
@@ -48,21 +45,21 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
     private final TextArea progressDetails = new TextArea();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
     private int numberOfTasks = 0;
+    private final CompareComponent compareComponent;
     static Logger LOGGER = Logger.getLogger(PluginDisplayPanel.class);
 
-    public PluginDisplayPanel(CompareComponent d, Image[] images) {
-	d.addImages(images);
-	d.setPluginDisplayComponentCallback(this);
-	synchronized (progress) {
+    public PluginDisplayPanel(CompareComponent compareComponent, Image[] images) {
+        synchronized (compareComponent.getApplication()) {
+            this.compareComponent = compareComponent;
+            compareComponent.setImages(images);
+            compareComponent.setPluginDisplayComponentCallback(this);
             progress.setWidth("300px");
-	    progress.setIndeterminate(false);
-	    progress.setImmediate(true);
-	    progress.setPollingInterval(750);
-	    progress.setCaption("Loading plugin...");
-	    progress.setValue(0f);
-	    this.addComponent(progress);
-	}
-        synchronized(progressDetails) {
+            progress.setIndeterminate(false);
+            progress.setImmediate(true);
+            progress.setPollingInterval(750);
+            progress.setCaption("Loading plugin...");
+            progress.setValue(0f);
+            this.addComponent(progress);
             progressDetails.setWidth("300px");
             this.addComponent(progressDetails);
         }
@@ -71,7 +68,7 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
     @Override
     public void onStart(String identifier, int numberOfTasks) {
         this.numberOfTasks = numberOfTasks;
-        synchronized (progressDetails) {
+        synchronized (compareComponent.getApplication()) {
             progressDetails.setRows(numberOfTasks);
         }
     }
@@ -82,10 +79,10 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
             int finished = message.getNumberOfFinishedTaks();
             float doneInPercent = finished / (numberOfTasks * 1.0f);
             String newLine = "\n";
-            String text = dateFormat.format(message.getTime()) + 
-                    String.format(" %s missing done", message.getEventType())
+            String text = dateFormat.format(message.getTime())
+                    + String.format(" %s missing done", message.getEventType())
                     + newLine;
-            synchronized (progressDetails) {
+            synchronized (compareComponent.getApplication()) {
                 progress.setValue(doneInPercent);
                 if (((String) progressDetails.getValue()).isEmpty()) {
                     progressDetails.setValue(text);
@@ -98,12 +95,13 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
 
     @Override
     public void onFinish(String identifier, ImageProcessorResult[] results) {
-        
     }
 
     @Override
     public void ready(Object c) {
-        this.removeAllComponents();
-	this.addComponent((Component) c);
+        synchronized (compareComponent.getApplication()) {
+            this.removeAllComponents();
+            this.addComponent((Component) c);
+        }
     }
 }

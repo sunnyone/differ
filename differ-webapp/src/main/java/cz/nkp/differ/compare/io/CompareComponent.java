@@ -42,8 +42,7 @@ public class CompareComponent {
 	application.getMainWindow().showNotification(errorNotif);
     }
 
-    //FIXME: bad method name
-    public void addImages(Image[] images) {
+    public void setImages(Image[] images) {
 	this.images = images;
     }
 
