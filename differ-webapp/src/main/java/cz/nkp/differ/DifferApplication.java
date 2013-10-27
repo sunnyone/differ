@@ -4,6 +4,7 @@ import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.compare.io.ImageThumbnailProvider;
+import cz.nkp.differ.configuration.Configuration;
 import cz.nkp.differ.configuration.GoogleAnalyticsConfiguration;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ImageManager;
@@ -42,6 +43,7 @@ public class DifferApplication extends TPTApplication {
     protected static ApplicationContext applicationContext = null;
     protected static MainDifferWindow mainDifferWindow = null;
     protected static EditableJP2ProfileProvider editableJP2ProfileProvider = null;
+    protected static Configuration configuration = null;
     protected static GoogleAnalyticsTracker gaTracker = null;
 
     /*
@@ -85,21 +87,24 @@ public class DifferApplication extends TPTApplication {
 	resultManager = (ResultManager) applicationContext.getBean("resultManager");
         imageThumbnailProvider = (ImageThumbnailProvider) applicationContext.getBean("imageThumbnailProvider");
         editableJP2ProfileProvider = (EditableJP2ProfileProvider) applicationContext.getBean("editableJP2ProfileProvider");
+        configuration = (Configuration) applicationContext.getBean("differConfiguration");
         //FIXME: hardcoded
         /*
         String resultsPath = "/tmp/differ/" + userManager.getLoggedInUser() + "/results";
         new File(resultsPath).mkdirs(); //create results folder if doesn't exist
         resultManager.setDirectory(resultsPath);
         */
-        GoogleAnalyticsConfiguration gaConf = (GoogleAnalyticsConfiguration)
-                applicationContext.getBean("googleAnalyticsConfiguration");
-
 	mainDifferWindow = new MainDifferWindow();
 	mainDifferWindow.setSizeUndefined();
 	setMainWindow(mainDifferWindow);
-        gaTracker = new GoogleAnalyticsTracker(gaConf.getTrackerId(), gaConf.getDomainName());
-        mainDifferWindow.addComponent(gaTracker);
-        gaTracker.trackPageview("/");
+        
+        if (configuration.getGoogleAnalyticsConfiguration() != null
+                && configuration.getGoogleAnalyticsConfiguration().isEnabled()) {
+            GoogleAnalyticsConfiguration gaConf = configuration.getGoogleAnalyticsConfiguration();
+            gaTracker = new GoogleAnalyticsTracker(gaConf.getTrackerId(), gaConf.getDomainName());
+            mainDifferWindow.addComponent(gaTracker);
+            gaTracker.trackPageview("/");
+        }
     }
 
     @Override
@@ -149,6 +154,10 @@ public class DifferApplication extends TPTApplication {
 
     public static EditableJP2ProfileProvider getEditableJP2ProfileProvider() {
         return editableJP2ProfileProvider;
+    }
+    
+    public static Configuration getConfiguration() {
+        return configuration;
     }
 
     public static ApplicationContext getApplicationContext() {

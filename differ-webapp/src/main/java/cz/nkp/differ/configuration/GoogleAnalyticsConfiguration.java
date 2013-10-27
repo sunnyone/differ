@@ -6,9 +6,19 @@ package cz.nkp.differ.configuration;
  */
 public class GoogleAnalyticsConfiguration {
     
+    private boolean enabled = true;
+    
     private String domainName;
     
     private String trackerId;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getDomainName() {
         return domainName;

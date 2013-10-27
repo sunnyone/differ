@@ -115,7 +115,9 @@ public class DifferProgramTabButtonPanel extends CustomComponent {
 	    @Override
 	    public void buttonClick(Button.ClickEvent event) {
 		try {
-                    DifferApplication.getGATracker().trackPageview("/compare"); 
+                    if (DifferApplication.getGATracker() != null) {
+                        DifferApplication.getGATracker().trackPageview("/compare");
+                    } 
 		    HorizontalLayout layout = new HorizontalLayout();
 		    Image[] selectedImages = parent.getSelectedImages();
 		    CompareComponent cp = new CompareComponent();

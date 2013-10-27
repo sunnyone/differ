@@ -21,7 +21,7 @@ public class RegisterUserWindow extends Window implements ClickListener {
     
     private TextField nameField;
     private PasswordField passField;
-    private CaptchaComponent captcha;
+    private CaptchaComponent captcha = null;
     
     public RegisterUserWindow() {
 	setCaption("Register User");
@@ -61,9 +61,11 @@ public class RegisterUserWindow extends Window implements ClickListener {
 	passField = new PasswordField("Password");
 	passField.addValidator(new NullValidator("You must provide a password!", false));
 	layout.addComponent(passField);
-
-	captcha = new CaptchaComponent();
-	layout.addComponent(captcha);
+        
+        if (DifferApplication.getConfiguration().isCaptchaEnabled()) {
+            captcha = new CaptchaComponent();
+            layout.addComponent(captcha);
+        }
         
         layout.setSpacing(true);
         
@@ -77,7 +79,7 @@ public class RegisterUserWindow extends Window implements ClickListener {
 	String passValue = (String) passField.getValue();
         
         try {
-            if (captcha.passedValidation()) { //if captcha succeeded
+            if (captcha == null || captcha.passedValidation()) { //if captcha succeeded
                 
                 if (nameValue.length() > 0 && passValue.length() > 0) { //if name & pass aren't null
                     

@@ -84,6 +84,13 @@
     <bean id="googleAnalyticsConfiguration" class="cz.nkp.differ.configuration.GoogleAnalyticsConfiguration">
         <property name="domainName" value="${ga.domainName}"/>
         <property name="trackerId" value="${ga.trackerId}"/>
+        <property name="enabled" value="${ga.enabled}" />
+    </bean>
+    
+    <!-- Differ web configuration -->
+    <bean id="differConfiguration" class="cz.nkp.differ.configuration.Configuration">
+        <property name="googleAnalyticsConfiguration" ref="googleAnalyticsConfiguration"/>
+        <property name="captchaEnabled" value="${differ.captchaEnabled}"/>
     </bean>
 
     <!-- Rest API -->
