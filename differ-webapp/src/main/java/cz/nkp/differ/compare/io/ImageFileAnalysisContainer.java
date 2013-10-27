@@ -1,12 +1,7 @@
 package cz.nkp.differ.compare.io;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import cz.nkp.differ.compare.metadata.ImageMetadata;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.Resource;
-import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Button.ClickEvent;
@@ -18,14 +13,12 @@ import com.vaadin.ui.Label;
 import java.io.File;
 
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.themes.BaseTheme;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.gui.windows.FullSizeImageWindow;
 import cz.nkp.differ.gui.windows.HistogramSettingsWindow;
-import cz.nkp.differ.gui.windows.RawDataWindow;
 import cz.nkp.differ.util.GUIMacros;
 import java.awt.Color;
 
@@ -95,7 +88,7 @@ public class ImageFileAnalysisContainer {
         // Image preview
         layout.addStyleName("v-preview-reg");
         
-        final Resource imageFullResource = imageToResource(result.getFullImage());
+        //final Resource imageFullResource = imageToResource(result.getFullImage());
         final Resource imageScaledResource = imageToResource(result.getPreview());
 
         VerticalLayout previewContainer = new VerticalLayout();
@@ -105,11 +98,16 @@ public class ImageFileAnalysisContainer {
         imageButton.addStyleName(BaseTheme.BUTTON_LINK);
         imageButton.addStyleName("v-preview-reg-img");
         imageButton.setIcon(imageScaledResource);
-        if (imageFullResource != null) {
+        if (result.getFullImage() != null) {
             imageButton.addListener(new ClickListener() {
+                
+                Resource imageFullResource = null;
+                
                 @Override
                 public void buttonClick(ClickEvent event) {
-
+                    if (imageFullResource == null) {
+                        imageFullResource = imageToResource(result.getFullImage());
+                    }
                     Embedded img = new Embedded(null, imageFullResource);
                     img.setType(Embedded.TYPE_IMAGE);
                     DifferApplication.getCurrentApplication().getMainWindow().addWindow(new FullSizeImageWindow(img));
