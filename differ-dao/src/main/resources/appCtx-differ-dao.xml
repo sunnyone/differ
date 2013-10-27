@@ -25,5 +25,7 @@ http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
     <bean id="imageDAO" class="cz.nkp.differ.dao.hibernate.ImageHibernateDAO" parent="genericDAO"/>
 
     <bean id="userDAO" class="cz.nkp.differ.dao.hibernate.UserHibernateDAO" parent="genericDAO"/>
+    
+    <bean id="profileDAO" class="cz.nkp.differ.dao.hibernate.ProfileHibernateDAO" parent="genericDAO"/>
 
 </beans>

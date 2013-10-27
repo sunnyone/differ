@@ -1,31 +1,46 @@
 package cz.nkp.differ.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author xrosecky
  */
+@Entity
+@Table(name = Profile.TABLE)
 public class Profile {
 
-    public static enum Kernel {
-        Revesible5x3,
-        Irreversible9x7
-    }
-
-    public static class Size {
-
-        public Size(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-        
-        public int width;
-        public int height;
-    }
-
+    public static final String TABLE = "profile";
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "id")
+    private Long id;
+    
+    @Column(name = "name")
     private String name;
-    private Kernel kernel;
-    private Size preccintSize;
-    private Size tileSize;
+    
+    @Column(name = "user_id")
+    private Long userId;
+    
+    @Column(name = "profile")
+    private String profile;
+    
+    @Column(name = "shared")
+    private boolean shared;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -35,28 +50,28 @@ public class Profile {
         this.name = name;
     }
 
-    public Kernel getKernel() {
-        return kernel;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setKernel(Kernel kernel) {
-        this.kernel = kernel;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Size getPreccintSize() {
-        return preccintSize;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setPreccintSize(Size preccintSize) {
-        this.preccintSize = preccintSize;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
-    public Size getTileSize() {
-        return tileSize;
+    public boolean isShared() {
+        return shared;
     }
 
-    public void setTileSize(Size tileSize) {
-        this.tileSize = tileSize;
+    public void setShared(boolean shared) {
+        this.shared = shared;
     }
-
+    
 }

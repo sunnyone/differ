@@ -13,9 +13,12 @@ import javax.xml.bind.annotation.XmlType;
  * @author xrosecky
  */
 @XmlRootElement(name="profile")
-@XmlType(propOrder = {"name", "kernel", "preccintSizes", "tileSizes", "decompositionLevels", "progressionOrders", "minQualityLayers", "maxQualityLayers"})
+@XmlType(propOrder = {"id", "name", "kernel", "preccintSizes", "tileSizes", "decompositionLevels", "progressionOrders", "minQualityLayers", "maxQualityLayers"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JP2Profile {
+    
+    @XmlElement(name = "id")
+    private Long id;
 
     @XmlElement(name = "name")
     private String name;
@@ -48,6 +51,14 @@ public class JP2Profile {
     public JP2Profile() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public String getName() {
         return name;
     }
