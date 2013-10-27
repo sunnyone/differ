@@ -2,7 +2,6 @@ package cz.nkp.differ.gui.components;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.MouseEvents.ClickEvent;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -16,8 +15,8 @@ import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
+import cz.nkp.differ.gui.windows.JP2ProfileWindow;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
-import cz.nkp.differ.gui.windows.ProfileCreationWindow;
 import cz.nkp.differ.gui.windows.UploadFilesWindow;
 import cz.nkp.differ.model.Image;
 import cz.nkp.differ.util.GUIMacros;
@@ -101,7 +100,7 @@ public class DifferProgramTabButtonPanel extends CustomComponent {
 	deleteImagesButton.setEnabled(false);
 
 	createProfilesButton = new Button("Create New Profile");
-	createProfilesButton.addListener(GUIMacros.createWindowOpenButtonListener(mainWindow, new ProfileCreationWindow()));
+	createProfilesButton.addListener(GUIMacros.createWindowOpenButtonListener(mainWindow, new JP2ProfileWindow()));
 
 	buttonPanelRoot.addComponent(GUIMacros.bindTooltipToComponent(uploadImagesButton, "Upload image", "Use this function to upload new image files"));
 	buttonPanelRoot.addComponent(GUIMacros.bindTooltipToComponent(refreshImagesButton, "Refresh images", "Refresh images"));

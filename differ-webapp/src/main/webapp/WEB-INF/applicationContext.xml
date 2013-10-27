@@ -59,30 +59,9 @@
         </property>
     </bean>
 
-    <!--
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${db.driverClassName}"/>
-        <property name="url" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
-    </bean>
-
-    <bean id="imageDAO" class="cz.nkp.differ.dao.ImageDAOImpl">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <bean id="userDAO" class="cz.nkp.differ.dao.UserDAOImpl">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-    -->
-
     <bean id="imageManager" class="cz.nkp.differ.io.ImageManagerImpl">
         <property name="imageDAO" ref="imageDAO"/>
         <property name="uploadDirectory" value="${differ.home}/images/"/>
-    </bean>
-
-    <bean id="profileManager" class="cz.nkp.differ.io.ProfileManagerImpl">
-        <property name="profileDirectory" value="${differ.home}/profiles/"/>
     </bean>
 
     <bean id="userManager" class="cz.nkp.differ.user.UserManagerImpl">

@@ -6,7 +6,6 @@ import cz.nkp.differ.dao.ImageDAO;
 import cz.nkp.differ.dao.UserDAO;
 import cz.nkp.differ.images.ImageLoader;
 import cz.nkp.differ.io.ImageManager;
-import cz.nkp.differ.io.ProfileManager;
 import cz.nkp.differ.user.UserManager;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,7 +75,4 @@ public class Helper {
 	return (MetadataExtractors) context.getBean("metadataExtractors");
     }
 
-    public static ProfileManager getProfileManager() {
-        return (ProfileManager) context.getBean("profileManager");
-    }
 }
