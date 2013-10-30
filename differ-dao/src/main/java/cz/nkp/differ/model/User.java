@@ -17,7 +17,7 @@ import javax.persistence.UniqueConstraint;
 @Table(name = User.TABLE, uniqueConstraints = { @UniqueConstraint(columnNames = { "username" })})
 public class User implements Serializable {
     
-    public static final String TABLE = "image";
+    public static final String TABLE = "user";
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
