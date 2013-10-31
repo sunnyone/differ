@@ -165,6 +165,7 @@ public class ImageManagerImpl implements ImageManager {
 
     @Override
     public void updateImage(Image image) {
+        image = imageDAO.merge(image);
 	imageDAO.persist(image);
     }
 

@@ -20,6 +20,11 @@ public abstract class GenericHibernateDAO<T, ID extends Serializable> extends Hi
     }
     
     @Override
+    public T merge(T object) {
+        return super.getHibernateTemplate().merge(object);
+    }
+    
+    @Override
     public void persist(T object) {
        super.getHibernateTemplate().persist(object);
     }

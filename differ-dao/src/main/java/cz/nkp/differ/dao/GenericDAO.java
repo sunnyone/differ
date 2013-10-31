@@ -8,6 +8,8 @@ import java.io.Serializable;
  */
 public interface GenericDAO<T, ID extends Serializable> {
     
+    public T merge(T object);
+    
     public void persist(T object);
     
     public T findById(ID id);
