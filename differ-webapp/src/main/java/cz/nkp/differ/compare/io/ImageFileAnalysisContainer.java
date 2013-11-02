@@ -3,13 +3,13 @@ package cz.nkp.differ.compare.io;
 import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.Resource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
-
 import com.vaadin.ui.Label;
+
 import java.io.File;
 
 import com.vaadin.ui.Layout;
@@ -88,8 +88,7 @@ public class ImageFileAnalysisContainer {
         // Image preview
         layout.addStyleName("v-preview-reg");
         
-        //final Resource imageFullResource = imageToResource(result.getFullImage());
-        final Resource imageScaledResource = imageToResource(result.getPreview());
+        final Resource imageScaledResource = GUIMacros.imageToResource(parent.getApplication(), result.getPreview());
 
         VerticalLayout previewContainer = new VerticalLayout();
         previewContainer.addStyleName("v-preview-reg-container");
@@ -106,7 +105,7 @@ public class ImageFileAnalysisContainer {
                 @Override
                 public void buttonClick(ClickEvent event) {
                     if (imageFullResource == null) {
-                        imageFullResource = imageToResource(result.getFullImage());
+                        imageFullResource = GUIMacros.imageToResource(parent.getApplication(), result.getFullImage());
                     }
                     Embedded img = new Embedded(null, imageFullResource);
                     img.setType(Embedded.TYPE_IMAGE);
@@ -278,33 +277,6 @@ public class ImageFileAnalysisContainer {
         
         // add buttons to mainLayout
     	}*/
-     
-    public Resource imageToResource(Image img) {
-        if (img == null) {
-            return null;
-        }
-        if (img instanceof SerializableImage) {
-            img = ((SerializableImage) img).getBufferedImage();
-        }
-        try {
-            String FILE_EXT = "png";
-            File temp = File.createTempFile("image", "." + FILE_EXT);
-            OutputStream stream = new BufferedOutputStream(new FileOutputStream(temp));
-            /* Write the image to a buffer. */
-            BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-            Graphics g = bimage.getGraphics();
-            g.drawImage(img, 0, 0, null);
-            g.dispose();
-            ImageIO.setUseCache(false);
-            ImageIO.write(bimage, FILE_EXT, stream);
-            bimage = null;
-            stream.flush();
-            stream.close();
-            return new FileResource(temp, parent.getApplication());
-        } catch (IOException e) {
-            return null;
-        }
-    }
     
     public String getChecksum() {
         return result.getMD5Checksum();

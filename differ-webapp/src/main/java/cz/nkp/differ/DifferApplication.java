@@ -13,9 +13,12 @@ import cz.nkp.differ.io.ResultManager;
 import cz.nkp.differ.model.User;
 import cz.nkp.differ.profile.EditableJP2ProfileProvider;
 import cz.nkp.differ.user.UserManager;
+import cz.nkp.differ.util.TemporaryFilesCleaner;
 import eu.livotov.tpt.TPTApplication;
 import java.security.Security;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.servlet.ServletContext;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -47,6 +50,11 @@ public class DifferApplication extends TPTApplication {
     protected static MetadataGroups metadataGroups = null;
     protected static Configuration configuration = null;
     protected static GoogleAnalyticsTracker gaTracker = null;
+    
+    protected static final TemporaryFilesCleaner temporaryFilesCleaner = new TemporaryFilesCleaner();
+    static {
+        temporaryFilesCleaner.init();
+    }
 
     /*
      * We dont need an X server running on a display to do graphics operations. May be slower on some machines.
@@ -109,6 +117,7 @@ public class DifferApplication extends TPTApplication {
             mainDifferWindow.addComponent(gaTracker);
             gaTracker.trackPageview("/");
         }
+       
     }
 
     @Override
@@ -166,6 +175,10 @@ public class DifferApplication extends TPTApplication {
     
     public static Configuration getConfiguration() {
         return configuration;
+    }
+
+    public static TemporaryFilesCleaner getTemporaryFilesCleaner() {
+        return temporaryFilesCleaner;
     }
 
     public static ApplicationContext getApplicationContext() {

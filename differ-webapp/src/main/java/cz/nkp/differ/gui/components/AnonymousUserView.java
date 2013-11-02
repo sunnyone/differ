@@ -20,9 +20,6 @@ import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.exceptions.ImageDifferException;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
 import cz.nkp.differ.gui.windows.FullSizeImageWindow;
-import cz.nkp.differ.images.ImageLoaderFactory;
-import cz.nkp.differ.util.GUIMacros;
-import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
@@ -252,6 +249,7 @@ public class AnonymousUserView extends HorizontalLayout {
                 UploadFile ufile = new UploadFile(UploadFile.TYPE.REMOTE_URL, (String) (urlPaste.getValue()));
                 if (ufile.isValid()) {
                     final File file = ufile.getFile();
+                    DifferApplication.getTemporaryFilesCleaner().addFile(file);
                     embedded.setVisible(true);
                     embedded.setSource(new FileResource(file, DifferApplication.getCurrentApplication()));
                     embedded.addListener(new MouseEvents.ClickListener() {
