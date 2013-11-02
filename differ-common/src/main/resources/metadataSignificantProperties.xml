@@ -191,5 +191,12 @@
     <value>Bypass</value>
     <value>Derived</value>
   </util:set>
+  
+  <bean id="metadataGroups" class="cz.nkp.differ.compare.metadata.MetadataGroups">
+      <property name="extractorProperties" ref="extractorProperties"/>
+      <property name="identificationProperties" ref="identificationProperties"/>
+      <property name="validationProperties" ref="validationProperties"/>
+      <property name="characterizationProperties" ref="characterizationProperties"/>
+  </bean>
 
 </beans>

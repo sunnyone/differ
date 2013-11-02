@@ -4,6 +4,7 @@ import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.compare.io.ImageThumbnailProvider;
+import cz.nkp.differ.compare.metadata.MetadataGroups;
 import cz.nkp.differ.configuration.Configuration;
 import cz.nkp.differ.configuration.GoogleAnalyticsConfiguration;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
@@ -43,6 +44,7 @@ public class DifferApplication extends TPTApplication {
     protected static ApplicationContext applicationContext = null;
     protected static MainDifferWindow mainDifferWindow = null;
     protected static EditableJP2ProfileProvider editableJP2ProfileProvider = null;
+    protected static MetadataGroups metadataGroups = null;
     protected static Configuration configuration = null;
     protected static GoogleAnalyticsTracker gaTracker = null;
 
@@ -87,6 +89,8 @@ public class DifferApplication extends TPTApplication {
 	resultManager = (ResultManager) applicationContext.getBean("resultManager");
         imageThumbnailProvider = (ImageThumbnailProvider) applicationContext.getBean("imageThumbnailProvider");
         editableJP2ProfileProvider = (EditableJP2ProfileProvider) applicationContext.getBean("editableJP2ProfileProvider");
+        metadataGroups = (MetadataGroups) applicationContext.getBean("metadataGroups");
+        
         configuration = (Configuration) applicationContext.getBean("differConfiguration");
         //FIXME: hardcoded
         /*
@@ -154,6 +158,10 @@ public class DifferApplication extends TPTApplication {
 
     public static EditableJP2ProfileProvider getEditableJP2ProfileProvider() {
         return editableJP2ProfileProvider;
+    }
+
+    public static MetadataGroups getMetadataGroups() {
+        return metadataGroups;
     }
     
     public static Configuration getConfiguration() {

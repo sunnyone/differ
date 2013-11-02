@@ -5,6 +5,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -17,6 +18,7 @@ import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ComparedImagesMetadata;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
+import cz.nkp.differ.compare.metadata.MetadataGroups;
 import cz.nkp.differ.compare.metadata.MetadataSource;
 import cz.nkp.differ.exceptions.FatalDifferException;
 import cz.nkp.differ.gui.windows.RawDataWindow;
@@ -24,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -36,6 +39,8 @@ public class ImageMetadataComponentGenerator {
     private CompareComponent parent;
 
     private String tableName = "METADATA";
+    
+    private static int TABLE_WIDTH = 400;
     
     private static String VERSION_PROPERTY_NAME = "Version";
     private static String COLUMN_A1_PROPERTY    = "key";
@@ -143,11 +148,8 @@ public class ImageMetadataComponentGenerator {
         return metadataTable;
     }
     
-    private Table generateMetadataTableForTwoResults(final Layout layout) {
-        final Table metadataTable;
-
+    private HashMap<String, ComparedImagesMetadata> getMetadataTable() {
         HashMap<String, ComparedImagesMetadata> hashmap = new HashMap<String, ComparedImagesMetadata>();
-
         for (int resultIndex = 0; resultIndex < result.length; resultIndex++) {
             for (ImageMetadata data : result[resultIndex].getMetadata()) {
                 String id = data.getKey() + "&&" + data.getSource().getSourceName();
@@ -174,8 +176,41 @@ public class ImageMetadataComponentGenerator {
                 }
             }
         }
-
-        metadataTable = new Table(tableName);
+        return hashmap;
+    }
+    
+    private void generateMetadataTableForTwoResults(final Layout layout) {
+        HashMap<String, ComparedImagesMetadata> metadata = getMetadataTable();
+        MetadataGroups metadataGroups = DifferApplication.getMetadataGroups();
+        generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
+        generateMetadataTableForTwoResults(layout, "Identification", filterByProperties(metadata, metadataGroups.getIdentificationProperties()));
+        generateMetadataTableForTwoResults(layout, "Validation", filterByProperties(metadata, metadataGroups.getValidationProperties()));
+        generateMetadataTableForTwoResults(layout, "Characterization", filterByProperties(metadata, metadataGroups.getCharacterizationProperties()));
+        generateMetadataTableForTwoResults(layout, "Others", filterByOtherProperties(metadata, metadataGroups.getAllProperties()));
+    }
+    
+    private Map<String, ComparedImagesMetadata> filterByProperties(HashMap<String, ComparedImagesMetadata> metadata, Set<String> allowed) {
+        Map<String, ComparedImagesMetadata> results = new HashMap<String, ComparedImagesMetadata>();
+        for (Map.Entry<String, ComparedImagesMetadata> entry : metadata.entrySet()) {
+            if (allowed.contains(entry.getValue().getKey())) {
+                results.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return results;
+    }
+    
+    private Map<String, ComparedImagesMetadata> filterByOtherProperties(HashMap<String, ComparedImagesMetadata> metadata, Set<String> allowed) {
+        Map<String, ComparedImagesMetadata> results = new HashMap<String, ComparedImagesMetadata>();
+        for (Map.Entry<String, ComparedImagesMetadata> entry : metadata.entrySet()) {
+            if (!allowed.contains(entry.getValue().getKey())) {
+                results.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return results;
+    }
+    
+    private void generateMetadataTableForTwoResults(final Layout layout, String group, Map<String, ComparedImagesMetadata> hashmap) {
+        final Table metadataTable = new Table(group.toUpperCase());
         metadataTable.addContainerProperty(COLUMN_A1_PROPERTY, String.class, null);
         metadataTable.addContainerProperty(COLUMN_A2_PROPERTY, Button.class, null);
         metadataTable.addContainerProperty(COLUMN_A3_PROPERTY, String.class, null);
@@ -189,6 +224,7 @@ public class ImageMetadataComponentGenerator {
         metadataTable.setColumnWidth(COLUMN_A4_PROPERTY, 200);
         metadataTable.setColumnWidth(COLUMN_C2_PROPERTY, 100);
 
+        
         //first iteration merely cleans the version property from the various tools
         HashMap<String, String> versionmap = new HashMap<String, String>();
         for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
@@ -219,6 +255,8 @@ public class ImageMetadataComponentGenerator {
         metadataTable.setSelectable(true);
         metadataTable.setMultiSelect(false);
         metadataTable.setImmediate(true);
+        metadataTable.setWidth(2 * TABLE_WIDTH, Sizeable.UNITS_PIXELS);
+        metadataTable.setPageLength(Math.min(row, 10));
         layout.addComponent(metadataTable);
         
         metadataTable.setCellStyleGenerator(new Table.CellStyleGenerator() {
@@ -260,8 +298,6 @@ public class ImageMetadataComponentGenerator {
         rawData.setImmediate(true);
         rawData.setEnabled(true);
         layout.addComponent(rawData);
-        
-        return metadataTable;
     }
     
     private Button createClickableTool(final Layout layout, String source, String version) {       
