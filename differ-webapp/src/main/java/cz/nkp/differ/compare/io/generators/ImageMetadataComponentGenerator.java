@@ -149,57 +149,31 @@ public class ImageMetadataComponentGenerator {
 
         HashMap<String, ComparedImagesMetadata> hashmap = new HashMap<String, ComparedImagesMetadata>();
 
-        for (int i = 0; i < result[0].getMetadata().size(); i++) {
-            String id = result[0].getMetadata().get(i).getKey() + "&&"
-                    + result[0].getMetadata().get(i).getSource().getSourceName();
-            hashmap.put(id, new ComparedImagesMetadata(id));
-        }
-
-        for (int i = 0; i < result[1].getMetadata().size(); i++) {
-            String id = result[1].getMetadata().get(i).getKey() + "&&"
-                    + result[1].getMetadata().get(i).getSource().getSourceName();
-            if (!hashmap.containsKey(id)) { //prevent creating new ComparedImagesMetadata objects unneccessarily
-                hashmap.put(id, new ComparedImagesMetadata(id));
+        for (int resultIndex = 0; resultIndex < result.length; resultIndex++) {
+            for (ImageMetadata data : result[resultIndex].getMetadata()) {
+                String id = data.getKey() + "&&" + data.getSource().getSourceName();
+                ComparedImagesMetadata cim = hashmap.get(id);
+                if (cim == null) {
+                    cim = new ComparedImagesMetadata(id);
+                    cim.setKey(data.getKey());
+                    cim.setUnit(data.getUnit());
+                    cim.setConflict(data.isConflict());
+                    MetadataSource msrc = data.getSource();
+                    cim.setMetadataSource(msrc);
+                    cim.setSourceName(data.getSource().getSourceName());
+                    String[] values = new String[result.length + 1];
+                    if (data.getValue() != null) {
+                        values[resultIndex] = data.getValue().toString();
+                    }
+                    cim.setValues(values);
+                    hashmap.put(id, cim);
+                } else {
+                    if (data.getValue() != null) {
+                        String[] values = cim.getValues();
+                        values[resultIndex] = data.getValue().toString();
+                    }
+                }
             }
-
-        }
-
-        for (int i = 0; i < result[0].getMetadata().size(); i++) {
-            String id = result[0].getMetadata().get(i).getKey() + "&&"
-                    + result[0].getMetadata().get(i).getSource().getSourceName();
-
-            hashmap.get(id).setKey(result[0].getMetadata().get(i).getKey());
-
-            hashmap.get(id).setValueA("" + result[0].getMetadata().get(i).getValue());
-            hashmap.get(id).setUnit(result[0].getMetadata().get(i).getUnit());
-            hashmap.get(id).setConflict(result[0].getMetadata().get(i).isConflict());
-            MetadataSource msrc = result[0].getMetadata().get(i).getSource();
-            hashmap.get(id).setMetadataSource(msrc);
-            hashmap.get(id).setSourceName(result[0].getMetadata().get(i).getSource().getSourceName());
-        }
-
-        for (int i = 0; i < result[1].getMetadata().size(); i++) {
-            String id = result[1].getMetadata().get(i).getKey() + "&&"
-                    + result[1].getMetadata().get(i).getSource().getSourceName();
-
-            if (hashmap.get(id).getKey() == null) {
-                hashmap.get(id).setKey(result[1].getMetadata().get(i).getKey());
-            }
-
-            if (hashmap.get(id).getUnit() == null) {
-                hashmap.get(id).setUnit(result[1].getMetadata().get(i).getUnit());
-            }
-
-            if (hashmap.get(id).getSource() == null) {
-                MetadataSource msrc = result[1].getMetadata().get(i).getSource();
-                hashmap.get(id).setMetadataSource(msrc);
-            }
-
-            hashmap.get(id).setSourceName(result[1].getMetadata().get(i).getSource().getSourceName());
-
-            hashmap.get(id).setValueB("" + result[1].getMetadata().get(i).getValue());
-            hashmap.get(id).setConflict(result[1].getMetadata().get(i).isConflict());
-
         }
 
         metadataTable = new Table(tableName);
@@ -216,57 +190,38 @@ public class ImageMetadataComponentGenerator {
         metadataTable.setColumnWidth(COLUMN_A4_PROPERTY, 200);
         metadataTable.setColumnWidth(COLUMN_C2_PROPERTY, 100);
 
-        //first iteration merely gleans the version property from the various tools
+        //first iteration merely cleans the version property from the various tools
         HashMap<String, String> versionmap = new HashMap<String, String>();
-        Iterator it = hashmap.entrySet().iterator();
-        int j = 0;
-        while (it.hasNext()) {
-            ComparedImagesMetadata cim = (ComparedImagesMetadata) ((Map.Entry) it.next()).getValue();
-            if (cim.getKey().equals(VERSION_PROPERTY_NAME)) {
-                versionmap.put(cim.getSourceName(), cim.getValueA());
+        for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
+            if (entry.getKey().equals(VERSION_PROPERTY_NAME)) {
+                ComparedImagesMetadata cim = entry.getValue();
+                versionmap.put(cim.getSourceName(), cim.getValues()[0]);
             }
-            j++;
         }
 
-        Iterator itx = hashmap.entrySet().iterator();
-        int x = 0;
-        while (itx.hasNext()) {
-            ComparedImagesMetadata cim = (ComparedImagesMetadata) ((Map.Entry) itx.next()).getValue();
+        int row = 0;
+        for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
+            ComparedImagesMetadata cim = entry.getValue();
             cim.setVersion(versionmap.get(cim.getSourceName()));
             MetadataSource msrc = cim.getMetadataSource();
             cim.setSource(createClickableTool(layout, msrc, cim.getVersion()));
-            metadataTable.addItem(new Object[]{cim.getKey(), cim.getSource(), cim.getValueA(),
-                        cim.getValueB(), cim.getUnit(),
-                        cim.getVersion(), cim.getMetadataSource()}, x);
-            x++;
+            metadataTable.addItem(new Object[]{cim.getKey(), cim.getSource(), cim.getValues()[0],
+                        cim.getValues()[1], cim.getUnit(),
+                        cim.getVersion(), cim.getMetadataSource()}, row);
+            row++;
         }
 
         //the following line must be set AFTER adding ALL data to the table
         //otherwise data will not be set properly (table will be empty)
-        metadataTable.setVisibleColumns(new Object[]{COLUMN_A1_PROPERTY, COLUMN_A2_PROPERTY, COLUMN_A3_PROPERTY,
-                    COLUMN_A4_PROPERTY, COLUMN_A5_PROPERTY});
-
-        final Button rawData = new Button();
-        rawData.setCaption("Raw data");
-        rawData.addListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                Item selectedRow = metadataTable.getItem((Integer) metadataTable.getValue());
-                Property rowData = selectedRow.getItemProperty("metadataSource");
-                MetadataSource metadata = (MetadataSource) rowData.getValue();
-                Window rawDataWindow = new RawDataWindow(parent, metadata);
-                Window mainWindow = DifferApplication.getMainApplicationWindow();
-                mainWindow.addWindow(rawDataWindow);
-            }
-        });
-        rawData.setImmediate(true);
-        rawData.setEnabled(true);
-
+        metadataTable.setVisibleColumns(new Object[]{ COLUMN_A1_PROPERTY, COLUMN_A2_PROPERTY, COLUMN_A3_PROPERTY,
+                    COLUMN_A4_PROPERTY, COLUMN_A5_PROPERTY });
+        
         metadataTable.sort(new String[]{COLUMN_A1_PROPERTY}, new boolean[]{true});
         metadataTable.setSelectable(true);
         metadataTable.setMultiSelect(false);
         metadataTable.setImmediate(true);
-
+        layout.addComponent(metadataTable);
+        
         metadataTable.setCellStyleGenerator(new Table.CellStyleGenerator() {
             @Override
             public String getStyle(Object itemId, Object propertyId) {
@@ -284,14 +239,29 @@ public class ImageMetadataComponentGenerator {
                 return "";
             }
         });
-        layout.addComponent(metadataTable);
-        layout.addComponent(rawData);
+        
+        final Button rawData = new Button("Raw data");
+        rawData.addListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                Item selectedRow = metadataTable.getItem((Integer) metadataTable.getValue());
+                Property rowData = selectedRow.getItemProperty("metadataSource");
+                MetadataSource metadata = (MetadataSource) rowData.getValue();
+                Window rawDataWindow = new RawDataWindow(parent, metadata);
+                Window mainWindow = DifferApplication.getMainApplicationWindow();
+                mainWindow.addWindow(rawDataWindow);
+            }
+        });
         metadataTable.addListener(new ValueChangeListener() {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 rawData.setEnabled(true);
             }
         });
+        rawData.setImmediate(true);
+        rawData.setEnabled(true);
+        layout.addComponent(rawData);
+        
         return metadataTable;
     }
     
@@ -303,7 +273,7 @@ public class ImageMetadataComponentGenerator {
         } else {
             toolName = "tool name unknown";
         }
-        Button button = new Button("" + toolName);
+        Button button = new Button(toolName);
         final String vrsn;
         if (version != null && version.length() > 0) {
             vrsn = version;

@@ -12,8 +12,7 @@ public class ComparedImagesMetadata {
     //metadata table columns
     private String key;
     private Button source;
-    private String imageValueA;
-    private String imageValueB;
+    private String[] values;
     private String unit;
     
     //non-column properties
@@ -58,21 +57,13 @@ public class ComparedImagesMetadata {
     public void setMetadataSource(MetadataSource metadataSource) {
         this.metadataSource = metadataSource;
     }
-    
-    public String getValueA() {
-        return imageValueA;
+
+    public String[] getValues() {
+        return this.values;
     }
-    
-    public String getValueB() {
-        return imageValueB;
-    }
-    
-    public void setValueA(String imageValueA) {
-        this.imageValueA = imageValueA;
-    }
-    
-    public void setValueB(String imageValueB) {
-        this.imageValueB = imageValueB;
+
+    public void setValues(String[] values) {
+        this.values = values;
     }
 
     public String getUnit() {
