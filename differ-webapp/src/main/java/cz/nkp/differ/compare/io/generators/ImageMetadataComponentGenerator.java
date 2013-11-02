@@ -1,14 +1,9 @@
 package cz.nkp.differ.compare.io.generators;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -294,29 +289,6 @@ public class ImageMetadataComponentGenerator {
                 return "";
             }
         });
-        /*
-        final Button rawData = new Button("Raw data");
-        rawData.addListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                Item selectedRow = metadataTable.getItem((Integer) metadataTable.getValue());
-                Property rowData = selectedRow.getItemProperty("metadataSource");
-                MetadataSource metadata = (MetadataSource) rowData.getValue();
-                Window rawDataWindow = new RawDataWindow(parent, metadata);
-                Window mainWindow = DifferApplication.getMainApplicationWindow();
-                mainWindow.addWindow(rawDataWindow);
-            }
-        });
-        metadataTable.addListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                rawData.setEnabled(true);
-            }
-        });
-        rawData.setImmediate(true);
-        rawData.setEnabled(true);
-        layout.addComponent(rawData);
-        */
     }
     
     private Button createClickableTool(final Layout layout, String source, String version) {       
