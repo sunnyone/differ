@@ -11,13 +11,12 @@ public class ComparedImagesMetadata {
     
     //metadata table columns
     private String key;
-    private Button source;
     private String[] values;
     private String unit;
     
     //non-column properties
     private String id; //used for internal identification only
-    private MetadataSource metadataSource;
+    private MetadataSource[] metadataSources;
     private String sourceName;
     private String version;
     private boolean conflict;
@@ -42,20 +41,12 @@ public class ComparedImagesMetadata {
         this.key = key;
     }
 
-    public Button getSource() {
-        return source;
+    public MetadataSource[] getMetadataSources() {
+        return metadataSources;
     }
     
-    public void setSource(Button source) {
-        this.source = source;
-    }
-
-    public MetadataSource getMetadataSource() {
-        return metadataSource;
-    }
-    
-    public void setMetadataSource(MetadataSource metadataSource) {
-        this.metadataSource = metadataSource;
+    public void setMetadataSources(MetadataSource[] metadataSources) {
+        this.metadataSources = metadataSources;
     }
 
     public String[] getValues() {
