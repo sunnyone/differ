@@ -198,6 +198,7 @@ public class AnonymousUserView extends HorizontalLayout {
                     embedded.setVisible(true);
                     try {
                         embedded.setSource(DifferApplication.getImageThumbnailProvider().getThumbnail(receiver.getFile()));
+                        DifferApplication.getTemporaryFilesCleaner().addFile(receiver.getFile());
                     } catch (ImageDifferException ide) {
                         DifferApplication.getCurrentApplication().getMainWindow().showNotification("Thumbnail can not be generated.",
                             "<br/>", Window.Notification.TYPE_WARNING_MESSAGE);

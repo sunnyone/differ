@@ -74,11 +74,15 @@ public class ExternalImageLoader implements ImageLoader {
 		throw new ImageDifferException(ImageDifferException.ErrorCode.IMAGE_READ_ERROR,
 			String.format("External process returned nonzero exit code: %s", cmdResult.getExitCode()));
 	    }
+            return imageLoader.load(outputFile);
 	} catch (IOException ioe) {
 	    throw new ImageDifferException(ImageDifferException.ErrorCode.IMAGE_READ_ERROR, "Can't read image", ioe);
 	} catch (InterruptedException ie) {
 	    throw new ImageDifferException(ImageDifferException.ErrorCode.IMAGE_READ_ERROR, "Image read interrupted", ie);
-	}
-	return imageLoader.load(outputFile);
+	} finally {
+            if (outputFile != null) {
+                outputFile.delete();
+            }
+        }
     }
 }
