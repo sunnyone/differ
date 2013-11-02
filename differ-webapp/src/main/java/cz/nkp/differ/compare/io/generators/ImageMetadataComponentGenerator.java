@@ -22,7 +22,6 @@ import cz.nkp.differ.exceptions.FatalDifferException;
 import cz.nkp.differ.gui.windows.RawDataWindow;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -204,7 +203,7 @@ public class ImageMetadataComponentGenerator {
             ComparedImagesMetadata cim = entry.getValue();
             cim.setVersion(versionmap.get(cim.getSourceName()));
             MetadataSource msrc = cim.getMetadataSource();
-            cim.setSource(createClickableTool(layout, msrc, cim.getVersion()));
+            cim.setSource(createClickableTool(layout, msrc.getSourceName(), cim.getVersion()));
             metadataTable.addItem(new Object[]{cim.getKey(), cim.getSource(), cim.getValues()[0],
                         cim.getValues()[1], cim.getUnit(),
                         cim.getVersion(), cim.getMetadataSource()}, row);
@@ -265,29 +264,17 @@ public class ImageMetadataComponentGenerator {
         return metadataTable;
     }
     
-    private Button createClickableTool(final Layout layout, MetadataSource source, final String version) {
-       
-        final String toolName;
-        if (source.getSourceName() != null && source.getSourceName().length() > 0) {
-            toolName = source.getSourceName();
-        } else {
-            toolName = "tool name unknown";
-        }
+    private Button createClickableTool(final Layout layout, String source, String version) {       
+        final String toolName = (source == null || source.isEmpty()) ? "tool name unknown" : source;
+        final String ver = (version == null || version.isEmpty()) ? "unknown" : version;
         Button button = new Button(toolName);
-        final String vrsn;
-        if (version != null && version.length() > 0) {
-            vrsn = version;
-        } else {
-            vrsn = "unknown";
-        }
         button.addListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                layout.getWindow().showNotification(toolName, "<br/>version " + vrsn, Window.Notification.TYPE_HUMANIZED_MESSAGE);
+                layout.getWindow().showNotification(toolName, "<br/>version " + ver, Window.Notification.TYPE_HUMANIZED_MESSAGE);
             } 
         });
         button.addStyleName("link");
-        
         return button;
     }
 
