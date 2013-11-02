@@ -256,8 +256,8 @@ public class ImageMetadataComponentGenerator {
         for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
             ComparedImagesMetadata cim = entry.getValue();
             Button clickableToolName = createClickableTool(layout, cim.getSourceName(), cim.getVersion());
-            Button valueA = createClickableValue(layout, cim.getValues()[0].toString(), cim.getMetadataSources()[0]);
-            Button valueB = createClickableValue(layout, cim.getValues()[1].toString(), cim.getMetadataSources()[1]);
+            Button valueA = createClickableValue(layout, cim.getValues()[0], cim.getMetadataSources()[0]);
+            Button valueB = createClickableValue(layout, cim.getValues()[1], cim.getMetadataSources()[1]);
             metadataTable.addItem(new Object[] { cim.getKey(), clickableToolName, valueA,
                         valueB, cim.getUnit() }, row);
             row++;
@@ -305,7 +305,10 @@ public class ImageMetadataComponentGenerator {
         return button;
     }
     
-    private Button createClickableValue(final Layout layout, final String value, final MetadataSource metadata) {       
+    private Button createClickableValue(final Layout layout, String value, final MetadataSource metadata) {
+        if (value == null) {
+            value = "";
+        }
         Button button = new Button(value);
         if (metadata != null) {
             button.addListener(new Button.ClickListener() {
