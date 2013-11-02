@@ -1,9 +1,11 @@
 package cz.nkp.differ.compare.io;
 
 import com.vaadin.Application;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
@@ -23,6 +25,10 @@ import org.apache.log4j.Logger;
 
 
 public class CompareComponent {
+    
+    public static final int ONE_ROW_WIDTH = 400;
+    
+    public static final int TWO_ROW_WIDTH = 400;
 
     public static Logger LOGGER = Logger.getRootLogger();
     private Application application = null;
@@ -77,20 +83,22 @@ public class CompareComponent {
     }
 
     public Component getPluginDisplayComponent() {
-        VerticalLayout layout = new VerticalLayout();
 	if (images.length == 2) {
-	    
-	    HorizontalLayout childALayout = new HorizontalLayout();
-            HorizontalLayout childBLayout = new HorizontalLayout();
-	    ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, images[0].getFileName());
-	    childALayout.addComponent(iFAC1.getComponent());
-	    ImageFileAnalysisContainer iFAC2 = new ImageFileAnalysisContainer(results[1], this, 1, images[1].getFileName());
-	    childALayout.addComponent(iFAC2.getComponent());
-            ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
             
+            GridLayout grid = new GridLayout(3, 3);
+            
+            ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, images[0].getFileName());
+            grid.addComponent(iFAC1.getComponent(), 0, 0);
+            
+            ImageFileAnalysisContainer iFAC2 = new ImageFileAnalysisContainer(results[1], this, 1, images[1].getFileName());
+            grid.addComponent(iFAC2.getComponent(), 1, 0);
+            
+            ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(resultsForMetadata, this);
-            ImageMetadataComponentGenerator tableComp = null;
-	    if (results[2] != null) {
+            Component metadataTable = table.getComponent();
+            grid.addComponent(metadataTable, 0, 1, 1, 1);
+            
+            if (results[2] != null) {
                 Label comparedChecksum;
 		if (iFAC1.getChecksum().equals(iFAC2.getChecksum())) {
                     comparedChecksum = new Label("Image hash values are equal.", Label.CONTENT_XHTML);
@@ -99,24 +107,17 @@ public class CompareComponent {
                 }
                 ImageFileAnalysisContainer iFAC3 = new ImageFileAnalysisContainer(results[2], this, 2);
                 iFAC3.setChecksumLabel(comparedChecksum);
-		childALayout.addComponent(iFAC3.getComponent());
-                tableComp = new ImageMetadataComponentGenerator(new ImageProcessorResult[] {results[2]}, this);
+                grid.addComponent(iFAC3.getComponent(), 2, 0);
+                ImageMetadataComponentGenerator tableComp = new ImageMetadataComponentGenerator(new ImageProcessorResult[] {results[2]}, this);
                 tableComp.setTableName("SIMILARITY METRICS");
+                grid.addComponent(tableComp.getComponent(), 2, 1);
 	    } else {
-		TextField errorComponent = new TextField();
-		errorComponent.setValue("Images can't be compared.");
-		errorComponent.setReadOnly(true);
-		childALayout.addComponent(errorComponent);
-	    }  
-            childBLayout.addComponent(table.getComponent());
-            if (tableComp != null) {
-                childBLayout.addComponent(tableComp.getComponent());
-            }
-            layout.addComponent(childALayout);
-            layout.addComponent(childBLayout);
-            layout.addComponent(addExportResultsButton(results));
-	    return layout;
+		Label errorComponent = new Label("Images can't be compared.");
+		grid.addComponent(errorComponent, 2, 0);
+	    }
+            return grid;
 	} else {
+            VerticalLayout layout = new VerticalLayout();
 	    HorizontalLayout childLayout = new HorizontalLayout();
             for (int i = 0; i < images.length; i++) {
 		try {
