@@ -22,16 +22,9 @@ import cz.nkp.differ.gui.windows.HistogramSettingsWindow;
 import cz.nkp.differ.util.GUIMacros;
 import java.awt.Color;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
-import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -88,7 +81,7 @@ public class ImageFileAnalysisContainer {
         // Image preview
         layout.addStyleName("v-preview-reg");
         
-        final Resource imageScaledResource = GUIMacros.imageToResource(parent.getApplication(), result.getPreview());
+        final Resource imageScaledResource = GUIMacros.imageToResource(DifferApplication.getCurrentApplication(), result.getPreview());
 
         VerticalLayout previewContainer = new VerticalLayout();
         previewContainer.addStyleName("v-preview-reg-container");
@@ -105,7 +98,7 @@ public class ImageFileAnalysisContainer {
                 @Override
                 public void buttonClick(ClickEvent event) {
                     if (imageFullResource == null) {
-                        imageFullResource = GUIMacros.imageToResource(parent.getApplication(), result.getFullImage());
+                        imageFullResource = GUIMacros.imageToResource(DifferApplication.getCurrentApplication(), result.getFullImage());
                     }
                     Embedded img = new Embedded(null, imageFullResource);
                     img.setType(Embedded.TYPE_IMAGE);
@@ -156,10 +149,10 @@ public class ImageFileAnalysisContainer {
                     File tmpFile = File.createTempFile("histogram", ".csv");
                     tmpFile.deleteOnExit();
                     FileUtils.writeByteArrayToFile(tmpFile, sb.toString().getBytes());
-                    FileResource resource = new FileResource(tmpFile, parent.getApplication());
-                    parent.getApplication().getMainWindow().open(resource);
+                    FileResource resource = new FileResource(tmpFile, DifferApplication.getCurrentApplication());
+                    DifferApplication.getCurrentApplication().getMainWindow().open(resource);
                 } catch (Exception ex) {
-                    parent.getApplication().getMainWindow().showNotification("Error when creating CSV file for upload", "",
+                    DifferApplication.getCurrentApplication().getMainWindow().showNotification("Error when creating CSV file for upload", "",
                             Notification.TYPE_ERROR_MESSAGE);
                 }
             }
@@ -191,12 +184,12 @@ public class ImageFileAnalysisContainer {
                                 chartComponent = newChartComponent;
                                 GUIMacros.closeWindow(zoomSettings);
                             } catch (NumberFormatException nfe) {
-                                parent.getApplication().getMainWindow().showNotification("Invalid value", "", Notification.TYPE_ERROR_MESSAGE);
+                                DifferApplication.getCurrentApplication().getMainWindow().showNotification("Invalid value", "", Notification.TYPE_ERROR_MESSAGE);
                             }
                         }
                     };
                     zoomSettings.setOnSubmit(onSubmit);
-                    parent.getApplication().getMainWindow().addWindow(zoomSettings);
+                    DifferApplication.getCurrentApplication().getMainWindow().addWindow(zoomSettings);
                 }
             });
             histogramLayout.addComponent(zoomButton);

@@ -121,8 +121,7 @@ public class DifferProgramTabButtonPanel extends CustomComponent {
 		    HorizontalLayout layout = new HorizontalLayout();
 		    Image[] selectedImages = parent.getSelectedImages();
 		    CompareComponent cp = new CompareComponent();
-		    cp.setApplication(DifferApplication.getCurrentApplication());
-		    layout.addComponent(new PluginDisplayComponent(cp, selectedImages));
+		    layout.addComponent(new PluginDisplayComponent(DifferApplication.getCurrentApplication(), cp, selectedImages));
 		    parent.setCustomView(layout);
 		} catch (Exception ex) {
 		    ex.printStackTrace();

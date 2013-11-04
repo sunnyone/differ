@@ -9,6 +9,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.metadata.MetadataSource;
 import java.io.File;
@@ -62,8 +63,8 @@ public class RawDataWindow extends Window {
                     File tmpFile = File.createTempFile("output", ".txt");
 		    tmpFile.deleteOnExit();
 		    FileUtils.writeByteArrayToFile(tmpFile, content.getBytes());
-		    FileResource resource = new FileResource(tmpFile, parent.getApplication());
-		    parent.getApplication().getMainWindow().open(resource);
+		    FileResource resource = new FileResource(tmpFile, DifferApplication.getCurrentApplication());
+		    DifferApplication.getCurrentApplication().getMainWindow().open(resource);
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
 		}

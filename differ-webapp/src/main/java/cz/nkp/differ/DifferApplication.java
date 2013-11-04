@@ -87,9 +87,6 @@ public class DifferApplication extends TPTApplication {
 	setLocale(locale);
 	LOGGER.trace("Session Locale: " + locale.getDisplayName());
 
-	//Add this as a listener to the context transaction event pump
-	context.addTransactionListener(this);
-
 	ServletContext servletContext = ((WebApplicationContext) this.getContext()).getHttpSession().getServletContext();
         applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 	userManager = (UserManager) applicationContext.getBean("userManager");

@@ -21,18 +21,18 @@ public class PluginDisplayComponent extends CustomComponent {
     private static final long serialVersionUID = -5172306282663506101L;
     private Logger LOGGER = Logger.getLogger(PluginDisplayComponent.class);
 
-    public PluginDisplayComponent(CompareComponent compareComponent, Image[] images) {
+    public PluginDisplayComponent(Object lock, CompareComponent compareComponent, Image[] images) {
         super();
         if (images == null) {
             throw new NullPointerException("images");
         }
-        this.setCompositionRoot(createPluginCompareComponent(compareComponent, images));
+        this.setCompositionRoot(createPluginCompareComponent(lock, compareComponent, images));
 
     }
 
-    private Layout createPluginCompareComponent(CompareComponent compareComponent, Image[] images) {
+    private Layout createPluginCompareComponent(Object lock, CompareComponent compareComponent, Image[] images) {
         HorizontalLayout layout = new HorizontalLayout();
-        layout.addComponent(new PluginDisplayPanel(compareComponent, images));
+        layout.addComponent(new PluginDisplayPanel(lock, compareComponent, images));
         return layout;
     }
 }
@@ -46,9 +46,10 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
     private int numberOfTasks = 0;
     private final CompareComponent compareComponent;
+    private final Object lock;
     static Logger LOGGER = Logger.getLogger(PluginDisplayPanel.class);
 
-    public PluginDisplayPanel(CompareComponent compareComponent, Image[] images) {
+    public PluginDisplayPanel(Object lock, CompareComponent compareComponent, Image[] images) {
         this.compareComponent = compareComponent;
         compareComponent.setImages(images);
         progress.setWidth("300px");
@@ -61,12 +62,13 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
         progressDetails.setWidth("300px");
         this.addComponent(progressDetails);
         compareComponent.setPluginDisplayComponentCallback(this);
+        this.lock = lock;
     }
 
     @Override
     public void onStart(String identifier, int numberOfTasks) {
         this.numberOfTasks = numberOfTasks;
-        synchronized (compareComponent.getApplication()) {
+        synchronized (lock) {
             progressDetails.setRows(numberOfTasks);
         }
     }
@@ -80,7 +82,7 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
             String text = dateFormat.format(message.getTime())
                     + String.format(" %s missing done", message.getEventType())
                     + newLine;
-            synchronized (compareComponent.getApplication()) {
+            synchronized (lock) {
                 progress.setValue(doneInPercent);
                 if (((String) progressDetails.getValue()).isEmpty()) {
                     progressDetails.setValue(text);
@@ -97,7 +99,7 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
 
     @Override
     public void ready(Object c) {
-        synchronized (compareComponent.getApplication()) {
+        synchronized (lock) {
             this.removeAllComponents();
             this.addComponent((Component) c);
         }

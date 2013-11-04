@@ -5,7 +5,7 @@ import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.gui.components.WebProgressListener;
 import cz.nkp.differ.listener.ProgressListener;
 
-public class PluginPollingThread extends Thread {
+public class PluginPollingThread implements Runnable {
 
     private ProgressListener callback;
     private CompareComponent plugin;

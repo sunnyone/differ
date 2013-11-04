@@ -1,14 +1,12 @@
 package cz.nkp.differ.compare.io;
 
 import com.vaadin.Application;
-import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
@@ -18,8 +16,6 @@ import cz.nkp.differ.model.Image;
 import cz.nkp.differ.plugins.tools.PluginPollingThread;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
@@ -55,7 +51,7 @@ public class CompareComponent {
     public void setPluginDisplayComponentCallback(final ProgressListener listener) {
 	try {
 	    currentThread = new PluginPollingThread(this, listener);
-	    currentThread.start();
+            DifferApplication.getCurrentApplication().invokeLater(currentThread);
 	} catch (Exception e) {
 	    showSeriousError(e.getLocalizedMessage());
 	}
@@ -134,14 +130,6 @@ public class CompareComponent {
             layout.addComponent(addExportResultsButton(results));
 	    return layout;
 	}
-    }
-
-    public Application getApplication() {
-	return application;
-    }
-
-    public void setApplication(Application application) {
-	this.application = application;
     }
     
     private Component addExportResultsButton(final ImageProcessorResult[] ipr) {

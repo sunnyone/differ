@@ -105,8 +105,7 @@ public class AnonymousUserView extends HorizontalLayout {
 
                     HorizontalLayout layout = new HorizontalLayout();
                     CompareComponent cp = new CompareComponent();
-                    cp.setApplication(DifferApplication.getCurrentApplication());
-                    layout.addComponent(new PluginDisplayComponent(cp, selectedImages));
+                    layout.addComponent(new PluginDisplayComponent(DifferApplication.getCurrentApplication(), cp, selectedImages));
                     parent.setCustomView(layout);
                 } catch (Exception ex) {
                     ex.printStackTrace();

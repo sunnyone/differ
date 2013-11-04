@@ -65,7 +65,6 @@ public class ResultManagerTab extends HorizontalLayout {
                             HorizontalLayout layout = new HorizontalLayout();
                             SerializableImageProcessorResults resultsToShow = resultManager.getResult(result);
                             CompareComponent compareComponent = new CompareComponent();
-                            compareComponent.setApplication(DifferApplication.getCurrentApplication());
 			    for (SerializableImageProcessorResult resultToShow : resultsToShow.getResults()) {
 				ImageFileAnalysisContainer ifac = new ImageFileAnalysisContainer(resultToShow, compareComponent);
 				layout.addComponent(ifac.getComponent());
