@@ -29,6 +29,10 @@ public class MetadataSource {
     
     public MetadataSource() {
     }
+    
+    public MetadataSource(String sourceName) {
+        this.sourceName = sourceName;
+    }
 
     public MetadataSource(int exitCode, String stdout, String stderr, String sourceName) {
         this(exitCode, stdout, stderr, sourceName, null);

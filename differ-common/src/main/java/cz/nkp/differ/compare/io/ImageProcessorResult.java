@@ -19,6 +19,8 @@ public interface ImageProcessorResult {
     public Type getType();
 
     public int[][] getHistogram();
+    
+    public int[] getBlackAndWhiteHistogram();
 
     public Image getPreview();
 

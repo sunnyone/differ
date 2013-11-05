@@ -1,7 +1,7 @@
 package cz.nkp.differ.compare.io.pure;
 
-import cz.nkp.differ.compare.metadata.ImageMetadata;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
+import cz.nkp.differ.compare.metadata.ImageMetadata;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ public class PureImageProcessorResult implements ImageProcessorResult {
     @XmlTransient
     private Image preview;
     private int[][] histogram;
+    private int[] blackAndWhiteHistogram;
     private String checksum;
     private Type type;
     private int width;
@@ -55,6 +56,15 @@ public class PureImageProcessorResult implements ImageProcessorResult {
     }
 
     @Override
+    public int[] getBlackAndWhiteHistogram() {
+        return blackAndWhiteHistogram;
+    }
+
+    public void setBlackAndWhiteHistogram(int[] blackAndWhiteHistogram) {
+        this.blackAndWhiteHistogram = blackAndWhiteHistogram;
+    }    
+    
+    @Override
     public Image getPreview() {
 	return preview;
     }
@@ -81,6 +91,7 @@ public class PureImageProcessorResult implements ImageProcessorResult {
 	this.type = type;
     }
 
+    @Override
     public int getHeight() {
 	return height;
     }
@@ -89,6 +100,7 @@ public class PureImageProcessorResult implements ImageProcessorResult {
 	this.height = height;
     }
 
+    @Override
     public int getWidth() {
 	return width;
     }

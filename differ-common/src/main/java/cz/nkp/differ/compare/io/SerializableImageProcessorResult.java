@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author xrosecky
  */
 @XmlRootElement(name = "result")
-@XmlType(propOrder = {"type", "width", "height", "checksum", "metadata", "sources", "histogram", "fullImage", "preview"})
+@XmlType(propOrder = {"type", "width", "height", "checksum", "metadata", "sources", "histogram", "blackAndWhiteHistogram", "fullImage", "preview"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SerializableImageProcessorResult implements ImageProcessorResult {
 
@@ -31,6 +31,8 @@ public class SerializableImageProcessorResult implements ImageProcessorResult {
     @XmlElementWrapper(name = "histogram-list")
     @XmlElement(name = "histogram")
     private int[][] histogram;
+    @XmlElement(name = "black-and-white-histogram")
+    private int[] blackAndWhiteHistogram;
     private String checksum;
     private Type type;
     private int width;
@@ -63,6 +65,15 @@ public class SerializableImageProcessorResult implements ImageProcessorResult {
 	this.histogram = histogram;
     }
 
+    @Override
+    public int[] getBlackAndWhiteHistogram() {
+        return blackAndWhiteHistogram;
+    }
+
+    public void setBlackAndWhiteHistogram(int[] blackAndWhiteHistogram) {
+        this.blackAndWhiteHistogram = blackAndWhiteHistogram;
+    }
+    
     @Override
     public Image getPreview() {
 	return preview;
@@ -139,6 +150,7 @@ public class SerializableImageProcessorResult implements ImageProcessorResult {
 	result.setWidth(original.getWidth());
 	result.setMetadata(original.getMetadata());
 	result.setHistogram(original.getHistogram());
+        result.setBlackAndWhiteHistogram(original.getBlackAndWhiteHistogram());
 	result.setType(original.getType());
 	Set<MetadataSource> sources = new HashSet<MetadataSource>();
 	for (ImageMetadata metadata : original.getMetadata()) {
