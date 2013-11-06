@@ -360,17 +360,23 @@ public class PureImageProcessor extends ImageProcessor {
             // histogram
             int[] imagePixelCache = new int[width * height];
             image.getRGB(0, 0, width, height, imagePixelCache, 0, width); //Get all pixels
-            int[][] bins = new int[3][256];
+            int[][] colorHistogram = new int[3][256];
+            int[] grayScaleHistogram = new int[255];
             for (int thisPixel = 0; thisPixel < width * height; thisPixel++) {
                 int rgbCombined = imagePixelCache[thisPixel];
                 Color color = new Color(rgbCombined);
-                bins[0][color.getRed()]++;
-                bins[1][color.getGreen()]++;
-                bins[2][color.getBlue()]++;
+                colorHistogram[0][color.getRed()]++;
+                colorHistogram[1][color.getGreen()]++;
+                colorHistogram[2][color.getBlue()]++;
+                int average = (color.getRed() + color.getGreen() + color.getBlue()) / 3;
+                grayScaleHistogram[average]++;
                 digestOs.write(rgbCombined);
             }
             synchronized (result) {
-                result.setHistogram(bins);
+                result.setWidth(width);
+                result.setHeight(height);
+                result.setHistogram(colorHistogram);
+                result.setBlackAndWhiteHistogram(grayScaleHistogram);
                 result.setMD5Checksum(Hex.encodeHexString(digest.digest()));
             }
             logger.info("MD5 checksum and histogram generated in {} ms.", timer.getTime());
@@ -420,7 +426,9 @@ public class PureImageProcessor extends ImageProcessor {
             DigestOutputStream digest2 = new DigestOutputStream(new NullOutputStream(), MessageDigest.getInstance("MD5"));
             
             int[][] hist1 = new int[3][256];
+            int[] bwHist1 = new int[256];
             int[][] hist2 = new int[3][256];
+            int[] bwHist2 = new int[256];
             int[][] diffHist = new int[3][256];
             
             for (int pixel = 0; pixel < resolution; pixel++) {
@@ -440,10 +448,14 @@ public class PureImageProcessor extends ImageProcessor {
                 hist1[0][pixel1.getRed()]++;
                 hist1[1][pixel1.getGreen()]++;
                 hist1[2][pixel1.getBlue()]++;
+                int avg1 = (pixel1.getRed() + pixel1.getGreen() + pixel1.getBlue()) / 3;
+                bwHist1[avg1]++;
                 
                 hist2[0][pixel2.getRed()]++;
                 hist2[1][pixel2.getGreen()]++;
                 hist2[2][pixel2.getBlue()]++;
+                int avg2 = (pixel2.getRed() + pixel2.getGreen() + pixel2.getBlue()) / 3;
+                bwHist2[avg2]++;
                 
                 diffHist[0][diff.getRed()]++;
                 diffHist[1][diff.getGreen()]++;
@@ -461,10 +473,16 @@ public class PureImageProcessor extends ImageProcessor {
             synchronized (first) {
                 first.setMD5Checksum(Hex.encodeHexString(digest1.getMessageDigest().digest()));
                 first.setHistogram(hist1);
+                first.setBlackAndWhiteHistogram(bwHist1);
+                first.setWidth(width);
+                first.setHeight(height);
             }
             synchronized (second) {
                 second.setMD5Checksum(Hex.encodeHexString(digest2.getMessageDigest().digest()));
                 second.setHistogram(hist2);
+                second.setBlackAndWhiteHistogram(bwHist2);
+                second.setWidth(width);
+                second.setHeight(height);
             }
             
             comparison.setFullImage(imageDiff);
