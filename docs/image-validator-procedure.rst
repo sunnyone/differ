@@ -1,3 +1,4 @@
+.. _the_image_validator_procedure:
 The Image Validator Procedure
 .............................
 

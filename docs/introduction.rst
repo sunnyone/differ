@@ -1,5 +1,5 @@
 Introduction
-------------------
+----------------------------------
 
 Developing preservation processes for a trusted digital repository requires the utilization of new methods and technologies, which have helped to accelerate the whole process of control.
 
