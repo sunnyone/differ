@@ -42,7 +42,7 @@ public class HelpTab extends VerticalLayout {
         // /*
         //  * TODO: add http address of documentation in line below
         //  */
-         ExternalHTMLComponent extres = new ExternalHTMLComponent(parent, "https://differ.readthedocs.org/en/latest/web-app");
+         ExternalHTMLComponent extres = new ExternalHTMLComponent(parent, "https://differ.readthedocs.org/en/latest/webapp/");
 
         Component cmp = extres.getComponent();
         cmp.setStyleName("v-embedded-docs");
