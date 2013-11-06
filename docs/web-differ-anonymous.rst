@@ -5,3 +5,4 @@ DIFFER - for anonymous user
    :maxdepth: 2
 
    web-differ-anonymous-proceed
+   web-differ-anonymous-compare

@@ -15,11 +15,3 @@ Here you can choose which images you want to compare.
 
 You see two panels for images.
 
-
-
-
-
-
-
-
-
