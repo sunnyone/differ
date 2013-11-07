@@ -300,11 +300,10 @@ public class ImageMetadataComponentGenerator {
                     if (valA != null && valB != null) {
                         String a = (String) valA.getCaption();
                         String b = (String) valB.getCaption();
-                        if (a.equalsIgnoreCase(b)) {
-                            return "green";
+                        if (a != null && b != null && !a.isEmpty() && !b.isEmpty()) {
+                            return (a.equalsIgnoreCase(b))? "green" : "red";
                         }
                     }
-                    return "red";
                 }
                 return "";
             }
