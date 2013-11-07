@@ -12,6 +12,7 @@ import cz.nkp.differ.gui.components.ProjectHeaderPanel;
 import cz.nkp.differ.gui.components.UserFilesWidget;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
 import cz.nkp.differ.gui.tabs.HelpTab;
+import cz.nkp.differ.gui.tabs.AboutTab;
 import cz.nkp.differ.gui.tabs.ResultManagerTab;
 import cz.nkp.differ.gui.tabs.TabLoader;
 import cz.nkp.differ.util.GeneralMacros;
@@ -42,10 +43,11 @@ public class MainDifferWindow extends Window {
 	MainDifferWindow.createDynamicContentTab(loginContext, "DIFFER", menuTabs);
 	MainDifferWindow.createDynamicContentTab(new ResultManagerTab(this), "Results", menuTabs);
         MainDifferWindow.createDynamicContentTab(new HelpTab(this), "Help", menuTabs);
+        MainDifferWindow.createDynamicContentTab(new AboutTab(this), "About", menuTabs);
 	/*
 	 * Adding the static content tabs
 	 */
-	MainDifferWindow.createStaticContentTab("about_tab", "About", menuTabs);
+	//MainDifferWindow.createStaticContentTab("about_tab", "About", menuTabs);
 	//MainDifferWindow.createStaticContentTab("doc_tab", "Documents", menuTabs);
 	//MainDifferWindow.createStaticContentTab("faq_tab", "FAQ", menuTabs);
 	//MainDifferWindow.createStaticContentTab("tos_tab", "TOS", menuTabs);
