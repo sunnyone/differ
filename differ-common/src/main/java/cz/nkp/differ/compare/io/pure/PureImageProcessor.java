@@ -220,7 +220,7 @@ public class PureImageProcessor extends ImageProcessor {
         private final PureImageProcessorResult result;
 
         public ImageMetadataTask(MetadataExtractor extractor, File image, PureImageProcessorResult result, CostumProgressListener listener) {
-            super(listener, EventType.EXTERNAL_TOOL, null); //FIXME
+            super(listener, EventType.EXTERNAL_TOOL, extractor.getSource());
             this.extractor = extractor;
             this.image = image;
             this.result = result;

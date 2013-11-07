@@ -78,10 +78,9 @@ class PluginDisplayPanel extends VerticalLayout implements WebProgressListener {
         if (message.getProgressType() == ProgressType.FINISH) {
             int finished = message.getNumberOfFinishedTaks();
             float doneInPercent = finished / (numberOfTasks * 1.0f);
-            String newLine = "\n";
-            String text = dateFormat.format(message.getTime())
-                    + String.format(" %s missing done", message.getEventType())
-                    + newLine;
+            String time = dateFormat.format(message.getTime());
+            String text = String.format("%s %s %s done\n", time, message.getEventType(),
+                     message.getToolName());
             synchronized (lock) {
                 progress.setValue(doneInPercent);
                 if (((String) progressDetails.getValue()).isEmpty()) {

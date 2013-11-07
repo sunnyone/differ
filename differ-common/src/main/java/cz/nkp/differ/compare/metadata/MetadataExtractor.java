@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface MetadataExtractor {
 
+    public String getSource();
+    
     public List<ImageMetadata> getMetadata(File imageFile);
 
 }

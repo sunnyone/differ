@@ -32,24 +32,32 @@ public class DaitssHTTPMetadataExtractor extends AbstractMetadataExtractor {
     public void setSource(String source){
         this.source = source;
     }
+    
+    @Override
     public String getSource(){
         return this.source;
     }
+    
     public void setUrl(String url){
         this.url = url;
     }
+    
     public String getUrl(){
         return this.url;
     }
+    
     public void setTransformer(ResultTransformer transformer){
         this.transformer = transformer;
     }
+    
     public ResultTransformer getTransformer(){
         return this.transformer;
     }
+    
     public void setUnits(Map<String,String> units){
         this.units = units;
     }
+    
     public Map<String,String> getUnits (){
         return this.units;
     }
