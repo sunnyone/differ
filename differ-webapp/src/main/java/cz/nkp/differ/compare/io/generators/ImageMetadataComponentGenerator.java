@@ -11,6 +11,7 @@ import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ComparedImagesMetadata;
+import cz.nkp.differ.compare.io.GlitchDetectorResultPostProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
 import cz.nkp.differ.compare.metadata.MetadataGroups;
@@ -185,22 +186,26 @@ public class ImageMetadataComponentGenerator {
     private void generateMetadataTableForTwoResults(final Layout layout) {
         HashMap<String, ComparedImagesMetadata> metadata = getMetadataTable();
         MetadataGroups metadataGroups = DifferApplication.getMetadataGroups();
-        Map<String, ComparedImagesMetadata> profileValidation = filterProfileValidation(metadata);
+        Map<String, ComparedImagesMetadata> profileProps = filterBySource("Profile validation", metadata);
+	Map<String, ComparedImagesMetadata> glitchProps = filterBySource(GlitchDetectorResultPostProcessor.SOURCE_NAME, metadata);
         generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
         generateMetadataTableForTwoResults(layout, "Identification", filterByProperties(metadata, metadataGroups.getIdentificationProperties()));
         generateMetadataTableForTwoResults(layout, "Validation", filterByProperties(metadata, metadataGroups.getValidationProperties()));
         generateMetadataTableForTwoResults(layout, "Characterization", filterByProperties(metadata, metadataGroups.getCharacterizationProperties()));
-        if (!profileValidation.isEmpty()) {
-            generateMetadataTableForTwoResults(layout, "JPEG2000 profile validation", profileValidation);
+        if (!profileProps.isEmpty()) {
+            generateMetadataTableForTwoResults(layout, "JPEG2000 profile validation", profileProps);
+        }
+	if (!glitchProps.isEmpty()) {
+            generateMetadataTableForTwoResults(layout, GlitchDetectorResultPostProcessor.SOURCE_NAME, glitchProps);
         }
         generateMetadataTableForTwoResults(layout, "Others", filterByOtherProperties(metadata, metadataGroups.getAllProperties()));
     }
     
-    private Map<String, ComparedImagesMetadata> filterProfileValidation(HashMap<String, ComparedImagesMetadata> metadata) {
+    private Map<String, ComparedImagesMetadata> filterBySource(String sourceName, HashMap<String, ComparedImagesMetadata> metadata) {
         Set<String> propertiesToRemove = new HashSet<String>();
         Map<String, ComparedImagesMetadata> results = new HashMap<String, ComparedImagesMetadata>();
         for (Map.Entry<String, ComparedImagesMetadata> entry : metadata.entrySet()) {
-            if ("Profile validation".equals(entry.getValue().getSourceName())) {
+            if (sourceName.equals(entry.getValue().getSourceName())) {
                 results.put(entry.getKey(), entry.getValue());
                 propertiesToRemove.add(entry.getKey());
             }
