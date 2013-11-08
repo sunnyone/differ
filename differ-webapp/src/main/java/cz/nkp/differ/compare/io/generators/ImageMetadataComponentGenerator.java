@@ -11,6 +11,7 @@ import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ComparedImagesMetadata;
+import cz.nkp.differ.compare.io.GlitchDetectorResultPostProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
 import cz.nkp.differ.compare.metadata.MetadataGroups;
@@ -183,32 +184,36 @@ public class ImageMetadataComponentGenerator {
     }
     
     private void generateMetadataTableForTwoResults(final Layout layout) {
-        HashMap<String, ComparedImagesMetadata> metadata = getMetadataTable();
-        MetadataGroups metadataGroups = DifferApplication.getMetadataGroups();
-        Map<String, ComparedImagesMetadata> profileValidation = filterProfileValidation(metadata);
-        generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
-        generateMetadataTableForTwoResults(layout, "Identification", filterByProperties(metadata, metadataGroups.getIdentificationProperties()));
-        generateMetadataTableForTwoResults(layout, "Validation", filterByProperties(metadata, metadataGroups.getValidationProperties()));
-        generateMetadataTableForTwoResults(layout, "Characterization", filterByProperties(metadata, metadataGroups.getCharacterizationProperties()));
-        if (!profileValidation.isEmpty()) {
-            generateMetadataTableForTwoResults(layout, "JPEG2000 profile validation", profileValidation);
-        }
-        generateMetadataTableForTwoResults(layout, "Others", filterByOtherProperties(metadata, metadataGroups.getAllProperties()));
+	HashMap<String, ComparedImagesMetadata> metadata = getMetadataTable();
+	MetadataGroups metadataGroups = DifferApplication.getMetadataGroups();
+	Map<String, ComparedImagesMetadata> profileProps = filterBySource("Profile validation", metadata);
+	Map<String, ComparedImagesMetadata> glitchProps = filterBySource(GlitchDetectorResultPostProcessor.SOURCE_NAME, metadata);
+	generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
+	generateMetadataTableForTwoResults(layout, "Identification", filterByProperties(metadata, metadataGroups.getIdentificationProperties()));
+	generateMetadataTableForTwoResults(layout, "Validation", filterByProperties(metadata, metadataGroups.getValidationProperties()));
+	generateMetadataTableForTwoResults(layout, "Characterization", filterByProperties(metadata, metadataGroups.getCharacterizationProperties()));
+	if (!profileProps.isEmpty()) {
+	    generateMetadataTableForTwoResults(layout, "JPEG2000 profile validation", profileProps);
+	}
+	if (!glitchProps.isEmpty()) {
+	    generateMetadataTableForTwoResults(layout, GlitchDetectorResultPostProcessor.SOURCE_NAME, glitchProps);
+	}
+	generateMetadataTableForTwoResults(layout, "Others", filterByOtherProperties(metadata, metadataGroups.getAllProperties()));
     }
     
-    private Map<String, ComparedImagesMetadata> filterProfileValidation(HashMap<String, ComparedImagesMetadata> metadata) {
-        Set<String> propertiesToRemove = new HashSet<String>();
-        Map<String, ComparedImagesMetadata> results = new HashMap<String, ComparedImagesMetadata>();
-        for (Map.Entry<String, ComparedImagesMetadata> entry : metadata.entrySet()) {
-            if ("Profile validation".equals(entry.getValue().getSourceName())) {
-                results.put(entry.getKey(), entry.getValue());
-                propertiesToRemove.add(entry.getKey());
-            }
-        }
-        for (String propertyToRemove : propertiesToRemove) {
-            metadata.remove(propertyToRemove);
-        }
-        return results;
+    private Map<String, ComparedImagesMetadata> filterBySource(String sourceName, HashMap<String, ComparedImagesMetadata> metadata) {
+	Set<String> propertiesToRemove = new HashSet<String>();
+	Map<String, ComparedImagesMetadata> results = new HashMap<String, ComparedImagesMetadata>();
+	for (Map.Entry<String, ComparedImagesMetadata> entry : metadata.entrySet()) {
+	    if (sourceName.equals(entry.getValue().getSourceName())) {
+		results.put(entry.getKey(), entry.getValue());
+		propertiesToRemove.add(entry.getKey());
+	    }
+	}
+	for (String propertyToRemove : propertiesToRemove) {
+	    metadata.remove(propertyToRemove);
+	}
+	return results;
     }
     
     private Map<String, ComparedImagesMetadata> filterByProperties(HashMap<String, ComparedImagesMetadata> metadata, Set<String> allowed) {
@@ -231,12 +236,28 @@ public class ImageMetadataComponentGenerator {
         return results;
     }
     
+    private static class SortableButton extends Button implements Comparable<SortableButton> {
+
+        private final String label;
+
+        SortableButton(String label) {
+            super(label);
+            this.label = label;
+        }
+
+        @Override
+        public int compareTo(SortableButton other) {
+            return label.compareTo(other.label);
+        }
+
+    }
+    
     private void generateMetadataTableForTwoResults(final Layout layout, String group, Map<String, ComparedImagesMetadata> hashmap) {
         final Table metadataTable = new Table(group.toUpperCase());
         metadataTable.addContainerProperty(COLUMN_KEY_PROPERTY, String.class, null);
-        metadataTable.addContainerProperty(COLUMN_SOURCE_PROPERTY, Button.class, null);
-        metadataTable.addContainerProperty(COLUMN_A_VALUE_PROPERTY, Button.class, null);
-        metadataTable.addContainerProperty(COLUMN_B_VALUE_PROPERTY, Button.class, null);
+        metadataTable.addContainerProperty(COLUMN_SOURCE_PROPERTY, SortableButton.class, null);
+        metadataTable.addContainerProperty(COLUMN_A_VALUE_PROPERTY, SortableButton.class, null);
+        metadataTable.addContainerProperty(COLUMN_B_VALUE_PROPERTY, SortableButton.class, null);
         metadataTable.addContainerProperty(COLUMN_UNIT_PROPERTY, String.class, null);
 
         //prevent column overflow
@@ -263,7 +284,6 @@ public class ImageMetadataComponentGenerator {
             row++;
         }
         
-        metadataTable.sort(new String[]{COLUMN_KEY_PROPERTY}, new boolean[]{true});
         metadataTable.setSelectable(true);
         metadataTable.setMultiSelect(false);
         metadataTable.setImmediate(true);
@@ -280,21 +300,20 @@ public class ImageMetadataComponentGenerator {
                     if (valA != null && valB != null) {
                         String a = (String) valA.getCaption();
                         String b = (String) valB.getCaption();
-                        if (a.equalsIgnoreCase(b)) {
-                            return "green";
+                        if (a != null && b != null && !a.isEmpty() && !b.isEmpty()) {
+                            return (a.equalsIgnoreCase(b))? "green" : "red";
                         }
                     }
-                    return "red";
                 }
                 return "";
             }
         });
     }
     
-    private Button createClickableTool(final Layout layout, String source, String version) {       
+    private SortableButton createClickableTool(final Layout layout, String source, String version) {       
         final String toolName = (source == null || source.isEmpty()) ? "tool name unknown" : source;
         final String ver = (version == null || version.isEmpty()) ? "unknown" : version;
-        Button button = new Button(toolName);
+        SortableButton button = new SortableButton(toolName);
         button.addListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
@@ -305,11 +324,11 @@ public class ImageMetadataComponentGenerator {
         return button;
     }
     
-    private Button createClickableValue(final Layout layout, String value, final MetadataSource metadata) {
+    private SortableButton createClickableValue(final Layout layout, String value, final MetadataSource metadata) {
         if (value == null) {
             value = "";
         }
-        Button button = new Button(value);
+        SortableButton button = new SortableButton(value);
         if (metadata != null) {
             button.addListener(new Button.ClickListener() {
                 @Override

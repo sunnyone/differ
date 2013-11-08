@@ -25,11 +25,13 @@ public class ImageProcessorWithPostProcessing extends ImageProcessor {
 
     @Override
     public ImageProcessorResult[] processImages(File a, File b, ProgressListener callback) throws ImageDifferException {
-        ImageProcessorResult[] results = imageProcessor.processImages(a, b, callback);
-        for (ImageProcessorResult result : results) {
-            process(result);
-        }
-        return results;
+	ImageProcessorResult[] results = imageProcessor.processImages(a, b, callback);
+	for (ImageProcessorResult result : results) {
+	    if (result != null) {
+		process(result);
+	    }
+	}
+	return results;
     }
     
     private void process(ImageProcessorResult result) {

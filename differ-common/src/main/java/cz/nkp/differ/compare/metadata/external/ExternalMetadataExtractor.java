@@ -48,6 +48,7 @@ public class ExternalMetadataExtractor extends AbstractMetadataExtractor {
         this.transformer = transformer;
     }
 
+    @Override
     public String getSource() {
         return source;
     }
