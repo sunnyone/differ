@@ -9,9 +9,11 @@ The online application DIFFER is utilizing existing tools (JHOVE, FITS, ExifTool
 
 This open source application comes with a well-structured and uniform GUI, which helps the user to understand the relationships between various file format properties, detect visual and non-visual errors and simplifies decision-making. An additional feature called compliance-check is designed to help us check the required specifications of the JPEG2000 file format.
 
+**Presentations from the Future Perfect 2012 conference in Wellington, New Zealand**
+
 .. raw:: html
 
-	 <iframe width="640" height="360" src="http://www.youtube.com/embed/2u0MxhOZ5h8?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+	 <iframe title="Presentations from the Future Perfect 2012 conference in Wellington, New Zealand" width="640" height="360" src="http://www.youtube.com/embed/2u0MxhOZ5h8?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 
 New project was born
 ....................
