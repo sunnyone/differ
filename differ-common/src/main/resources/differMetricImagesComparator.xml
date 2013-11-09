@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <bean id="differImagesComparator" class="cz.nkp.differ.compare.io.external.ExternalImagesComparator">
+	<property name="extractor" ref="metricMetadataExtractor"/>
+    </bean>
+
+    <bean id="metricMetadataExtractor" class="cz.nkp.differ.compare.metadata.external.ExternalMetadataExtractor">
+      <property name="source" value="metric"/>
+      <property name="transformer" ref="metricMetadataTransformer"/>
+      <property name="programArguments">
+    	<list>
+    	  <value>${metric.binary}</value>
+	  <value>--image1</value>
+    	  <value>{file1}</value>
+	  <value>--image2</value>
+    	  <value>{file2}</value>
+	  <value>--algorithm</value>
+	  <value>all</value>
+	  <value>--colorspace</value>
+	  <value>1</value>
+    	</list>
+      </property>
+      <property name="supportedFileExtensions">
+	<list>
+	  <value>tiff</value>
+	  <value>tif</value>
+	  <value>jpeg</value>
+	  <value>jpg</value>
+	  <value>jp2000</value>
+	  <value>jp2</value>
+	  <value>jpf</value>
+	  <value>jpp</value>
+	  <value>djvu</value>
+	  <value>png</value>
+	  <value>pdf</value>
+	</list>
+      </property>
+    </bean>
+
+    <bean id="metricMetadataTransformer" class="cz.nkp.differ.compare.metadata.external.DifferMetricTransformer" />
+
+</beans>
