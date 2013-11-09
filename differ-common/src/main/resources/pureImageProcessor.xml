@@ -20,9 +20,14 @@
     </bean>
     
     <bean id="pureImageProcessor" class="cz.nkp.differ.compare.io.pure.PureImageProcessor">
-        <constructor-arg ref="imageLoaderFactory"/>
-        <constructor-arg ref="metadataExtractors"/>
-        <property name="config" ref="imageProcessorConfig"/>
+	<constructor-arg ref="imageLoaderFactory"/>
+	<constructor-arg ref="metadataExtractors"/>
+	<property name="config" ref="imageProcessorConfig"/>
+	<property name="imagesComparators">
+	    <list>
+		<ref bean="differImagesComparator"/>
+	    </list>
+	</property>
     </bean>
 
 </beans>

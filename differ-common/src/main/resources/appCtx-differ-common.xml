@@ -9,18 +9,6 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-
-    <!--
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-
-            <list>
-                <value>classpath:/common.properties</value>
-                <value>classpath:/application.properties</value>
-            </list>
-        </property>
-    </bean>
-    -->
     
     <bean id="commandRunner" class="cz.nkp.differ.plugins.tools.CommandRunnerImpl"/>
 
@@ -95,6 +83,9 @@
 
     <!-- imagemagick (identify) -->
     <import resource="imagemagickMetadataExtractor.xml"/>
+
+    <!-- differ metric -->
+    <import resource="differMetricImagesComparator.xml"/>
 
     <!-- djvudump -->
     <bean id="djvudumpMetadataTransformer" class="cz.nkp.differ.compare.metadata.external.RegexpTransformer">

@@ -2,7 +2,7 @@ package cz.nkp.differ.compare.io.external;
 
 import cz.nkp.differ.compare.io.ImagesComparator;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
-import cz.nkp.differ.compare.metadata.external.ExternalMetadataExtractor;
+import cz.nkp.differ.compare.metadata.MetadataExtractorWithAttributes;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ExternalImagesComparator implements ImagesComparator {
 
-    public ExternalMetadataExtractor extractor;
+    public MetadataExtractorWithAttributes extractor;
 
     @Override
     public List<ImageMetadata> getMetadata(File file1, File file2) {
@@ -30,11 +30,11 @@ public class ExternalImagesComparator implements ImagesComparator {
 	return extractor.getSource();
     }
 
-    public ExternalMetadataExtractor getExtractor() {
+    public MetadataExtractorWithAttributes getExtractor() {
 	return extractor;
     }
 
-    public void setExtractor(ExternalMetadataExtractor extractor) {
+    public void setExtractor(MetadataExtractorWithAttributes extractor) {
 	this.extractor = extractor;
     }
 

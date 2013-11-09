@@ -2,6 +2,7 @@ package cz.nkp.differ.compare.metadata.external;
 
 import cz.nkp.differ.compare.metadata.AbstractMetadataExtractor;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
+import cz.nkp.differ.compare.metadata.MetadataExtractorWithAttributes;
 import cz.nkp.differ.compare.metadata.MetadataSource;
 import cz.nkp.differ.compare.metadata.external.ResultTransformer.Entry;
 import cz.nkp.differ.plugins.tools.CommandRunner;
@@ -20,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author xrosecky
  */
-public class ExternalMetadataExtractor extends AbstractMetadataExtractor {
+public class ExternalMetadataExtractor extends AbstractMetadataExtractor implements MetadataExtractorWithAttributes {
     
     Logger logger = LogManager.getLogger(ExternalMetadataExtractor.class);
 

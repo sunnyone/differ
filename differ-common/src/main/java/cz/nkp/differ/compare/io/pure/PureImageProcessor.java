@@ -2,6 +2,7 @@ package cz.nkp.differ.compare.io.pure;
 
 import cz.nkp.differ.compare.io.ImageProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
+import cz.nkp.differ.compare.io.ImagesComparator;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
 import cz.nkp.differ.compare.metadata.MetadataExtractor;
 import cz.nkp.differ.compare.metadata.MetadataExtractors;
@@ -51,6 +52,7 @@ public class PureImageProcessor extends ImageProcessor {
     private ImageLoader imageLoader;
     private ReportGenerator pdfReporter;
     private MetadataExtractors extractors;
+    private List<ImagesComparator> imagesComparators;
     private MetadataSource core = new MetadataSource(0, "", "", "core");
     
     private static class CostumProgressListener implements ProgressListener {
@@ -89,7 +91,15 @@ public class PureImageProcessor extends ImageProcessor {
         this.extractors = extractors;
         this.pdfReporter = new ReportGenerator();
     }
-    
+
+    public List<ImagesComparator> getImagesComparators() {
+	return imagesComparators;
+    }
+
+    public void setImagesComparators(List<ImagesComparator> imageComparators) {
+	this.imagesComparators = imageComparators;
+    }
+
     private abstract class AbstractTask<T> implements Callable<T> {
         
         private final CostumProgressListener listener;
@@ -235,6 +245,30 @@ public class PureImageProcessor extends ImageProcessor {
             return result;
         }
     }
+
+    private class ImagesComparatorTask extends AbstractTask<PureImageProcessorResult> {
+
+	private File file1;
+	private File file2;
+	private ImagesComparator imagesComparator;
+	private PureImageProcessorResult result;
+
+	public ImagesComparatorTask(File file1, File file2, ImagesComparator imagesComparator,
+		PureImageProcessorResult result, CostumProgressListener listener) {
+	    super(listener, EventType.EXTERNAL_TOOL, imagesComparator.getSource());
+	    this.file1 = file1;
+	    this.file2 = file2;
+	    this.imagesComparator = imagesComparator;
+	    this.result = result;
+	}
+
+	@Override
+	protected PureImageProcessorResult callInner() throws Exception {
+	    List<ImageMetadata> metadata = imagesComparator.getMetadata(file1, file2);
+	    result.getMetadata().addAll(metadata);
+	    return result;
+	}
+    }
     
     @Override
     public PureImageProcessorResult processImage(File image, ProgressListener callback) throws ImageDifferException {
@@ -305,6 +339,10 @@ public class PureImageProcessor extends ImageProcessor {
             tasks.add(new ImageMetadataTask(extractor, file1, results[0], listener));
             tasks.add(new ImageMetadataTask(extractor, file2, results[1], listener));
         }
+	for (ImagesComparator imagesComparator : imagesComparators) {
+	    tasks.add(new ImagesComparatorTask(file1,file2, imagesComparator,
+		 results[2], listener));
+	}
         List<Future<PureImageProcessorResult>> futures = execute(tasks);
         markConflicts(results[0]);
         markConflicts(results[1]);
