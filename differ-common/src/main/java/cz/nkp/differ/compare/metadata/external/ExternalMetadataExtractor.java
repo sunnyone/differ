@@ -84,15 +84,6 @@ public class ExternalMetadataExtractor extends AbstractMetadataExtractor {
                 arguments.add(argument);
             }
         }
-        File binary = new File(arguments.get(0));
-        if (!binary.exists()) {
-            logger.error("Binary {} does not exists, fix your configuration!", binary.getAbsolutePath());
-            return Collections.emptyList();
-        }
-        if (!binary.canExecute()) {
-            logger.error("Binary {} can't be executed, fix your configuration!", binary.getAbsolutePath());
-            return Collections.emptyList();
-        }
         try {
             CommandOutput cmdResult = commandRunner.runCommandAndWaitForExit(null, arguments);
             MetadataSource metadataSource = new MetadataSource(cmdResult.getExitCode(), new String(cmdResult.getStdout()),
