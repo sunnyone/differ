@@ -54,6 +54,11 @@ public class ResultManagerImpl implements ResultManager {
 	List<Result> results = new ArrayList<Result>();
 	if (directory != null) {
             File dir = new File(directory);
+	    if (!dir.exists()) {
+		if (!dir.mkdirs()) {
+		    throw new RuntimeException(String.format("Directory %s can't be created.", dir.getAbsolutePath()));
+		}
+	    }
             for (File file : dir.listFiles()) {
                 Result result = new Result();
                 result.setName(file.getName());
