@@ -86,8 +86,16 @@ public class ExternalMetadataExtractor extends AbstractMetadataExtractor {
         }
         try {
             CommandOutput cmdResult = commandRunner.runCommandAndWaitForExit(null, arguments);
-            MetadataSource metadataSource = new MetadataSource(cmdResult.getExitCode(), new String(cmdResult.getStdout()),
-                    new String(cmdResult.getStderr()), source);
+	    String stdout = null;
+	    if (cmdResult.getStdout() != null) {
+		stdout = new String(cmdResult.getStdout());
+	    }
+	    String stderr = null;
+	    if (cmdResult.getStderr() != null) {
+		stderr = new String(cmdResult.getStderr());
+	    }
+            MetadataSource metadataSource = new MetadataSource(cmdResult.getExitCode(), stdout,
+                    stderr, source);
             int exitCode = cmdResult.getExitCode();
             String exitCodeString = "";
             switch (exitCode) {
@@ -112,8 +120,8 @@ public class ExternalMetadataExtractor extends AbstractMetadataExtractor {
                     } else {
                         MetadataSource newSource = sources.get(entry.getSource());
                         if (newSource == null) {
-                            newSource = new MetadataSource(cmdResult.getExitCode(), new String(cmdResult.getStdout()),
-                                    new String(cmdResult.getStderr()), entry.getSource());
+                            newSource = new MetadataSource(cmdResult.getExitCode(), stdout,
+                                    stderr, entry.getSource());
                             sources.put(entry.getSource(), newSource);
                         }
                         metadata = new ImageMetadata(entry.getKey(), entry.getValue(), newSource);
