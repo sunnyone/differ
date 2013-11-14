@@ -1,6 +1,7 @@
 package cz.nkp.differ.gui.windows;
 
 import com.vaadin.data.validator.NullValidator;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
@@ -52,6 +53,7 @@ public class LoginUserWindow extends CustomWindow {
         HorizontalLayout buttonLayout = new HorizontalLayout();
 
         Button login = new Button("Login");
+        login.setClickShortcut(KeyCode.ENTER);
         login.addListener(new LoginButtonClickListener());
         buttonLayout.addComponent(login);
 
