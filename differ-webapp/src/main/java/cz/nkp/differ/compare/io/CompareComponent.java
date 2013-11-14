@@ -63,7 +63,7 @@ public class CompareComponent {
             try {
                 results = imageProcessor.processImages(images[0].getFile(), images[1].getFile(), listener);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                throw new RuntimeException(ex);
             }
         } else {
             results = new ImageProcessorResult[images.length];
@@ -71,7 +71,6 @@ public class CompareComponent {
                 try {
                     results[i] = imageProcessor.processImage(images[i].getFile(), listener);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
                     throw new RuntimeException(ex);
                 }
             }
