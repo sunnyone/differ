@@ -1,19 +1,10 @@
 package cz.nkp.differ.gui.tabs;
 
-import com.vaadin.terminal.ClassResource;
-import com.vaadin.terminal.ExternalResource;
-import com.vaadin.terminal.FileResource;
-import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Window.ResizeListener;
-import com.vaadin.ui.themes.Runo;
-import cz.nkp.differ.DifferApplication;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import cz.nkp.differ.gui.components.ExternalHTMLComponent;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

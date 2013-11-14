@@ -20,9 +20,9 @@ import java.util.logging.Logger;
  * @author Thomas Truax
  * @author Jan Stavel
  */
-public class HelpTab extends VerticalLayout {
+public class DocumentationTab extends VerticalLayout {
     
-    public HelpTab(Window parent) {
+    public DocumentationTab(Window parent) {
         Panel mainpanel = new Panel();
         // CustomLayout custom = new CustomLayout("webapp");
         // mainpanel.setContent(custom);

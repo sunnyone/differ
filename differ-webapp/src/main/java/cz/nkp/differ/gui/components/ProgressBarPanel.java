@@ -4,6 +4,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
+import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.listener.Message;
@@ -71,10 +73,19 @@ public class ProgressBarPanel extends VerticalLayout implements WebProgressListe
     }
 
     @Override
-    public void ready(Object c) {
+    public void onReady(Object c) {
         synchronized (lock) {
             this.removeAllComponents();
             this.addComponent((Component) c);
+        }
+    }
+    
+    @Override 
+    public void onFail(Exception ex) {
+        synchronized (lock) {
+            this.removeAllComponents();
+            DifferApplication.getCurrentApplication().getMainWindow().showNotification("Results can not be generated.",
+                            "<br/>", Window.Notification.TYPE_WARNING_MESSAGE);
         }
     }
 }

@@ -1,6 +1,8 @@
 package cz.nkp.differ.plugins.tools;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Window;
+import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.gui.components.WebProgressListener;
 import cz.nkp.differ.listener.ProgressListener;
@@ -23,11 +25,18 @@ public class PluginPollingThread implements Runnable {
 
     @Override
     public void run() {
-        plugin.waitForResults(callback);
-        Component comp = plugin.getPluginDisplayComponent();
-        if (comp != null) {
-            if (callback instanceof WebProgressListener) {
-                ((WebProgressListener) callback).ready(comp);
+        Exception exception = null;
+        try {
+            plugin.waitForResults(callback);
+        } catch (Exception ex) {
+            exception = ex;
+        }
+        if (exception != null && callback instanceof WebProgressListener) {
+            ((WebProgressListener) callback).onFail(exception);
+        } else {
+            Component comp = plugin.getPluginDisplayComponent();
+            if (comp != null && callback instanceof WebProgressListener) {
+                ((WebProgressListener) callback).onReady(comp);
             }
         }
     }

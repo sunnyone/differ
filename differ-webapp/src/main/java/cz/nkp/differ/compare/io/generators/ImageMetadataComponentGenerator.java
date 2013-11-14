@@ -289,6 +289,7 @@ public class ImageMetadataComponentGenerator {
         metadataTable.setImmediate(true);
         metadataTable.setWidth(2 * TABLE_WIDTH, Sizeable.UNITS_PIXELS);
         metadataTable.setPageLength(Math.min(row, 10));
+        metadataTable.sort(new Object[]{ COLUMN_KEY_PROPERTY }, new boolean[] {true });
         layout.addComponent(metadataTable);
 
         metadataTable.setCellStyleGenerator(new Table.CellStyleGenerator() {

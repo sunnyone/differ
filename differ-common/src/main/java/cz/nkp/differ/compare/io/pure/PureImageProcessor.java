@@ -399,7 +399,7 @@ public class PureImageProcessor extends ImageProcessor {
             int[] imagePixelCache = new int[width * height];
             image.getRGB(0, 0, width, height, imagePixelCache, 0, width); //Get all pixels
             int[][] colorHistogram = new int[3][256];
-            int[] grayScaleHistogram = new int[255];
+            int[] grayScaleHistogram = new int[256];
             for (int thisPixel = 0; thisPixel < width * height; thisPixel++) {
                 int rgbCombined = imagePixelCache[thisPixel];
                 Color color = new Color(rgbCombined);
