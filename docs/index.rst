@@ -12,6 +12,7 @@ The Image Validator - DIFFER
 
    introduction
    image-validator-procedure
+   recognized-extractors
    webapp
    cmdline-app
    important-links
