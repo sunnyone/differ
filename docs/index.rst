@@ -22,21 +22,27 @@ The Image Validator - DIFFER
 
 .. raw:: html
 
-	 <a href="_static/poster.png" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">
+	 <a class="poster" href="_static/poster.png" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">
 
 .. image:: poster-thumbnail.png
 
 .. raw:: html
+
 	 </a>
-
-
-.. raw:: html
-
-	 <a href="https://docs.google.com/file/d/0B9Ah7Og9gY_ORi1kandLZVJ2NEU/preview" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">Poster at Google Disc</a>
-
+         <div class="clear"></div>
+         <STYLE type="text/css">
+         .toctree-wrapper { float: left; }
+         a.poster { }
+         div.clear { clear:both; }
+         </STYLE>
 
 .. toctree::
    :maxdepth: 2
 
    old-index
+
+.. raw:: html
+
+         <div class="clear"></div>
+
 
