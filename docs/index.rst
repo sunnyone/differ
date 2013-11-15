@@ -22,7 +22,7 @@ The Image Validator - DIFFER
 
 .. raw:: html
 
-	 <a href="poster.png" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">
+	 <a href="_static/poster.png" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">
 
 .. image:: poster-thumbnail.png
 
