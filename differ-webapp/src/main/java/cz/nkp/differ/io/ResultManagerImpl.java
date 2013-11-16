@@ -1,7 +1,12 @@
 package cz.nkp.differ.io;
 
 import cz.nkp.differ.DifferApplication;
+import cz.nkp.differ.compare.io.ImageProcessorResult;
+import cz.nkp.differ.compare.io.SerializableImage;
+import cz.nkp.differ.compare.io.SerializableImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
+import cz.nkp.differ.compare.metadata.ImageMetadata;
+import cz.nkp.differ.compare.metadata.MetadataSource;
 import cz.nkp.differ.dao.ResultDAO;
 import cz.nkp.differ.model.Result;
 import cz.nkp.differ.model.User;
@@ -10,7 +15,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
@@ -43,6 +51,43 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
     private ResultDAO resultDAO;
 
     private boolean syncWithFilesystem = true;
+
+    @Override
+    public Result save(ImageProcessorResult[] results, String name) throws IOException {
+	ArrayList<SerializableImageProcessorResult> resultsList = new ArrayList<SerializableImageProcessorResult>();
+        for (ImageProcessorResult result : results) {
+            SerializableImageProcessorResult res = new SerializableImageProcessorResult();
+            try {
+                if (result.getFullImage() != null) {
+                    res.setFullImage(new SerializableImage(result.getFullImage()));
+                }
+                if (result.getPreview() != null) {
+                    res.setPreview(new SerializableImage(result.getPreview()));
+                }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(ResultManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+	    res.setChecksum(result.getMD5Checksum());
+            res.setHistogram(result.getHistogram());
+            res.setType(result.getType());
+            res.setWidth(result.getWidth());
+            res.setHeight(result.getHeight());
+            res.setMetadata(result.getMetadata());
+	    Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
+	    for (ImageMetadata data : result.getMetadata()) {
+		if (!sourcesSet.contains(data.getSource())) {
+		    sourcesSet.add(data.getSource());
+		}
+	    }
+	    List<MetadataSource> sources = new ArrayList<MetadataSource>();
+	    sources.addAll(sourcesSet);
+	    res.setSources(sources);
+            resultsList.add(res);
+        }
+        SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
+        sipr.setResults(resultsList);
+	return save(sipr, name);
+    }
 
     @Override
     public Result save(SerializableImageProcessorResults processorResult, String name) throws IOException {

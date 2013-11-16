@@ -168,39 +168,8 @@ public class CompareComponent {
     }
     
     private void exportResultsToXml(ImageProcessorResult[] ipr) {
-        ArrayList<SerializableImageProcessorResult> resultsList = new ArrayList<SerializableImageProcessorResult>();
-        for (ImageProcessorResult result : ipr) {
-            SerializableImageProcessorResult res = new SerializableImageProcessorResult();
-            try {
-                if (result.getFullImage() != null) {
-                    res.setFullImage(new SerializableImage(result.getFullImage()));
-                }
-                if (result.getPreview() != null) {
-                    res.setPreview(new SerializableImage(result.getPreview()));
-                } 
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(CompareComponent.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            res.setHistogram(result.getHistogram());
-            res.setType(result.getType());
-            res.setWidth(result.getWidth());
-            res.setHeight(result.getHeight());
-            res.setMetadata(result.getMetadata());
-	    Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
-	    for (ImageMetadata data : result.getMetadata()) {
-		if (!sourcesSet.contains(data.getSource())) {
-		    sourcesSet.add(data.getSource());
-		}
-	    }
-	    List<MetadataSource> sources = new ArrayList<MetadataSource>();
-	    sources.addAll(sourcesSet);
-	    res.setSources(sources);
-            resultsList.add(res);
-        }
-        SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
-        sipr.setResults(resultsList);
 	try {
-	    DifferApplication.getResultManager().save(sipr, null);
+	    DifferApplication.getResultManager().save(ipr, null);
 	} catch (IOException ioe) {
 	    ioe.printStackTrace();
 	}
