@@ -52,13 +52,15 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
 
     private boolean syncWithFilesystem = true;
 
+    private boolean saveFullImage = false;
+
     @Override
-    public Result save(ImageProcessorResult[] results, String name) throws IOException {
+    public Result save(ImageProcessorResult[] results, String name, boolean shared) throws IOException {
 	ArrayList<SerializableImageProcessorResult> resultsList = new ArrayList<SerializableImageProcessorResult>();
         for (ImageProcessorResult result : results) {
             SerializableImageProcessorResult res = new SerializableImageProcessorResult();
             try {
-                if (result.getFullImage() != null) {
+                if (saveFullImage && result.getFullImage() != null) {
                     res.setFullImage(new SerializableImage(result.getFullImage()));
                 }
                 if (result.getPreview() != null) {
@@ -86,13 +88,14 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
         }
         SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
         sipr.setResults(resultsList);
-	return save(sipr, name);
+	return save(sipr, name, shared);
     }
 
     @Override
-    public Result save(SerializableImageProcessorResults processorResult, String name) throws IOException {
+    public Result save(SerializableImageProcessorResults processorResult, String name, boolean shared) throws IOException {
 	Result result = new Result();
 	result.setName(name);
+	result.setShared(shared);
 	result.setUserId(DifferApplication.getCurrentApplication().getLoggedUser().getId());
 	resultDAO.persist(result);
 	OutputStream os = new FileOutputStream(getFile(result));
@@ -165,6 +168,14 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
 
     public void setSyncWithFilesystem(boolean syncWithFilesystem) {
 	this.syncWithFilesystem = syncWithFilesystem;
+    }
+
+    public boolean isSaveFullImage() {
+	return saveFullImage;
+    }
+
+    public void setSaveFullImage(boolean saveFullImage) {
+	this.saveFullImage = saveFullImage;
     }
 
     @Override

@@ -12,17 +12,10 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.generators.ImageMetadataComponentGenerator;
-import cz.nkp.differ.compare.metadata.ImageMetadata;
-import cz.nkp.differ.compare.metadata.MetadataSource;
+import cz.nkp.differ.gui.windows.SaveResultWindow;
 import cz.nkp.differ.listener.ProgressListener;
 import cz.nkp.differ.model.Image;
 import cz.nkp.differ.plugins.tools.PluginPollingThread;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 
@@ -156,22 +149,12 @@ public class CompareComponent {
         btnSave.addListener(new ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                exportResultsToXml(ipr);
-                DifferApplication.getMainApplicationWindow().showNotification("Success", 
-                    "<br/>Results XML has been exported successfully," +
-                    "<br/>they can be found in the Results tab", 
-                    Window.Notification.TYPE_HUMANIZED_MESSAGE);                
+                SaveResultWindow window = new SaveResultWindow(ipr);
+		DifferApplication.getMainApplicationWindow().addWindow(window);
             }   
         });
 	btnSave.setImmediate(true);
         return btnSave;
     }
-    
-    private void exportResultsToXml(ImageProcessorResult[] ipr) {
-	try {
-	    DifferApplication.getResultManager().save(ipr, null);
-	} catch (IOException ioe) {
-	    ioe.printStackTrace();
-	}
-    }
+
 }

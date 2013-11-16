@@ -34,7 +34,7 @@ public class DifferController implements ApplicationContextAware {
     @ResponseBody
     public String addResult(@RequestBody SerializableImageProcessorResults body) {
 	try {
-	    manager.save(body, null);
+	    manager.save(body, null, false);
 	} catch (IOException ioe) {
 	    return "<result><status>failed</status><message>io error</message></result>";
 	}
