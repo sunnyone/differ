@@ -69,6 +69,7 @@
     <bean id="resultManager" class="cz.nkp.differ.io.ResultManagerImpl">
         <!--<property name="marshaller" ref="jaxb2Marshaller"/>-->
         <property name="directory" value="${differ.home}/results/"/>
+	<property name="resultDAO" ref="resultDAO"/>
     </bean>
     
     <bean id="editableJP2ProfileProvider" class="cz.nkp.differ.profile.EditableJP2ProfileProviderImpl"/>

@@ -7,6 +7,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
@@ -83,7 +84,9 @@ public class CompareComponent {
             GridLayout grid = new GridLayout(3, 3);
             
             ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, images[0].getFileName());
-            grid.addComponent(iFAC1.getComponent(), 0, 0);
+	    Layout iFAC1Layout = iFAC1.getComponent();
+	    iFAC1Layout.addComponent(addExportResultsButton(results));
+            grid.addComponent(iFAC1Layout, 0, 0);
             
             ImageFileAnalysisContainer iFAC2 = new ImageFileAnalysisContainer(results[1], this, 1, images[1].getFileName());
             grid.addComponent(iFAC2.getComponent(), 1, 0);
@@ -143,6 +146,7 @@ public class CompareComponent {
                     Window.Notification.TYPE_HUMANIZED_MESSAGE);                
             }   
         });
+	btnSave.setImmediate(true);
         return btnSave;
     }
     
@@ -169,18 +173,10 @@ public class CompareComponent {
         }
         SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
         sipr.setResults(resultsList);
-        //FIXME: hardcoded
-        /*
-        ResultManager resultMan = DifferApplication.getResultManager();
-        String resultsDir = "/tmp/differ/" + DifferApplication.getUserManager().getLoggedInUser() + "/results";
-        new File(resultsDir).mkdirs(); //make path in case it don't exist
-        resultMan.setDirectory(resultsDir);
-        resultMan.createJAXBContext(SerializableImageProcessorResults.class);
-        try {
-            resultMan.save(sipr);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(CompareComponent.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
+	try {
+	    DifferApplication.getResultManager().save(sipr, null);
+	} catch (IOException ioe) {
+	    ioe.printStackTrace();
+	}
     }
 }

@@ -31,7 +31,7 @@ public class Result implements Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "created")
-    private Date created;
+    private Date created = new Date();
 
     @Column(name = "user_id")
     private Long userId;

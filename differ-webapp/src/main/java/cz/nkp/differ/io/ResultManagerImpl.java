@@ -1,6 +1,8 @@
 package cz.nkp.differ.io;
 
+import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
+import cz.nkp.differ.dao.ResultDAO;
 import cz.nkp.differ.model.Result;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,24 +30,37 @@ import org.springframework.transaction.annotation.Transactional;
 public class ResultManagerImpl implements ResultManager {
 
     private static final String EXTENSION = ".xml";
+
     private String directory;
+
     private JAXBContext context;
+
     private Marshaller marshaller;
+
     private Unmarshaller unmarshaller;
-    
+
+    private ResultDAO resultDAO;
+
+    public ResultManagerImpl() {
+	init();
+    }
     
     @Override
-    public void save(SerializableImageProcessorResults result) throws IOException {
-	String name = new Date().toString();
-	File outputFile = new File(directory, name + EXTENSION);
+    public Result save(SerializableImageProcessorResults processorResult, String name) throws IOException {
+	Result result = new Result();
+	result.setName(name);
+	result.setUserId(DifferApplication.getCurrentApplication().getLoggedUser().getId());
+	resultDAO.persist(result);
+	File outputFile = new File(directory, result.getId() + EXTENSION);
 	OutputStream os;
 	os = new FileOutputStream(outputFile);
 	StreamResult streamResult = new StreamResult(os);
         try {
-            marshaller.marshal(result, streamResult);
+            marshaller.marshal(processorResult, streamResult);
         } catch (JAXBException ex) {
             Logger.getLogger(ResultManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+	return result;
     }
 
     @Override
@@ -103,15 +117,18 @@ public class ResultManagerImpl implements ResultManager {
     public void setUnmarshaller(Unmarshaller unmarshaller) {
         this.unmarshaller = unmarshaller;
     }
+
+    public ResultDAO getResultDAO() {
+	return resultDAO;
+    }
+
+    public void setResultDAO(ResultDAO resultDAO) {
+	this.resultDAO = resultDAO;
+    }
     
-    /**
-     * Creates a JAXB marshaller context from a given class, then
-     * instantiates the Marshaller and Unmarshaller objects with the created context.
-     * @param class<br/>Example: ClassExample.class
-     */
-    public void createJAXBContext(Class className) {
+    private void init() {
         try {
-            context = JAXBContext.newInstance(className);
+            context = JAXBContext.newInstance(SerializableImageProcessorResults.class);
             this.marshaller = context.createMarshaller();
             this.unmarshaller = context.createUnmarshaller();
         } catch (JAXBException ex) {
