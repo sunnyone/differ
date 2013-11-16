@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ideas List - Google Summer of Code 2013 &mdash; The Image Validator Documentation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="The Image Validator Documentation 0.5 documentation" href="index.html" />
+    <link rel="next" title="Separate long running jobs from web actions" href="running-jobs.html" />
+    <link rel="prev" title="General Source Code Information" href="source.html" /> 
+  </head>
+  <body>
+      <div class="header"><img class="rightlogo" src="_static/differ-logo.png" alt="Logo"/><h1 class="heading"><a href="index.html">
+          <span>The Image Validator Documentation 0.5 documentation</span></a></h1>
+        <h2 class="heading"><span>Ideas List - Google Summer of Code 2013</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="source.html">General Source Code Information</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="running-jobs.html">Separate long running jobs from web actions</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="ideas-list-google-summer-of-code-2013">
+<h1>Ideas List - Google Summer of Code 2013<a class="headerlink" href="#ideas-list-google-summer-of-code-2013" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#web-interface-gui-improvement" id="id1"><strong>Web interface</strong> (GUI) improvement</a><ul>
+<li><a class="reference internal" href="#to-add-and-review-new-features" id="id2">to add and review new features</a></li>
+<li><a class="reference internal" href="#to-add-content-into-project-webpage" id="id3">to add content into project webpage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mapping-of-tools-xml-output-into-web-api" id="id4"><strong>Mapping</strong> of tool’s <strong>XML output</strong> into <strong>web API</strong></a><ul>
+<li><a class="reference internal" href="#to-improve-current-functionalities" id="id5">to <strong>improve</strong> current functionalities</a></li>
+<li><a class="reference internal" href="#more-properties-and-statistics-extracted-from-an-image" id="id6"><strong>more properties</strong> and <strong>statistics</strong> extracted from an image</a></li>
+<li><a class="reference internal" href="#to-create-a-thumbnail-of-an-image-and-to-add-it-into-report" id="id7">to create a <strong>thumbnail</strong> of an image and to add it into report</a></li>
+<li><a class="reference internal" href="#to-suggest-and-implement-useful-tools-for-identification-validation-and-characterization" id="id8">to <strong>suggest</strong> and implement useful tools for <strong>Identification</strong>, <em>Validation</em> and <strong>Characterization</strong></a></li>
+<li><a class="reference internal" href="#result-of-comparion-can-be-in-other-than-text-format" id="id9"><strong>result of comparion</strong> can be in <strong>other</strong> than <strong>text format</strong></a></li>
+<li><a class="reference internal" href="#to-implement-tests-and-to-apply-continuous-integration-practice" id="id10">to implement tests and to apply <strong>Continuous Integration</strong> practice</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improvements-of-existing-functionalities-and-add-new-ones" id="id11">Improvements of <strong>existing functionalities</strong> and add new ones</a><ul>
+<li><a class="reference internal" href="#significant-properties-processing-is-slow" id="id12">significant properties <strong>processing</strong> is <strong>slow</strong></a></li>
+<li><a class="reference internal" href="#calling-of-external-java-extractors-is-slow" id="id13">calling of <strong>external java extractors</strong> is <strong>slow</strong></a></li>
+<li><a class="reference internal" href="#make-a-program-distributed-using-rabbitmq-or-apache-activemq" id="id14">make a program distributed using <strong>RabbitMQ</strong> or <strong>Apache ActiveMQ</strong></a></li>
+<li><a class="reference internal" href="#add-a-way-to-exclude-properties-that-user-does-not-need" id="id15">add a way to <strong>exclude properties</strong> that user does not need</a></li>
+<li><a class="reference internal" href="#to-improve-an-iteration-process-of-recognizing-new-properties" id="id16">to improve an <strong>iteration process</strong> of <strong>recognizing</strong> new properties</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="section" id="web-interface-gui-improvement">
+<h2><a class="toc-backref" href="#id1"><strong>Web interface</strong> (GUI) improvement</a><a class="headerlink" href="#web-interface-gui-improvement" title="Permalink to this headline">¶</a></h2>
+<p>to design of the existing GUI, preserving all the existing functionality</p>
+<div class="section" id="to-add-and-review-new-features">
+<h3><a class="toc-backref" href="#id2">to add and review new features</a><a class="headerlink" href="#to-add-and-review-new-features" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>Widgets, Button, Functionalities, Traffic, Results, Compare, etc.</pre>
+</div>
+</div>
+<div class="section" id="to-add-content-into-project-webpage">
+<h3><a class="toc-backref" href="#id3">to add content into project webpage</a><a class="headerlink" href="#to-add-content-into-project-webpage" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>About, Documentation, FAQ, TOS, Help, etc.</pre>
+</div>
+<p>Any thoughts and improvement are welcome :)</p>
+<p>required skills:</p>
+<ul class="simple">
+<li>Java</li>
+<li>Java Image IO and Image processing</li>
+<li>JUnit testing</li>
+<li>Excellent English (writing and speaking)</li>
+</ul>
+<p>desirable skills:</p>
+<ul class="simple">
+<li>Spring framework</li>
+<li>experience with continuous integration</li>
+<li>Vaadin / GWT (google web toolkit)</li>
+</ul>
+</div>
+</div>
+<div class="section" id="mapping-of-tools-xml-output-into-web-api">
+<h2><a class="toc-backref" href="#id4"><strong>Mapping</strong> of tool’s <strong>XML output</strong> into <strong>web API</strong></a><a class="headerlink" href="#mapping-of-tools-xml-output-into-web-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="to-improve-current-functionalities">
+<h3><a class="toc-backref" href="#id5">to <strong>improve</strong> current functionalities</a><a class="headerlink" href="#to-improve-current-functionalities" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="more-properties-and-statistics-extracted-from-an-image">
+<h3><a class="toc-backref" href="#id6"><strong>more properties</strong> and <strong>statistics</strong> extracted from an image</a><a class="headerlink" href="#more-properties-and-statistics-extracted-from-an-image" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>`Histogram` or `Color map` extracted from an image can help with comparing of two images.</pre>
+</div>
+</div>
+<div class="section" id="to-create-a-thumbnail-of-an-image-and-to-add-it-into-report">
+<h3><a class="toc-backref" href="#id7">to create a <strong>thumbnail</strong> of an image and to add it into report</a><a class="headerlink" href="#to-create-a-thumbnail-of-an-image-and-to-add-it-into-report" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>User could view image in a report.</div></blockquote>
+</div>
+<div class="section" id="to-suggest-and-implement-useful-tools-for-identification-validation-and-characterization">
+<h3><a class="toc-backref" href="#id8">to <strong>suggest</strong> and implement useful tools for <strong>Identification</strong>, <em>Validation</em> and <strong>Characterization</strong></a><a class="headerlink" href="#to-suggest-and-implement-useful-tools-for-identification-validation-and-characterization" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>Great focus is on file format validations. We do not have many tools for JPEG 2000 and DjVu file format,
+see http://djvu.sourceforge.net/doc/index.html.</pre>
+</div>
+</div>
+<div class="section" id="result-of-comparion-can-be-in-other-than-text-format">
+<h3><a class="toc-backref" href="#id9"><strong>result of comparion</strong> can be in <strong>other</strong> than <strong>text format</strong></a><a class="headerlink" href="#result-of-comparion-can-be-in-other-than-text-format" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>It could be great to have a comparison report in `html`.
+Or in `pdf`. Report can be done using JasperReport or Docbook or something similar.</pre>
+</div>
+</div>
+<div class="section" id="to-implement-tests-and-to-apply-continuous-integration-practice">
+<h3><a class="toc-backref" href="#id10">to implement tests and to apply <strong>Continuous Integration</strong> practice</a><a class="headerlink" href="#to-implement-tests-and-to-apply-continuous-integration-practice" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>Tests for significant properties processing.
+Tests for xml export
+    - whether it contains all extracted significant properties that
+      are shown at text output.
+Tests for export XML reports to REST API.
+
+Apply continuous integration practice using site such as www.travis-ci.org.</pre>
+</div>
+<p>required skills:</p>
+<ul class="simple">
+<li>Java</li>
+<li>XSLT</li>
+<li>JUnit testing</li>
+</ul>
+<p>desirable skills:</p>
+<ul class="simple">
+<li>Spring framework</li>
+<li>experience with continuous integration</li>
+</ul>
+</div>
+</div>
+<div class="section" id="improvements-of-existing-functionalities-and-add-new-ones">
+<h2><a class="toc-backref" href="#id11">Improvements of <strong>existing functionalities</strong> and add new ones</a><a class="headerlink" href="#improvements-of-existing-functionalities-and-add-new-ones" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="significant-properties-processing-is-slow">
+<h3><a class="toc-backref" href="#id12">significant properties <strong>processing</strong> is <strong>slow</strong></a><a class="headerlink" href="#significant-properties-processing-is-slow" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>There are a lot of properties that program must collects and normalizes.
+They are stored in ArrayList structure. It is often necessary to select given properties
+by its own name.
+
+Implementing some kind of index by property name must speed up an aplication.
+At least ArrayHash by property name could help.</pre>
+</div>
+</div>
+<div class="section" id="calling-of-external-java-extractors-is-slow">
+<h3><a class="toc-backref" href="#id13">calling of <strong>external java extractors</strong> is <strong>slow</strong></a><a class="headerlink" href="#calling-of-external-java-extractors-is-slow" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>Metadata extractors that are written in java can be called in running JVM
+calling some class methods. It must speed up an application a lot.</pre>
+</div>
+</div>
+<div class="section" id="make-a-program-distributed-using-rabbitmq-or-apache-activemq">
+<h3><a class="toc-backref" href="#id14">make a program distributed using <strong>RabbitMQ</strong> or <strong>Apache ActiveMQ</strong></a><a class="headerlink" href="#make-a-program-distributed-using-rabbitmq-or-apache-activemq" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>The intention is to run the external processes in a separate
+JVM to be more robust and to offer standard integration pattern.</pre>
+</div>
+</div>
+<div class="section" id="add-a-way-to-exclude-properties-that-user-does-not-need">
+<h3><a class="toc-backref" href="#id15">add a way to <strong>exclude properties</strong> that user does not need</a><a class="headerlink" href="#add-a-way-to-exclude-properties-that-user-does-not-need" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>A user will choose properties that will be shown.</pre>
+</div>
+</div>
+<div class="section" id="to-improve-an-iteration-process-of-recognizing-new-properties">
+<h3><a class="toc-backref" href="#id16">to improve an <strong>iteration process</strong> of <strong>recognizing</strong> new properties</a><a class="headerlink" href="#to-improve-an-iteration-process-of-recognizing-new-properties" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>It is difficult to observe all properties that metadata extractors offer.
+So it is possible that some of properties remain unrecognized and they are not never used.
+
+It would be great to offer some debug mode when an application shows all unused properties.
+At the end of an iteration (ie. configuration) an application will show no unused property.</pre>
+</div>
+<p>Or something else. Each improvement is welcome.</p>
+<p>requirements:</p>
+<ul class="simple">
+<li>Java</li>
+<li>XSLT</li>
+<li>JUnit testing</li>
+</ul>
+<p>desirable skills:</p>
+<ul class="simple">
+<li>Spring framework</li>
+<li>experience with continuous integration</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="source.html">General Source Code Information</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="running-jobs.html">Separate long running jobs from web actions</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2012, 2013, Václav Rosecký, Jan Stavěl, Jonatan Svenson, Thomas Truax.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

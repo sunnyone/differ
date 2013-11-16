@@ -1,0 +1,135 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>General Source Code Information &mdash; The Image Validator Documentation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="The Image Validator Documentation 0.5 documentation" href="index.html" />
+    <link rel="next" title="Ideas List - Google Summer of Code 2013" href="gsoc2013-ideas-list.html" />
+    <link rel="prev" title="Links related to the project" href="important-links.html" /> 
+  </head>
+  <body>
+      <div class="header"><img class="rightlogo" src="_static/differ-logo.png" alt="Logo"/><h1 class="heading"><a href="index.html">
+          <span>The Image Validator Documentation 0.5 documentation</span></a></h1>
+        <h2 class="heading"><span>General Source Code Information</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="important-links.html">Links related to the project</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="gsoc2013-ideas-list.html">Ideas List - Google Summer of Code 2013</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="general-source-code-information">
+<h1>General Source Code Information<a class="headerlink" href="#general-source-code-information" title="Permalink to this headline">¶</a></h1>
+<p>Differ is split into three different packages. The differ-cmdline package is used to run differ in a command line environment with export in plaintext and drep (xml) format. The differ-webapp package creates a graphical web interface for the application. The differ-common package holds all classes and resources used by both applications to extract metadata and display it.</p>
+<p>Each extractor tool is run with preset arguments and exported to XML. The application then transforms this data with regexp or xslt and maps it to defined properties.</p>
+<div class="section" id="transformers-of-output-from-external-programs">
+<h2>Transformers of output from external programs<a class="headerlink" href="#transformers-of-output-from-external-programs" title="Permalink to this headline">¶</a></h2>
+<p>Main application context is</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/resources/appCtx-differ-common.xml">https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/resources/appCtx-differ-common.xml</a></div></blockquote>
+<p>Each specified output uses one of the transformers</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/tree/master/differ-common/src/main/java/cz/nkp/differ/compare/metadata/external">https://github.com/Differ-GSOC/differ/tree/master/differ-common/src/main/java/cz/nkp/differ/compare/metadata/external</a></div></blockquote>
+<p>Each tranformation has its own configuration</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/tree/master/differ-common/src/main/resources">https://github.com/Differ-GSOC/differ/tree/master/differ-common/src/main/resources</a></div></blockquote>
+<p>At the end of transformation, some values are normalized with these classes (defined in the configuration of each extractor)</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/tree/master/differ-common/src/main/java/cz/nkp/differ/compare/metadata/external/result">https://github.com/Differ-GSOC/differ/tree/master/differ-common/src/main/java/cz/nkp/differ/compare/metadata/external/result</a></div></blockquote>
+</div>
+<div class="section" id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">¶</a></h2>
+<p>Structure that hold all informations being extracted from all external image metadata extractors</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/java/cz/nkp/differ/compare/io/ImageProcessorResult.java">https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/java/cz/nkp/differ/compare/io/ImageProcessorResult.java</a></div></blockquote>
+<p>All significant properties that are recognized</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/resources/metadataSignificantProperties.xml">https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/resources/metadataSignificantProperties.xml</a></div></blockquote>
+<p>Data structure for metadata</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/java/cz/nkp/differ/compare/metadata/ImageMetadata.java">https://github.com/Differ-GSOC/differ/blob/master/differ-common/src/main/java/cz/nkp/differ/compare/metadata/ImageMetadata.java</a></div></blockquote>
+</div>
+<div class="section" id="cmdline">
+<h2>Cmdline<a class="headerlink" href="#cmdline" title="Permalink to this headline">¶</a></h2>
+<p>Main Class, takes arguments and sends request to extractors and generate report</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/blob/master/differ-cmdline/src/main/java/cz/nkp/differ/cmdline/Main.java">https://github.com/Differ-GSOC/differ/blob/master/differ-cmdline/src/main/java/cz/nkp/differ/cmdline/Main.java</a></div></blockquote>
+<p>Text report output and various formating classes</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/Differ-GSOC/differ/tree/master/differ-cmdline/src/main/java/cz/nkp/differ/cmdline">https://github.com/Differ-GSOC/differ/tree/master/differ-cmdline/src/main/java/cz/nkp/differ/cmdline</a></div></blockquote>
+</div>
+<div class="section" id="web-application">
+<h2>Web application<a class="headerlink" href="#web-application" title="Permalink to this headline">¶</a></h2>
+<p>Main source for web application</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/jstavel/differ/tree/master/differ-webapp/src/main/java/cz/nkp/differ">https://github.com/jstavel/differ/tree/master/differ-webapp/src/main/java/cz/nkp/differ</a></div></blockquote>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is written using Sphinx</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/jstavel/differ/tree/master/docs">https://github.com/jstavel/differ/tree/master/docs</a></div></blockquote>
+<p>Examples of cmdline application outputs</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/jstavel/differ/tree/master/docs/examples">https://github.com/jstavel/differ/tree/master/docs/examples</a></div></blockquote>
+<p>A lot of files with outputs of used extractors</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/jstavel/differ/tree/master/docs/outputs">https://github.com/jstavel/differ/tree/master/docs/outputs</a></div></blockquote>
+<p>Example scripts how the extractors were used</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/jstavel/differ/tree/master/docs/bin">https://github.com/jstavel/differ/tree/master/docs/bin</a></div></blockquote>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="important-links.html">Links related to the project</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="gsoc2013-ideas-list.html">Ideas List - Google Summer of Code 2013</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2012, 2013, Václav Rosecký, Jan Stavěl, Jonatan Svenson, Thomas Truax.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

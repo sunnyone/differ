@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Image Validator Procedure &mdash; The Image Validator Documentation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="The Image Validator Documentation 0.5 documentation" href="index.html" />
+    <link rel="next" title="Recognized extractors" href="recognized-extractors.html" />
+    <link rel="prev" title="About" href="introduction.html" /> 
+  </head>
+  <body>
+      <div class="header"><img class="rightlogo" src="_static/differ-logo.png" alt="Logo"/><h1 class="heading"><a href="index.html">
+          <span>The Image Validator Documentation 0.5 documentation</span></a></h1>
+        <h2 class="heading"><span>The Image Validator Procedure</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="introduction.html">About</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="recognized-extractors.html">Recognized extractors</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="id1">
+<h1>The Image Validator Procedure<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="input-data">
+<h2>Input data<a class="headerlink" href="#input-data" title="Permalink to this headline">¶</a></h2>
+<p>One or two graphic images is the input of the program.</p>
+<p>The program recognizes various graphic formats:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">tiff</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">jpeg</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">png</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">jpeg2000</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">djvu</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">pdf</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">FITS</span></tt></li>
+</ul>
+</div>
+<div class="section" id="identification">
+<h2>Identification<a class="headerlink" href="#identification" title="Permalink to this headline">¶</a></h2>
+<p>The program identifies a format of an image by an extension used in a file name:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">tiff</span></tt>: <cite>*.tiff</cite>, <cite>*.tif</cite></li>
+<li><tt class="docutils literal"><span class="pre">djvu</span></tt>: <cite>*.djvu</cite></li>
+<li><tt class="docutils literal"><span class="pre">jpeg</span> <span class="pre">2000</span></tt>: <cite>*.jp2000</cite>, <cite>*.jpf</cite>, <cite>*.jp2</cite>, <cite>*.jpp</cite></li>
+<li><tt class="docutils literal"><span class="pre">jpeg</span></tt>: <cite>*.jpeg</cite>, <cite>*.jpg</cite></li>
+<li><tt class="docutils literal"><span class="pre">pdf</span></tt>: <cite>*.pdf</cite></li>
+<li><tt class="docutils literal"><span class="pre">png</span></tt>: <cite>*.png</cite></li>
+<li><tt class="docutils literal"><span class="pre">fits</span></tt>: <cite>*.fits</cite></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Users can add more extensions into the file <tt class="docutils literal"><span class="pre">differ-cmdline/src/main/resources/appCtx-differ-cmdline.xml</span></tt> and into the corresponding xml file
+<tt class="docutils literal"><span class="pre">exiftoolMetadataExtractor.xml</span></tt>
+or <tt class="docutils literal"><span class="pre">exiv2MetadataExtractor.xml</span></tt>
+or <tt class="docutils literal"><span class="pre">fitsMetadataExtractor.xml</span></tt>
+or <tt class="docutils literal"><span class="pre">imagemagickMetadataExtractor.xml</span></tt>
+or <tt class="docutils literal"><span class="pre">jhoveMetadataExtractor.xml</span></tt>
+or <tt class="docutils literal"><span class="pre">jpylyzerMetadataExtractor.xml</span></tt>
+or <tt class="docutils literal"><span class="pre">kakaduMetadataExtractor.xml</span></tt></p>
+<p class="last">The xml tag <tt class="docutils literal"><span class="pre">supportedFileExtensions</span></tt> holds information about which file name extensions the given metadata extractor recognizes.</p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Users must call <tt class="docutils literal"><span class="pre">mvn</span> <span class="pre">package</span></tt> in the directory <tt class="docutils literal"><span class="pre">differ-cmdline</span></tt> everytime he or she changes xml files.</p>
+</div>
+</div>
+<div class="section" id="format">
+<h2>Format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h2>
+<p>The program can work with images in format:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">TIFF</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">JPEG</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">DjVu</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">JPEG</span> <span class="pre">2000</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">PDF</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">PNG</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">FITS</span></tt></li>
+</ul>
+</div>
+<div class="section" id="validation-and-characterization">
+<h2>Validation and Characterization<a class="headerlink" href="#validation-and-characterization" title="Permalink to this headline">¶</a></h2>
+<p>The program collects the information calling various image metadata extractors.</p>
+<p>A type of the information can be:</p>
+<ul>
+<li><p class="first">identification:</p>
+<div class="highlight-python"><pre>the information tells basic information about image file or
+tells basic structural information about image format.</pre>
+</div>
+</li>
+<li><p class="first">characterization:</p>
+<div class="highlight-python"><pre>the information describes image in detail.</pre>
+</div>
+</li>
+<li><p class="first">validation:</p>
+<div class="highlight-python"><pre>the information tells that image format is valid and well formed.</pre>
+</div>
+</li>
+</ul>
+<p>The program calls various external programs to extract image metadata depending on image format:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">TIFF</span></tt><ul>
+<li><tt class="docutils literal"><span class="pre">Exiftool</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Exiv2</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Fits</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Imagemagick</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Jhove</span></tt></li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">JPEG</span></tt><ul>
+<li><tt class="docutils literal"><span class="pre">Exiftool</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Exiv2</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Fits</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Imagemagick</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Jhove</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Daitss</span></tt></li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">DjVu</span></tt><ul>
+<li><tt class="docutils literal"><span class="pre">Exiftool</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Exiv2</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Fits</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Imagemagick</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Jhove</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Daitss</span></tt></li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">JPEG</span> <span class="pre">2000</span></tt><ul>
+<li><tt class="docutils literal"><span class="pre">Exiftool</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Exiv2</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Fits</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Imagemagick</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Jhove</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Daitss</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">JPylyzer</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">KDU_expand</span></tt></li>
+</ul>
+</li>
+</ul>
+<p>TODO: png, pdf, djvu, fits doplnit plus nastroje</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Detailed information about each external program can be seen in <a href="#id2"><span class="problematic" id="id3">`Recognized Extractor Outputs`_</span></a>.</p>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="introduction.html">About</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="recognized-extractors.html">Recognized extractors</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2012, 2013, Václav Rosecký, Jan Stavěl, Jonatan Svenson, Thomas Truax.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Command Line Application &mdash; The Image Validator Documentation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="The Image Validator Documentation 0.5 documentation" href="index.html" />
+    <link rel="next" title="Links related to the project" href="important-links.html" />
+    <link rel="prev" title="Create new profile" href="web-differ-registered-create-new-profile.html" /> 
+  </head>
+  <body>
+      <div class="header"><img class="rightlogo" src="_static/differ-logo.png" alt="Logo"/><h1 class="heading"><a href="index.html">
+          <span>The Image Validator Documentation 0.5 documentation</span></a></h1>
+        <h2 class="heading"><span>Command Line Application</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="web-differ-registered-create-new-profile.html">Create new profile</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="important-links.html">Links related to the project</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="command-line-application">
+<h1>Command Line Application<a class="headerlink" href="#command-line-application" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="arguments-of-the-application">
+<h2>Arguments of the application<a class="headerlink" href="#arguments-of-the-application" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The application can validate one image or compare two images.</dt>
+<dd><table border="1" class="first last docutils">
+<colgroup>
+<col width="21%" />
+<col width="4%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Argument</th>
+<th class="head">&nbsp;</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#8211;save-report</td>
+<td>-s</td>
+<td>Save report into file with the same name and with extension drep</td>
+</tr>
+<tr class="row-odd"><td>&#8211;load-report</td>
+<td>-l</td>
+<td>Load report from a given file and print it in a readable form at stdout</td>
+</tr>
+<tr class="row-even"><td>&#8211;include-image-in-report</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>&#8211;save-raw-outputs</td>
+<td>-r</td>
+<td>save raw outputs from validators into files</td>
+</tr>
+<tr class="row-even"><td>&#8211;load-properties</td>
+<td>&nbsp;</td>
+<td>program will print just properties that have value 1 in the file defined by this argument</td>
+</tr>
+<tr class="row-odd"><td>&#8211;save-properties</td>
+<td>&nbsp;</td>
+<td>program will print out all known properties</td>
+</tr>
+<tr class="row-even"><td>&#8211;send-report-to-web</td>
+<td>-w</td>
+<td>program will send report to web</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>Compare report contains both validation and comparision report.</p>
+<p>The property list can be added to choose which properties should be printed</p>
+</div>
+<div class="section" id="example-of-property-list-definition">
+<h2>Example of property list definition<a class="headerlink" href="#example-of-property-list-definition" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>Image width;1
+Image height;0</pre>
+</div>
+<p>Property Image width will be printed and Image height will not be printed.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="program-usage">
+<h3>Program usage<a class="headerlink" href="#program-usage" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>validates image, prints readable report to stdout and saves it into file image.drep
+c:\&gt; differ.bat --save-report image.jpg
+
+loads report from file image.drep and prints it to stdout
+c:\&gt; differ.bat --load-report image.drep
+
+validates images and compares it and prints report to stdout
+and save it into file image1.drep and image2.drep
+c:\&gt; differ.bat --save-report image1.jpg image2.jpg
+
+validates images and compares it and prints report readable way to stdout
+The program will print properties regarding to a file properties.lst
+c:\&gt; differ.bat --load-properties properties.lst image1.jpg image2.jpg
+
+print properties in a format that can be used t choose the properties to be printed in future export
+c:\&gt; differ.bat --show-properties</pre>
+</div>
+</div>
+<div class="section" id="example-output-one-image-validation">
+<h3>Example output: One image validation<a class="headerlink" href="#example-output-one-image-validation" title="Permalink to this headline">¶</a></h3>
+<p>See <a class="reference download internal" href="_downloads/cmdline.txt"><tt class="xref download docutils literal"><span class="pre">this</span> <span class="pre">example</span> <span class="pre">export</span></tt></a>.</p>
+</div>
+<div class="section" id="example-output-compare-two-images-and-validate">
+<h3>Example output: Compare two images and validate<a class="headerlink" href="#example-output-compare-two-images-and-validate" title="Permalink to this headline">¶</a></h3>
+<p>See <a class="reference download internal" href="_downloads/cmdline-compare.txt"><tt class="xref download docutils literal"><span class="pre">this</span> <span class="pre">example</span> <span class="pre">export</span></tt></a>.</p>
+</div>
+<div class="section" id="example-output-pdf-export">
+<h3>Example output: PDF Export<a class="headerlink" href="#example-output-pdf-export" title="Permalink to this headline">¶</a></h3>
+<p>The application also exports a simple PDF using DynamicReports library.
+See <a class="reference download internal" href="_downloads/report.pdf"><tt class="xref download docutils literal"><span class="pre">this</span> <span class="pre">example</span> <span class="pre">export</span></tt></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can see many more examples in the docs/ folder</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Developers and unix users can use the helpful bash scripts in the folder differ-cmdline/ to run the application. The application must be compiled with Maven to the jar file before these can be run. Validation in run.sh and compare in run-two.sh. Edit the file and comment out the lines you don&#8217;t want.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="web-differ-registered-create-new-profile.html">Create new profile</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="important-links.html">Links related to the project</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2012, 2013, Václav Rosecký, Jan Stavěl, Jonatan Svenson, Thomas Truax.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

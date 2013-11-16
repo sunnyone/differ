@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tests of Metadata Extractors &mdash; The Image Validator Documentation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="The Image Validator Documentation 0.5 documentation" href="index.html" /> 
+  </head>
+  <body>
+      <div class="header"><img class="rightlogo" src="_static/differ-logo.png" alt="Logo"/><h1 class="heading"><a href="index.html">
+          <span>The Image Validator Documentation 0.5 documentation</span></a></h1>
+        <h2 class="heading"><span>Tests of Metadata Extractors</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <style> .red {color:red} </style>
+<style> .green {color:green} </style>
+<style> .yellow {color:yellow} </style><div class="section" id="tests-of-metadata-extractors">
+<h1>Tests of Metadata Extractors<a class="headerlink" href="#tests-of-metadata-extractors" title="Permalink to this headline">¶</a></h1>
+<p>Tests are important to make sure that the properties from metadata extractors are properly mapped into the application.</p>
+<p>The most significant tests are:</p>
+<ul class="simple">
+<li>Verifying that all properties from metadata extractor are handled in one way or another.</li>
+<li>Checking that the output value after transformation matches the raw extractor metadata.</li>
+</ul>
+<dl class="docutils">
+<dt>Each extractor is contained to its own test application context.</dt>
+<dd>src/test/resources/${extractor}UnitTest.xml=</dd>
+</dl>
+<p>The context includes:</p>
+<ul class="simple">
+<li>File with raw output from metadata extractor to run through transformer</li>
+<li>Significant properties list recognized manually for a given image</li>
+<li>Ignored properties that extractor recognizes but that are not considered significant</li>
+<li>Special properties that pass tests even thought they don&#8217;t match exactly with output from other extractors (such as file size differences)</li>
+</ul>
+<table border="1" class="docutils">
+<caption>List of tests run</caption>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Metadata extractor</th>
+<th class="head">Image</th>
+<th class="head">File with recognized significant properties</th>
+<th class="head">File with raw output</th>
+<th class="head">Verified</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>jpylyzerMetadataExtractor</td>
+<td>examples/images_01/14.jpf</td>
+<td>resources/tests/image14-significant-properties.xml</td>
+<td>examples/images_01/14/output-jpylyzer.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-odd"><td>jhoveMetadataExtractor</td>
+<td>examples/images_01/14.jpf</td>
+<td>resources/tests/image14-significant-properties.xml</td>
+<td>examples/images_01/14/output-jhove.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-even"><td>jhoveMetadataExtractor</td>
+<td>examples/images_01/01.jpg</td>
+<td>resources/tests/image01-significant-properties.xml</td>
+<td>examples/images_01/01/output-jhove.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-odd"><td>kakaduMetadataExtractor</td>
+<td>examples/images_01/14.jpf</td>
+<td>resources/tests/image14-significant-properties.xml</td>
+<td>examples/images_01/14/output-kakadu.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-even"><td>imagemagickMetadataExtractor</td>
+<td>examples/images_01/01.jpg</td>
+<td>resources/tests/image01-significant-properties.xml</td>
+<td>examples/images_01/01/output-imagemagick.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-odd"><td>imagemagickMetadataExtractor</td>
+<td>examples/images_14/14.jpf</td>
+<td>resources/tests/image01-significant-properties.xml</td>
+<td>examples/images_01/14/output-imagemagick.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-even"><td>djvudumpMetadataExtractor</td>
+<td>docs/examples/images/05.djvu</td>
+<td>resources/tests/image05-significant-properties.xml</td>
+<td>docs/examples/images/05/output-djvudump.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-odd"><td>exiftoolMetadataExtractor</td>
+<td>images/images_01/01.jpg</td>
+<td>resources/tests/image01-significant-properties.xml</td>
+<td>images/images_02/01/output-exiftool.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+<tr class="row-even"><td>exiftoolMetadataExtractor</td>
+<td>examples/images_01/14.jpf</td>
+<td>resources/tests/image14-significant-properties.xml</td>
+<td>examples/images_01/14/output-exiftool.raw</td>
+<td><span class="green">OK</span></td>
+</tr>
+</tbody>
+</table>
+<p>To create a new test for a new image:</p>
+<ol class="arabic simple">
+<li>Go to the appropriate test class</li>
+<li>Create a new method copying the previous test with &#64;Test annotation</li>
+<li>Import the image properties with &#64;Resource (these are the properties from context file). Change in the method all imports to point to this file.</li>
+<li>Create resources in appropriate test context file in /resources by copying previous test already in the context file</li>
+</ol>
+<p>5) Change the names of the copied data to reflect the import done in 3) with &#64;Resource
+5a) If it&#8217;s the first time running the test, add a line in test method to fetch context metadata before running the test: TestHelper.printTransformedMetadata(List&lt;ResultTransformer.Entry&gt; transformedData, LinkedHashMap signProperties); Add the output to appropiate context file as created in 3).
+6) Run JUnit tests. Inspect results and move properties to ignored if they should pass even though they don&#8217;t match with other extractors metadata.</p>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2012, 2013, Václav Rosecký, Jan Stavěl, Jonatan Svenson, Thomas Truax.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

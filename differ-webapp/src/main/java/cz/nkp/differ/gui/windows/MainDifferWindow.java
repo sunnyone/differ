@@ -2,20 +2,20 @@ package cz.nkp.differ.gui.windows;
 
 import java.io.IOException;
 
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import cz.nkp.differ.gui.components.ProjectFooterComponent;
 
+import cz.nkp.differ.gui.components.ProjectFooterComponent;
 import cz.nkp.differ.gui.components.ProjectHeaderPanel;
 import cz.nkp.differ.gui.components.UserFilesWidget;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
-import cz.nkp.differ.gui.tabs.DocumentationTab;
-import cz.nkp.differ.gui.tabs.AboutTab;
 import cz.nkp.differ.gui.tabs.ResultManagerTab;
 import cz.nkp.differ.gui.tabs.TabLoader;
 import cz.nkp.differ.util.GeneralMacros;
+
 import java.util.List;
 
 /**
@@ -42,13 +42,13 @@ public class MainDifferWindow extends Window {
         DifferProgramTab loginContext = new DifferProgramTab(this);
 	MainDifferWindow.createDynamicContentTab(loginContext, "DIFFER", menuTabs);
 	MainDifferWindow.createDynamicContentTab(new ResultManagerTab(this), "Results", menuTabs);
-        MainDifferWindow.createDynamicContentTab(new DocumentationTab(this), "Documentation", menuTabs);
-        MainDifferWindow.createDynamicContentTab(new AboutTab(this), "About", menuTabs);
+    //MainDifferWindow.createDynamicContentTab(new DocumentationTab(this), "Documentation", menuTabs);
+    //    MainDifferWindow.createDynamicContentTab(new AboutTab(this), "About", menuTabs);
 	/*
 	 * Adding the static content tabs
 	 */
-	//MainDifferWindow.createStaticContentTab("about_tab", "About", menuTabs);
-	//MainDifferWindow.createStaticContentTab("doc_tab", "Documents", menuTabs);
+	MainDifferWindow.createStaticContentTab("doc_tab", "Documents", menuTabs);
+	MainDifferWindow.createStaticContentTab("about_tab", "About", menuTabs);
 	//MainDifferWindow.createStaticContentTab("faq_tab", "FAQ", menuTabs);
 	//MainDifferWindow.createStaticContentTab("tos_tab", "TOS", menuTabs);
 	//MainDifferWindow.createStaticContentTab("help_tab", "Help", menuTabs);
