@@ -12,11 +12,16 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.generators.ImageMetadataComponentGenerator;
+import cz.nkp.differ.compare.metadata.ImageMetadata;
+import cz.nkp.differ.compare.metadata.MetadataSource;
 import cz.nkp.differ.listener.ProgressListener;
 import cz.nkp.differ.model.Image;
 import cz.nkp.differ.plugins.tools.PluginPollingThread;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
@@ -32,9 +37,12 @@ public class CompareComponent {
     private PluginPollingThread currentThread;
     private Image[] images;
     private ImageProcessorResult[] results;
-    
-    public String getName() {
-	return "Compare";
+
+    public CompareComponent() {
+    }
+
+    public CompareComponent(ImageProcessorResult[] results) {
+	this.results = results;
     }
 
     public void showSeriousError(String message) {
@@ -79,16 +87,24 @@ public class CompareComponent {
     }
 
     public Component getPluginDisplayComponent() {
-	if (images.length == 2) {
+	if ((images != null && images.length == 2) || (results.length == 2 || results.length == 3)) {
             
             GridLayout grid = new GridLayout(3, 3);
-            
-            ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, images[0].getFileName());
+
+	    String fileName1 = ""; // FIXME: add image filename to results
+	    if (images != null) {
+		fileName1 =images[0].getFileName();
+	    }
+            ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, fileName1);
 	    Layout iFAC1Layout = iFAC1.getComponent();
 	    iFAC1Layout.addComponent(addExportResultsButton(results));
             grid.addComponent(iFAC1Layout, 0, 0);
-            
-            ImageFileAnalysisContainer iFAC2 = new ImageFileAnalysisContainer(results[1], this, 1, images[1].getFileName());
+
+	    String fileName2 = "";
+	    if (images != null) {
+		fileName2 =images[1].getFileName();
+	    }
+            ImageFileAnalysisContainer iFAC2 = new ImageFileAnalysisContainer(results[1], this, 1, fileName2);
             grid.addComponent(iFAC2.getComponent(), 1, 0);
             
             ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
@@ -98,7 +114,8 @@ public class CompareComponent {
             
             if (results[2] != null) {
                 Label comparedChecksum;
-		if (iFAC1.getChecksum().equals(iFAC2.getChecksum())) {
+		if (iFAC1.getChecksum() != null && iFAC2.getChecksum() != null
+			&& iFAC1.getChecksum().equals(iFAC2.getChecksum())) {
                     comparedChecksum = new Label("Image hash values are equal.", Label.CONTENT_XHTML);
                 } else {
                     comparedChecksum = new Label("Image hash values are NOT equal.", Label.CONTENT_XHTML);
@@ -169,6 +186,15 @@ public class CompareComponent {
             res.setWidth(result.getWidth());
             res.setHeight(result.getHeight());
             res.setMetadata(result.getMetadata());
+	    Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
+	    for (ImageMetadata data : result.getMetadata()) {
+		if (!sourcesSet.contains(data.getSource())) {
+		    sourcesSet.add(data.getSource());
+		}
+	    }
+	    List<MetadataSource> sources = new ArrayList<MetadataSource>();
+	    sources.addAll(sourcesSet);
+	    res.setSources(sources);
             resultsList.add(res);
         }
         SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();

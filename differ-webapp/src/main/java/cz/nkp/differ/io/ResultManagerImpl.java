@@ -4,12 +4,12 @@ import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
 import cz.nkp.differ.dao.ResultDAO;
 import cz.nkp.differ.model.Result;
+import cz.nkp.differ.model.User;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +19,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -27,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Thomas Truax
  */
 @Transactional
-public class ResultManagerImpl implements ResultManager {
+public class ResultManagerImpl implements ResultManager, InitializingBean {
 
     private static final String EXTENSION = ".xml";
 
@@ -41,19 +42,15 @@ public class ResultManagerImpl implements ResultManager {
 
     private ResultDAO resultDAO;
 
-    public ResultManagerImpl() {
-	init();
-    }
-    
+    private boolean syncWithFilesystem = true;
+
     @Override
     public Result save(SerializableImageProcessorResults processorResult, String name) throws IOException {
 	Result result = new Result();
 	result.setName(name);
 	result.setUserId(DifferApplication.getCurrentApplication().getLoggedUser().getId());
 	resultDAO.persist(result);
-	File outputFile = new File(directory, result.getId() + EXTENSION);
-	OutputStream os;
-	os = new FileOutputStream(outputFile);
+	OutputStream os = new FileOutputStream(getFile(result));
 	StreamResult streamResult = new StreamResult(os);
         try {
             marshaller.marshal(processorResult, streamResult);
@@ -65,26 +62,17 @@ public class ResultManagerImpl implements ResultManager {
 
     @Override
     public List<Result> getResults() {
-	List<Result> results = new ArrayList<Result>();
-	if (directory != null) {
-            File dir = new File(directory);
-	    if (!dir.exists()) {
-		if (!dir.mkdirs()) {
-		    throw new RuntimeException(String.format("Directory %s can't be created.", dir.getAbsolutePath()));
-		}
-	    }
-            for (File file : dir.listFiles()) {
-                Result result = new Result();
-                result.setName(file.getName());
-                results.add(result);
-            }
-        }
-	return results;
+	User loggedUser = DifferApplication.getCurrentApplication().getLoggedUser();
+	if (loggedUser == null) {
+	    return resultDAO.findAllShared(); 
+	} else {
+	    return resultDAO.findByUser(loggedUser);
+	}
     }
 
     @Override
     public SerializableImageProcessorResults getResult(Result result) throws IOException {
-	File input = new File(directory, result.getName());
+	File input = getFile(result);
 	StreamSource source = new StreamSource(new FileInputStream(input));
         try {
             return (SerializableImageProcessorResults)unmarshaller.unmarshal(source);
@@ -125,14 +113,43 @@ public class ResultManagerImpl implements ResultManager {
     public void setResultDAO(ResultDAO resultDAO) {
 	this.resultDAO = resultDAO;
     }
-    
-    private void init() {
-        try {
-            context = JAXBContext.newInstance(SerializableImageProcessorResults.class);
-            this.marshaller = context.createMarshaller();
-            this.unmarshaller = context.createUnmarshaller();
-        } catch (JAXBException ex) {
-            Logger.getLogger(ResultManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    public boolean isSyncWithFilesystem() {
+	return syncWithFilesystem;
     }
+
+    public void setSyncWithFilesystem(boolean syncWithFilesystem) {
+	this.syncWithFilesystem = syncWithFilesystem;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+	context = JAXBContext.newInstance(SerializableImageProcessorResults.class);
+	marshaller = context.createMarshaller();
+	unmarshaller = context.createUnmarshaller();
+	File dir = new File(directory);
+	if (!dir.exists()) {
+	    if (!dir.mkdirs()) {
+		throw new RuntimeException(String.format("Directory %s can't be created.", dir.getAbsolutePath()));
+	    }
+	}
+	if (syncWithFilesystem) {
+	    doSyncWithFilesystem();
+	}
+    }
+
+    private void doSyncWithFilesystem() {
+	for (Result result : resultDAO.findAll()) {
+	    File file = getFile(result);
+	    if (!file.exists()) {
+		resultDAO.delete(result);
+	    }
+	}
+    }
+
+    private File getFile(Result result) {
+	String fileName = Long.toString(result.getId()) + EXTENSION;
+	return new File(directory, fileName);
+    }
+
 }

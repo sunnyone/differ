@@ -147,14 +147,18 @@ public class ImageMetadataComponentGenerator {
         HashMap<String, ComparedImagesMetadata> hashmap = new HashMap<String, ComparedImagesMetadata>();
         for (int resultIndex = 0; resultIndex < result.length; resultIndex++) {
             for (ImageMetadata data : result[resultIndex].getMetadata()) {
-                String id = data.getKey() + "&&" + data.getSource().getSourceName();
+		String sourceName = "unknown";
+		if (data.getSource() != null && data.getSource().getSourceName() != null) {
+		    sourceName = data.getSource().getSourceName();
+		}
+                String id = data.getKey() + "&&" + sourceName;
                 ComparedImagesMetadata cim = hashmap.get(id);
                 if (cim == null) {
                     cim = new ComparedImagesMetadata(id);
                     cim.setKey(data.getKey());
                     cim.setUnit(data.getUnit());
                     cim.setConflict(data.isConflict());
-                    cim.setSourceName(data.getSource().getSourceName());
+                    cim.setSourceName(sourceName);
                     ImageMetadata[] metadata = new ImageMetadata[result.length + 1];
                     if (data.getValue() != null) {
                         metadata[resultIndex] = data;

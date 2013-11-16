@@ -18,7 +18,12 @@ public class ResultHibernateDAO extends GenericHibernateDAO<Result, Long> implem
 
     @Override
     public List<Result> findByUser(User user) {
-	return getHibernateTemplate().find("from Result where userId = ?", user.getId());
+	return (List<Result>) getHibernateTemplate().find("from Result where userId = ?", user.getId());
+    }
+
+    @Override
+    public List<Result> findAll() {
+	return (List<Result>) getHibernateTemplate().find("from Result");
     }
 
 }

@@ -11,6 +11,8 @@ import cz.nkp.differ.model.User;
  */
 public interface ResultDAO extends GenericDAO<Result, Long> {
 
+    public List<Result> findAll();
+
     public List<Result> findByUser(User user);
 
     public List<Result> findAllShared();

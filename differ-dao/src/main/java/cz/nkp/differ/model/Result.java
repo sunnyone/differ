@@ -36,6 +36,9 @@ public class Result implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "shared")
+    private boolean shared = false;
+
     public Long getId() {
 	return id;
     }
@@ -66,6 +69,14 @@ public class Result implements Serializable {
 
     public void setUserId(Long userId) {
 	this.userId = userId;
+    }
+
+    public boolean isShared() {
+	return shared;
+    }
+
+    public void setShared(boolean shared) {
+	this.shared = shared;
     }
 
 }
