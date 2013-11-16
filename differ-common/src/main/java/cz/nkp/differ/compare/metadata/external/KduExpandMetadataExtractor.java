@@ -47,6 +47,7 @@ public class KduExpandMetadataExtractor extends ExternalMetadataExtractor {
             entry.setSource(source);
             entry.setKey(profile.getName());
             entry.setValue(Boolean.toString(validationResult.isValid()));
+	    entry.setData(validationResult);
             result.add(entry);
         }
         return result;

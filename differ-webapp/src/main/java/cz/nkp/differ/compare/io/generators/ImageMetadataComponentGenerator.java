@@ -14,9 +14,10 @@ import cz.nkp.differ.compare.io.ComparedImagesMetadata;
 import cz.nkp.differ.compare.io.GlitchDetectorResultPostProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
+import cz.nkp.differ.compare.metadata.JP2ProfileValidationResult;
 import cz.nkp.differ.compare.metadata.MetadataGroups;
-import cz.nkp.differ.compare.metadata.MetadataSource;
 import cz.nkp.differ.exceptions.FatalDifferException;
+import cz.nkp.differ.gui.windows.JP2ProfileValidationResultWindow;
 import cz.nkp.differ.gui.windows.RawDataWindow;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -324,9 +325,14 @@ public class ImageMetadataComponentGenerator {
             button.addListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    Window rawDataWindow = new RawDataWindow(parent, data.getSource());
+		    Window window = null;
+		    if (data.getData() == null) {
+			window = new RawDataWindow(parent, data.getSource());
+		    } if (data.getData() instanceof JP2ProfileValidationResult) {
+			window = new JP2ProfileValidationResultWindow((JP2ProfileValidationResult) data.getData());
+		    }
                     Window mainWindow = DifferApplication.getMainApplicationWindow();
-                    mainWindow.addWindow(rawDataWindow);
+                    mainWindow.addWindow(window);
                 }
             });
         }

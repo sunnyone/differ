@@ -3,6 +3,7 @@ package cz.nkp.differ.compare.metadata;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -19,6 +20,8 @@ public class ImageMetadata {
     private boolean conflict;
     @XmlIDREF
     private MetadataSource source;
+    @XmlTransient
+    private Object data;
 
     public ImageMetadata() {
 	
@@ -69,4 +72,13 @@ public class ImageMetadata {
     public void setConflict(boolean conflict) {
         this.conflict = conflict;
     }
+
+    public Object getData() {
+	return data;
+    }
+
+    public void setData(Object data) {
+	this.data = data;
+    }
+    
 }
