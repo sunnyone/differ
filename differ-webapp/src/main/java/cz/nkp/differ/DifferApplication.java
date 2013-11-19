@@ -17,8 +17,6 @@ import cz.nkp.differ.util.TemporaryFilesCleaner;
 import eu.livotov.tpt.TPTApplication;
 import java.security.Security;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.servlet.ServletContext;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -45,7 +43,6 @@ public class DifferApplication extends TPTApplication {
     protected static ResultManager resultManager = null;
     protected static ImageThumbnailProvider imageThumbnailProvider = null;
     protected static ApplicationContext applicationContext = null;
-    protected static MainDifferWindow mainDifferWindow = null;
     protected static EditableJP2ProfileProvider editableJP2ProfileProvider = null;
     protected static MetadataGroups metadataGroups = null;
     protected static Configuration configuration = null;
@@ -97,13 +94,7 @@ public class DifferApplication extends TPTApplication {
         metadataGroups = (MetadataGroups) applicationContext.getBean("metadataGroups");
         
         configuration = (Configuration) applicationContext.getBean("differConfiguration");
-        //FIXME: hardcoded
-        /*
-        String resultsPath = "/tmp/differ/" + userManager.getLoggedInUser() + "/results";
-        new File(resultsPath).mkdirs(); //create results folder if doesn't exist
-        resultManager.setDirectory(resultsPath);
-        */
-	mainDifferWindow = new MainDifferWindow();
+	Window mainDifferWindow = new MainDifferWindow();
 	mainDifferWindow.setSizeUndefined();
 	setMainWindow(mainDifferWindow);
         
@@ -114,7 +105,6 @@ public class DifferApplication extends TPTApplication {
             mainDifferWindow.addComponent(gaTracker);
             gaTracker.trackPageview("/");
         }
-       
     }
 
     @Override
@@ -186,12 +176,13 @@ public class DifferApplication extends TPTApplication {
         return (DifferApplication) TPTApplication.getCurrentApplication();
     }
 
+    
     public static Window getMainApplicationWindow() {
-        return mainDifferWindow;
+        return getCurrentApplication().getMainWindow();
     }
 
     public float getScreenWidth() {
-	return getMainWindow().getWidth();
+	return getCurrentApplication().getMainWindow().getWidth();
     }
 
 }
