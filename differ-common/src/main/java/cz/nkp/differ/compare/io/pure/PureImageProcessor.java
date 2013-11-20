@@ -294,8 +294,8 @@ public class PureImageProcessor extends ImageProcessor {
         List<Future<PureImageProcessorResult>> futures = execute(tasks);
         markConflicts(result);
         result.setType(ImageProcessorResult.Type.IMAGE);
-        pdfReporter.setDataSource(result);
-        pdfReporter.buildAndExport();
+        //pdfReporter.setDataSource(result);
+        //pdfReporter.buildAndExport();
         return result;
     }
     

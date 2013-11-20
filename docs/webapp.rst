@@ -16,16 +16,18 @@ It also lists various parameters of those images, even in case when only one ima
 
 The online application *DIFFER* is utilizing existing tools :
 
-- *JHOVE*
-- *FITS*
 - *ExifTool*
-- *KDU_expand*
+- *Exiv2*
+- *JHOVE*
+- *Imagemagick*
+- *FITS*
+- *Kakadu (KDU_expand, KDU_info)*
 - *DJVUDUMP*
 - *Jpylyzer*
-- *imagemagick*
--  etc.
 
 Those tools are mainly used separately across a whole spectrum of existing projects.
+
+Other tools are tested (PDFbox, Fitsverify, etc.)
 
 This open source application comes with a well-structured and uniform GUI, which helps the user to understand the relationships between various file format properties, detect visual and non-visual errors and simplifies decision-making. An additional feature called compliance-check is designed to help us check the required specifications of the *JPEG2000* file format.
 

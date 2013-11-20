@@ -1,7 +1,6 @@
 package cz.nkp.differ.compare.metadata.external.result;
 
 import cz.nkp.differ.compare.metadata.external.ResultEntryValueTransformer;
-import sun.misc.FloatingDecimal;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

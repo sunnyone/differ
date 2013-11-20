@@ -25,7 +25,6 @@
                <entry key="DjvudumpUnitTest" value-ref="djvudumpAcceptedVersionValues"/>
                <entry key="DaitssUnitTest" value-ref="daitssAcceptedVersionValues"/>
                <entry key="FitsUnitTest" value-ref="fitsAcceptedVersionValues"/>
-
            </map>
         </property>
     </bean>
@@ -42,7 +41,7 @@
         <value>6.6.0.4</value>
     </util:list>
     <util:list id="jhoveAcceptedVersionValues">
-    <value>1.6</value>
+      <value>1.6</value>
     </util:list>
     <util:list id="jpylyzerAcceptedVersionValues">
         <value>1.6.0</value>

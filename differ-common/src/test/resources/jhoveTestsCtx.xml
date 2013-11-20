@@ -40,7 +40,6 @@
         <value>Resolution horizontal</value>
         <value>File last modified</value>
         <value>Compression</value>
-
     </util:list>
 
     <util:map id="image14Test01SpecialProperties">
@@ -88,6 +87,10 @@
         <property name="range" value="10" />
         <property name="description" value="Tester validates that input value is within the scope of manual value +- range variable"/>
     </bean>
+
+    <!-- import manual properties list to compare with -->
+    <import resource="ImageProperties/images-JPEG-01-significant-properties.xml"/>
+
 </beans>
 
 

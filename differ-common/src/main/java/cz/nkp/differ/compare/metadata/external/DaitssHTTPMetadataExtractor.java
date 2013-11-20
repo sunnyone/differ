@@ -2,7 +2,6 @@ package cz.nkp.differ.compare.metadata.external;
 
 import cz.nkp.differ.compare.metadata.AbstractMetadataExtractor;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
-import cz.nkp.differ.compare.metadata.MetadataExtractor;
 import cz.nkp.differ.compare.metadata.MetadataSource;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;

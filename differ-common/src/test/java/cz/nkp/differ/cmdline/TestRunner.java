@@ -2,10 +2,10 @@ package cz.nkp.differ.cmdline;
 
 import cz.nkp.differ.cmdline.ValueTester.ValueTester;
 import cz.nkp.differ.compare.metadata.external.ResultTransformer;
+import cz.nkp.differ.compare.metadata.external.ResultTransformer.Entry;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

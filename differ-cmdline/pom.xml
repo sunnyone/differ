@@ -5,7 +5,6 @@
     <artifactId>differ-cmdline</artifactId>
     <packaging>jar</packaging>
     <name>Differ cmdline</name>
-    <version>0.0.1-SNAPSHOT</version>
     <description>Tool designed to help to identify, validate, and characterize selected still image file formats.</description>
     <inceptionYear>2011</inceptionYear>
     <url>http://differ.nkp.cz</url>

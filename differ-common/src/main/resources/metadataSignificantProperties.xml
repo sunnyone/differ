@@ -20,6 +20,7 @@
   
   <util:set id="validationProperties">
     <value>Validation (well formed and valid)</value>
+    <value>Is PDF/A-1B complaint</value>
     <value>Signature box length is valid</value>
     <value>Signature is valid</value>
     <value>Box length is valid</value>

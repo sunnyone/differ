@@ -10,7 +10,6 @@ List of extractors that Differ understands.
    * - Metadata extractor
      - url
      - 
-
    * - ExifTool
      - http://www.sno.phy.queensu.ca/~phil/exiftool/
      - :ref:`exiftool_recognized_properties`
@@ -31,7 +30,7 @@ List of extractors that Differ understands.
      - https://code.google.com/p/fits/
      - :ref:`fits_recognized_properties`
 
-   * - Kakadu
+   * - Kakadu (kdu_expand)
      - http://www.kakadusoftware.com/
      - :ref:`kakadu_recognized_properties`
 
@@ -43,6 +42,8 @@ List of extractors that Differ understands.
      - http://daitss.fcla.edu/
      - :ref:`daitss_recognized_properties`
 
-
+   * - DJVUDump
+     - http://djvu.sourceforge.net/doc/man/djvudump.html
+     - :ref:`djvudump_recognized_properties`
 
 

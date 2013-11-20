@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <!-- <aop:config> -->
+    <!--   <aop:aspect id="pdfboxMetadataTransformAspect" ref="pdfboxResultFinishingTransformer"> -->
+    <!-- 	<aop:pointcut id="pdfboxTransformPointcut" -->
+    <!-- 		      expression="bean(pdfboxMetadataTransformer)" -->
+    <!-- 		      /> -->
+    <!-- 	<aop:after-returning pointcut-ref="pdfboxTransformPointcut" -->
+    <!-- 			     returning="metadataList" -->
+    <!-- 			     method="transform"/> -->
+    <!--   </aop:aspect> -->
+    <!-- </aop:config> -->
+
+    <!-- <bean id="pdfboxResultFinishingTransformer" class="cz.nkp.differ.compare.metadata.external.ResultFinishingTransformer"> -->
+    <!--   <property name="mapOfEntryNames"> -->
+    <!--     <map> -->
+    <!--     </map> -->
+    <!--   </property> -->
+      
+    <!--   <property name="entryTransformers"> -->
+    <!--     <map> -->
+    <!--       <entry key="Type of format" value-ref="typeOfFormatNormalizer"/> -->
+    <!--       <entry key="File name" value-ref="fileNameNormalizer"/> -->
+    <!--       <entry key="File path" value-ref="filePathNormalizer"/> -->
+    <!--       <entry key="File last modified" value-ref="dateNormalizer"/> -->
+    <!--       <entry key="File size" value-ref="sizeNormalizer"/> -->
+    <!--     </map> -->
+    <!--   </property> -->
+      
+    <!--   <property name="entryReplacers"> -->
+    <!-- 	<map> -->
+    <!--       <entry key="Native Digest" value-ref="entryRemover"/> -->
+    <!--       <entry key="History Action" value-ref="entryRemover"/> -->
+    <!--       <entry key="History Software Agent" value-ref="entryRemover"/> -->
+    <!--       <entry key="History Parameters" value-ref="entryRemover"/> -->
+    <!--       <entry key="History Action" value-ref="entryRemover"/> -->
+    <!-- 	</map> -->
+    <!--   </property> -->
+
+    <!--   <property name="resultTransformers"> -->
+    <!--     <list> -->
+    <!--       <ref bean="emptyValuesRemover"/> -->
+    <!--     </list> -->
+    <!--   </property> -->
+
+    <!-- </bean> -->
+    
+    <bean id="pdfboxMetadataExtractor" class="cz.nkp.differ.compare.metadata.external.PDFBoxMetadataExtractor">
+      <property name="source" value="pdfbox"/>
+      <property name="units" ref="units"/>
+      <property name="supportedFileExtensions">
+	<list>
+	  <value>pdf</value>
+	</list>
+      </property>
+
+    </bean>
+
+</beans>
