@@ -14,9 +14,10 @@ import cz.nkp.differ.compare.io.ComparedImagesMetadata;
 import cz.nkp.differ.compare.io.GlitchDetectorResultPostProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
+import cz.nkp.differ.compare.metadata.JP2ProfileValidationResult;
 import cz.nkp.differ.compare.metadata.MetadataGroups;
-import cz.nkp.differ.compare.metadata.MetadataSource;
 import cz.nkp.differ.exceptions.FatalDifferException;
+import cz.nkp.differ.gui.windows.JP2ProfileValidationResultWindow;
 import cz.nkp.differ.gui.windows.RawDataWindow;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -146,36 +147,28 @@ public class ImageMetadataComponentGenerator {
         HashMap<String, ComparedImagesMetadata> hashmap = new HashMap<String, ComparedImagesMetadata>();
         for (int resultIndex = 0; resultIndex < result.length; resultIndex++) {
             for (ImageMetadata data : result[resultIndex].getMetadata()) {
-                String id = data.getKey() + "&&" + data.getSource().getSourceName();
+		String sourceName = "unknown";
+		if (data.getSource() != null && data.getSource().getSourceName() != null) {
+		    sourceName = data.getSource().getSourceName();
+		}
+                String id = data.getKey() + "&&" + sourceName;
                 ComparedImagesMetadata cim = hashmap.get(id);
                 if (cim == null) {
                     cim = new ComparedImagesMetadata(id);
                     cim.setKey(data.getKey());
                     cim.setUnit(data.getUnit());
                     cim.setConflict(data.isConflict());
-                    cim.setSourceName(data.getSource().getSourceName());
-                    
-                    String[] values = new String[result.length + 1];
+                    cim.setSourceName(sourceName);
+                    ImageMetadata[] metadata = new ImageMetadata[result.length + 1];
                     if (data.getValue() != null) {
-                        values[resultIndex] = data.getValue().toString();
+                        metadata[resultIndex] = data;
                     }
-                    cim.setValues(values);
-                    
-                    MetadataSource[] metadataSources = new MetadataSource[result.length + 1];
-                    if (data.getSource() != null) {
-                        metadataSources[resultIndex] = data.getSource();
-                    }
-                    cim.setMetadataSources(metadataSources);
-                    
+                    cim.setImageMetadata(metadata);
                     hashmap.put(id, cim);
                 } else {
                     if (data.getValue() != null) {
-                        String[] values = cim.getValues();
-                        values[resultIndex] = data.getValue().toString();
-                    }
-                    if (data.getSource() != null) {
-                        MetadataSource[] metadataSources = cim.getMetadataSources();
-                        metadataSources[resultIndex] = data.getSource();
+                        ImageMetadata[] metadata = cim.getImageMetadata();
+                        metadata[resultIndex] = data;
                     }
                 }
             }
@@ -269,7 +262,7 @@ public class ImageMetadataComponentGenerator {
         for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
             if (entry.getKey().equals(VERSION_PROPERTY_NAME)) {
                 ComparedImagesMetadata cim = entry.getValue();
-                versionmap.put(cim.getSourceName(), cim.getValues()[0]);
+                versionmap.put(cim.getSourceName(), cim.getImageMetadata()[0].getValue().toString());
             }
         }
 
@@ -277,8 +270,9 @@ public class ImageMetadataComponentGenerator {
         for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
             ComparedImagesMetadata cim = entry.getValue();
             Button clickableToolName = createClickableTool(layout, cim.getSourceName(), cim.getVersion());
-            Button valueA = createClickableValue(layout, cim.getValues()[0], cim.getMetadataSources()[0]);
-            Button valueB = createClickableValue(layout, cim.getValues()[1], cim.getMetadataSources()[1]);
+
+            Button valueA = createClickableValue(cim.getImageMetadata()[0]);
+            Button valueB = createClickableValue(cim.getImageMetadata()[1]);
             metadataTable.addItem(new Object[] { cim.getKey(), clickableToolName, valueA,
                         valueB, cim.getUnit() }, row);
             row++;
@@ -325,18 +319,24 @@ public class ImageMetadataComponentGenerator {
         return button;
     }
     
-    private SortableButton createClickableValue(final Layout layout, String value, final MetadataSource metadata) {
-        if (value == null) {
-            value = "";
+    private SortableButton createClickableValue(final ImageMetadata data) {
+	String value = "";
+        if (data != null && data.getValue() != null) {
+            value = data.getValue().toString();
         }
         SortableButton button = new SortableButton(value);
-        if (metadata != null) {
+        if (data != null && data.getSource() != null) {
             button.addListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    Window rawDataWindow = new RawDataWindow(parent, metadata);
+		    Window window = null;
+		    if (data.getData() == null) {
+			window = new RawDataWindow(parent, data.getSource());
+		    } if (data.getData() instanceof JP2ProfileValidationResult) {
+			window = new JP2ProfileValidationResultWindow((JP2ProfileValidationResult) data.getData());
+		    }
                     Window mainWindow = DifferApplication.getMainApplicationWindow();
-                    mainWindow.addWindow(rawDataWindow);
+                    mainWindow.addWindow(window);
                 }
             });
         }

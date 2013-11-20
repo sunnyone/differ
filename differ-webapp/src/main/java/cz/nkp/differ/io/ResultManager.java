@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.nkp.differ.io;
 
+import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
 import cz.nkp.differ.model.Result;
 import java.io.IOException;
@@ -19,6 +16,8 @@ public interface ResultManager {
 
     public List<Result> getResults();
 
-    public void save(SerializableImageProcessorResults result) throws IOException;
+    public Result save(SerializableImageProcessorResults result, String name, boolean shared) throws IOException;
+
+    public Result save(ImageProcessorResult[] results, String name, boolean shared) throws IOException;
     
 }

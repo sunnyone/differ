@@ -1,7 +1,6 @@
 package cz.nkp.differ.compare.io;
 
-import com.vaadin.ui.Button;
-import cz.nkp.differ.compare.metadata.MetadataSource;
+import cz.nkp.differ.compare.metadata.ImageMetadata;
 
 /**
  *
@@ -11,12 +10,11 @@ public class ComparedImagesMetadata {
     
     //metadata table columns
     private String key;
-    private String[] values;
+    private ImageMetadata[] imageMetadata;
     private String unit;
     
     //non-column properties
     private String id; //used for internal identification only
-    private MetadataSource[] metadataSources;
     private String sourceName;
     private String version;
     private boolean conflict;
@@ -41,20 +39,12 @@ public class ComparedImagesMetadata {
         this.key = key;
     }
 
-    public MetadataSource[] getMetadataSources() {
-        return metadataSources;
-    }
-    
-    public void setMetadataSources(MetadataSource[] metadataSources) {
-        this.metadataSources = metadataSources;
+    public ImageMetadata[] getImageMetadata() {
+	return imageMetadata;
     }
 
-    public String[] getValues() {
-        return this.values;
-    }
-
-    public void setValues(String[] values) {
-        this.values = values;
+    public void setImageMetadata(ImageMetadata[] imageMetadata) {
+	this.imageMetadata = imageMetadata;
     }
 
     public String getUnit() {

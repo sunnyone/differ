@@ -12,11 +12,13 @@ import com.vaadin.ui.VerticalLayout;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ImageFileAnalysisContainer;
+import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ResultManager;
 import cz.nkp.differ.model.Result;
+import java.util.ArrayList;
 
 /**
  *
@@ -32,7 +34,6 @@ public class ResultManagerTab extends HorizontalLayout {
     private ResultManager resultManager;
     private Layout customViewWrapper;
     private Button customLayoutBackButton;
-    private ResultManagerTab this_internal = this;
 
     public ResultManagerTab(MainDifferWindow window) {
         this.mainWindow = window;
@@ -64,12 +65,13 @@ public class ResultManagerTab extends HorizontalLayout {
                         try {
                             HorizontalLayout layout = new HorizontalLayout();
                             SerializableImageProcessorResults resultsToShow = resultManager.getResult(result);
-                            CompareComponent compareComponent = new CompareComponent();
-			    for (SerializableImageProcessorResult resultToShow : resultsToShow.getResults()) {
-				ImageFileAnalysisContainer ifac = new ImageFileAnalysisContainer(resultToShow, compareComponent);
-				layout.addComponent(ifac.getComponent());
-			    }
-                            this_internal.setCustomView(layout);
+			    ArrayList<ImageProcessorResult> results = new ArrayList<ImageProcessorResult>();
+			    results.addAll(resultsToShow.getResults());
+			    ImageProcessorResult[] asArray = new ImageProcessorResult[results.size()];
+			    results.toArray(asArray);
+                            CompareComponent compareComponent = new CompareComponent(asArray);
+			    layout.addComponent(compareComponent.getPluginDisplayComponent());
+                            ResultManagerTab.this.setCustomView(layout);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
@@ -83,8 +85,8 @@ public class ResultManagerTab extends HorizontalLayout {
 	reloadButton.addListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                this_internal.removeAllComponents();
-		this_internal.setDefaultView();
+                ResultManagerTab.this.removeAllComponents();
+		ResultManagerTab.this.setDefaultView();
             }
         });
 	panel.addComponent(reloadButton);
@@ -109,8 +111,8 @@ public class ResultManagerTab extends HorizontalLayout {
     private Button.ClickListener customViewWrapperBackButtonListener = new Button.ClickListener() {
         @Override
         public void buttonClick(ClickEvent event) {
-            this_internal.removeAllComponents();
-            this_internal.setDefaultView();
+            ResultManagerTab.this.removeAllComponents();
+            ResultManagerTab.this.setDefaultView();
         }
     };
 }
