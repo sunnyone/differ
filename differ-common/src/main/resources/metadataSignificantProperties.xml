@@ -16,11 +16,12 @@
     <value>MIME type</value>
     <value>Type of format</value>
     <value>Version of format</value>
+    <value>PDF Version</value>
   </util:set>
   
   <util:set id="validationProperties">
     <value>Validation (well formed and valid)</value>
-    <value>Is PDF/A-1B complaint</value>
+    <value>Conformance with PDF/A</value>
     <value>Signature box length is valid</value>
     <value>Signature is valid</value>
     <value>Box length is valid</value>

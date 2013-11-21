@@ -5,6 +5,7 @@ package cz.nkp.differ.compare.metadata.external;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,9 +14,12 @@ import java.util.Map;
 
 import javax.activation.FileDataSource;
 
+import org.apache.jempbox.xmp.XMPMetadata;
 import org.apache.pdfbox.Version;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.pdmodel.common.PDMetadata;
 import org.apache.pdfbox.preflight.PreflightDocument;
 import org.apache.pdfbox.preflight.ValidationResult;
 import org.apache.pdfbox.preflight.ValidationResult.ValidationError;
@@ -62,7 +66,7 @@ public class PDFBoxMetadataExtractor extends AbstractMetadataExtractor {
         result.add(new ImageMetadata("File name", imageFile.getName(), metadataSource));
         result.add(new ImageMetadata("exit-code", "OK", metadataSource));
         result.add(new ImageMetadata("Version of Extractor", getExtractorVersion(), metadataSource));
-        result.add(new ImageMetadata("Is PDF/A-1B complaint", this.isComplaintPDFA1B(imageFile),metadataSource));
+        result.add(new ImageMetadata("Conformance with PDF/A", this.isValidPDFA(imageFile),metadataSource));
         
         PDDocument document = this.getPDDocument(imageFile);
         PDDocumentInformation info = document.getDocumentInformation();
@@ -73,6 +77,23 @@ public class PDFBoxMetadataExtractor extends AbstractMetadataExtractor {
         result.add(new ImageMetadata("Creator",  info.getCreator(), metadataSource));
         result.add(new ImageMetadata("Producer", info.getProducer(), metadataSource));
         result.add(new ImageMetadata("Keywords", info.getKeywords(), metadataSource));
+        result.add(new ImageMetadata("Trapped PDF", info.getTrapped(), metadataSource));
+        
+        //to read the XML metadata
+        try {
+        	PDDocumentCatalog catalog = document.getDocumentCatalog();
+            PDMetadata metadata = catalog.getMetadata();
+            if( metadata != null){
+            	InputStream xmlInputStream = metadata.createInputStream();
+            	//result.add(new ImageMetadata("XMP",xmpMetadata.toString(), metadataSource));
+            }
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+
         /*
         try {
         
@@ -97,7 +118,7 @@ public class PDFBoxMetadataExtractor extends AbstractMetadataExtractor {
 		}
     	return doc;
     }
-	public Boolean isComplaintPDFA1B(File imageFile){
+	public Boolean isValidPDFA(File imageFile){
 		// return if the file is PDF/A-1B complaint
 		ValidationResult result = null;
 		FileDataSource fd = new FileDataSource(imageFile);
