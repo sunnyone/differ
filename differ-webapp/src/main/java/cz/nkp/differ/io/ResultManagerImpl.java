@@ -112,11 +112,16 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
     public List<Result> getResults() {
 	User loggedUser = DifferApplication.getCurrentApplication().getLoggedUser();
 	if (loggedUser == null) {
-	    return resultDAO.findAllShared(); 
-	} else {
-	    return resultDAO.findByUser(loggedUser);
-	}
+	    throw new RuntimeException("User is not logged in!");
+        }
+        return resultDAO.findByUser(loggedUser);
     }
+    
+    @Override
+    public List<Result> getSharedResults() {
+        return resultDAO.findAllShared(); 
+    }
+    
 
     @Override
     public SerializableImageProcessorResults getResult(Result result) throws IOException {

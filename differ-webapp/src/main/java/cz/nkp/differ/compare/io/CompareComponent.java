@@ -139,7 +139,9 @@ public class CompareComponent {
             layout.addComponent(childLayout);
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
             layout.addComponent(table.getComponent());
-            layout.addComponent(addExportResultsButton(results));
+            if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
+                layout.addComponent(addExportResultsButton(results));
+            }
 	    return layout;
 	}
     }
