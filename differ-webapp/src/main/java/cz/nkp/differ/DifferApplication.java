@@ -37,6 +37,8 @@ import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
 @SuppressWarnings("serial")
 public class DifferApplication extends TPTApplication {
     
+    protected Set<LoginListener> loginListeners = new HashSet<LoginListener>();
+    
     private static final String DIFFER_THEME_NAME = "differ";
     private static Logger LOGGER = Logger.getLogger(DifferApplication.class);
 
@@ -50,7 +52,6 @@ public class DifferApplication extends TPTApplication {
     protected static MetadataGroups metadataGroups = null;
     protected static Configuration configuration = null;
     protected static GoogleAnalyticsTracker gaTracker = null;
-    protected static Set<LoginListener> loginListeners = new HashSet<LoginListener>();
     
     protected static final TemporaryFilesCleaner temporaryFilesCleaner = new TemporaryFilesCleaner();
     static {
