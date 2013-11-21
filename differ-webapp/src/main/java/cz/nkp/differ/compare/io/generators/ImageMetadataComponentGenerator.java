@@ -285,24 +285,64 @@ public class ImageMetadataComponentGenerator {
         metadataTable.setPageLength(Math.min(row, 10));
         metadataTable.sort(new Object[]{ COLUMN_KEY_PROPERTY }, new boolean[] {true });
         layout.addComponent(metadataTable);
+        
+        if (group.equals("JPEG2000 profile validation")) {
+            metadataTable.setCellStyleGenerator(new BooleanCellStyleGenerator(metadataTable));
+        } else {
+            metadataTable.setCellStyleGenerator(new ConflictCellStyleGenerator(metadataTable));
+        }
+    }
+    
+    private class ConflictCellStyleGenerator implements Table.CellStyleGenerator {
+        
+        private Table metadataTable;
 
-        metadataTable.setCellStyleGenerator(new Table.CellStyleGenerator() {
-            @Override
-            public String getStyle(Object itemId, Object propertyId) {
-                if (result.length == 2) {
-                    Button valA = (Button) metadataTable.getContainerProperty(itemId, COLUMN_A_VALUE_PROPERTY).getValue();
-                    Button valB = (Button) metadataTable.getContainerProperty(itemId, COLUMN_B_VALUE_PROPERTY).getValue();
-                    if (valA != null && valB != null) {
-                        String a = (String) valA.getCaption();
-                        String b = (String) valB.getCaption();
-                        if (a != null && b != null && !a.isEmpty() && !b.isEmpty()) {
-                            return (a.equalsIgnoreCase(b))? "green" : "red";
-                        }
+        public ConflictCellStyleGenerator(Table metadataTable) {
+            this.metadataTable = metadataTable;
+        }
+        
+        @Override
+        public String getStyle(Object itemId, Object propertyId) {
+            if (result.length == 2 && propertyId == null) {
+                Button valA = (Button) metadataTable.getContainerProperty(itemId, COLUMN_A_VALUE_PROPERTY).getValue();
+                Button valB = (Button) metadataTable.getContainerProperty(itemId, COLUMN_B_VALUE_PROPERTY).getValue();
+                if (valA != null && valB != null) {
+                    String a = (String) valA.getCaption();
+                    String b = (String) valB.getCaption();
+                    if (a != null && b != null && !a.isEmpty() && !b.isEmpty()) {
+                        return (a.equalsIgnoreCase(b)) ? "green" : "red";
                     }
                 }
-                return "";
             }
-        });
+            return "";
+        }
+        
+    }
+    
+    private class BooleanCellStyleGenerator implements Table.CellStyleGenerator {
+        
+        private Table metadataTable;
+
+        public BooleanCellStyleGenerator(Table metadataTable) {
+            this.metadataTable = metadataTable;
+        }
+        
+        @Override
+        public String getStyle(Object itemId, Object propertyId) {
+            if (itemId != null && propertyId != null) {
+                System.out.println(itemId.getClass() + " " + itemId + " " + propertyId.getClass() + " " + propertyId);
+                Object a = (Object) metadataTable.getContainerProperty(itemId, propertyId).getValue();
+                if (a != null && propertyId.toString().startsWith("imageValue")) {
+                    String value = a.toString();
+                    if (value.equals("true")) {
+                        return "green";
+                    } else if (value.equals("false")) {
+                        return "red";
+                    }
+                }
+            }
+            return "";
+        }
     }
     
     private SortableButton createClickableTool(final Layout layout, String source, String version) {       

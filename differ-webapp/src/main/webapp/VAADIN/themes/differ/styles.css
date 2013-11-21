@@ -21,6 +21,18 @@
     background: lightblue;
 }
 
+.v-table-cell-content-green {
+    background: lightgreen;
+}
+
+.v-table-cell-content-red {
+    background: red;
+}
+
+.v-table-cell-content-blue {
+    background: lightblue;
+}
+
 /*adds padding and bg color to anonymous upload sections*/
 .v-horizontallayout
 .v-upload {
