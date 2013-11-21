@@ -10,13 +10,16 @@ import cz.nkp.differ.configuration.GoogleAnalyticsConfiguration;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ImageManager;
 import cz.nkp.differ.io.ResultManager;
+import cz.nkp.differ.listener.LoginListener;
 import cz.nkp.differ.model.User;
 import cz.nkp.differ.profile.EditableJP2ProfileProvider;
 import cz.nkp.differ.user.UserManager;
 import cz.nkp.differ.util.TemporaryFilesCleaner;
 import eu.livotov.tpt.TPTApplication;
 import java.security.Security;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import javax.servlet.ServletContext;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -33,6 +36,8 @@ import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
  */
 @SuppressWarnings("serial")
 public class DifferApplication extends TPTApplication {
+    
+    protected Set<LoginListener> loginListeners = new HashSet<LoginListener>();
     
     private static final String DIFFER_THEME_NAME = "differ";
     private static Logger LOGGER = Logger.getLogger(DifferApplication.class);
@@ -94,7 +99,8 @@ public class DifferApplication extends TPTApplication {
         metadataGroups = (MetadataGroups) applicationContext.getBean("metadataGroups");
         
         configuration = (Configuration) applicationContext.getBean("differConfiguration");
-	Window mainDifferWindow = new MainDifferWindow();
+	MainDifferWindow mainDifferWindow = new MainDifferWindow();
+        mainDifferWindow.init();
 	mainDifferWindow.setSizeUndefined();
 	setMainWindow(mainDifferWindow);
         
@@ -129,9 +135,24 @@ public class DifferApplication extends TPTApplication {
     }
 
     public void setLoggedUser(User loggedUser) {
-	super.setUser(loggedUser);
+        super.setUser(loggedUser);
+        for (LoginListener listener : loginListeners) {
+            if (loggedUser != null) {
+                listener.onLogin(loggedUser);
+            } else {
+                listener.onLogout(loggedUser);
+            }
+        }
+    }
+    
+    public void addLoginListener(LoginListener listener) {
+        loginListeners.add(listener);
     }
 
+    public void removeLoginListener(LoginListener listener) {
+        loginListeners.remove(listener);
+    }
+    
     public static ImageThumbnailProvider getImageThumbnailProvider() {
         return imageThumbnailProvider;
     }

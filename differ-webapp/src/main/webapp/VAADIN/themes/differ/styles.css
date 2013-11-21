@@ -9,15 +9,39 @@
 	width:350px;
 }
 
-.v-table-row-green {
-    background: lightgreen;
-}
-
 .v-table-row-red {
     background: red;
 }
 
+.v-table-row-green {
+    background: lightgreen;
+}
+
 .v-table-row-blue {
+    background: lightblue;
+}
+
+.v-table-row-red-channel {
+    background: #CD5C5C;
+}
+
+.v-table-row-green-channel {
+    background: #98FB98;
+}
+
+.v-table-row-blue-channel {
+    background: #87CEEB;
+}
+
+.v-table-cell-content-red {
+    background: red;
+}
+
+.v-table-cell-content-green {
+    background: lightgreen;
+}
+
+.v-table-cell-content-blue {
     background: lightblue;
 }
 

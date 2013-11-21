@@ -19,6 +19,7 @@ import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ResultManager;
 import cz.nkp.differ.model.Result;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class ResultManagerTab extends HorizontalLayout {
 
     private MainDifferWindow mainWindow;
+    private boolean anonymous;
     private Table resultTable;
     private BeanItemContainer<Result> resultContainer = null;
     private Button showButton;
@@ -35,8 +37,9 @@ public class ResultManagerTab extends HorizontalLayout {
     private Layout customViewWrapper;
     private Button customLayoutBackButton;
 
-    public ResultManagerTab(MainDifferWindow window) {
+    public ResultManagerTab(MainDifferWindow window, boolean anonymous) {
         this.mainWindow = window;
+        this.anonymous = anonymous;
         resultManager = DifferApplication.getResultManager();
         this.setDefaultView();
     }
@@ -44,7 +47,13 @@ public class ResultManagerTab extends HorizontalLayout {
     public void setDefaultView() {
 	HorizontalLayout mainLayout = new HorizontalLayout();
 	this.addComponent(mainLayout);
-        resultContainer = new BeanItemContainer<Result>(Result.class, resultManager.getResults());
+        List<Result> results = null;
+        if (anonymous) {
+            results = resultManager.getSharedResults();
+        } else {
+            results = resultManager.getResults();
+        }
+        resultContainer = new BeanItemContainer<Result>(Result.class, results);
         resultTable = new Table("results", resultContainer);
         resultTable.setSelectable(true);
         resultTable.setImmediate(true);

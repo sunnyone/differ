@@ -15,6 +15,8 @@ public interface ResultManager {
     public SerializableImageProcessorResults getResult(Result result) throws IOException;
 
     public List<Result> getResults();
+    
+    public List<Result> getSharedResults();
 
     public Result save(SerializableImageProcessorResults result, String name, boolean shared) throws IOException;
 

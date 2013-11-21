@@ -59,31 +59,33 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
 	ArrayList<SerializableImageProcessorResult> resultsList = new ArrayList<SerializableImageProcessorResult>();
         for (ImageProcessorResult result : results) {
             SerializableImageProcessorResult res = new SerializableImageProcessorResult();
-            try {
-                if (saveFullImage && result.getFullImage() != null) {
-                    res.setFullImage(new SerializableImage(result.getFullImage()));
+            if (result != null) {
+                try {
+                    if (saveFullImage && result.getFullImage() != null) {
+                        res.setFullImage(new SerializableImage(result.getFullImage()));
+                    }
+                    if (result.getPreview() != null) {
+                        res.setPreview(new SerializableImage(result.getPreview()));
+                    }
+                } catch (IOException ex) {
+                    java.util.logging.Logger.getLogger(ResultManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if (result.getPreview() != null) {
-                    res.setPreview(new SerializableImage(result.getPreview()));
+                res.setChecksum(result.getMD5Checksum());
+                res.setHistogram(result.getHistogram());
+                res.setType(result.getType());
+                res.setWidth(result.getWidth());
+                res.setHeight(result.getHeight());
+                res.setMetadata(result.getMetadata());
+                Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
+                for (ImageMetadata data : result.getMetadata()) {
+                    if (!sourcesSet.contains(data.getSource())) {
+                        sourcesSet.add(data.getSource());
+                    }
                 }
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(ResultManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+                List<MetadataSource> sources = new ArrayList<MetadataSource>();
+                sources.addAll(sourcesSet);
+                res.setSources(sources);
             }
-	    res.setChecksum(result.getMD5Checksum());
-            res.setHistogram(result.getHistogram());
-            res.setType(result.getType());
-            res.setWidth(result.getWidth());
-            res.setHeight(result.getHeight());
-            res.setMetadata(result.getMetadata());
-	    Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
-	    for (ImageMetadata data : result.getMetadata()) {
-		if (!sourcesSet.contains(data.getSource())) {
-		    sourcesSet.add(data.getSource());
-		}
-	    }
-	    List<MetadataSource> sources = new ArrayList<MetadataSource>();
-	    sources.addAll(sourcesSet);
-	    res.setSources(sources);
             resultsList.add(res);
         }
         SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
@@ -112,18 +114,23 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
     public List<Result> getResults() {
 	User loggedUser = DifferApplication.getCurrentApplication().getLoggedUser();
 	if (loggedUser == null) {
-	    return resultDAO.findAllShared(); 
-	} else {
-	    return resultDAO.findByUser(loggedUser);
-	}
+	    throw new RuntimeException("User is not logged in!");
+        }
+        return resultDAO.findByUser(loggedUser);
     }
+    
+    @Override
+    public List<Result> getSharedResults() {
+        return resultDAO.findAllShared(); 
+    }
+    
 
     @Override
     public SerializableImageProcessorResults getResult(Result result) throws IOException {
 	File input = getFile(result);
 	StreamSource source = new StreamSource(new FileInputStream(input));
         try {
-            return (SerializableImageProcessorResults)unmarshaller.unmarshal(source);
+            return (SerializableImageProcessorResults) unmarshaller.unmarshal(source);
         } catch (JAXBException ex) {
             Logger.getLogger(ResultManager.class.getName()).log(Level.SEVERE, null, ex);
         }
