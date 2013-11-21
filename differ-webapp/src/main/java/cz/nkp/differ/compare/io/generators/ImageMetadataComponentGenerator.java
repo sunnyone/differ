@@ -125,7 +125,7 @@ public class ImageMetadataComponentGenerator {
                 if (result[0].getType() == ImageProcessorResult.Type.COMPARISON) {
                     String key = metadata.getKey();
                     if (Arrays.asList("red", "blue", "green").contains(key)) {
-                        return key;
+                        return key + "-channel";
                     }
                 } else {
                     if (!nonConflictMetadata.contains(metadata.getKey())) {
