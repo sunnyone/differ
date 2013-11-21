@@ -105,7 +105,7 @@ public class CompareComponent {
             Component metadataTable = table.getComponent();
             grid.addComponent(metadataTable, 0, 1, 1, 1);
             
-            if (results[2] != null) {
+            if (results[2] != null && results[2].getPreview() != null) {
                 Label comparedChecksum;
 		if (iFAC1.getChecksum() != null && iFAC2.getChecksum() != null
 			&& iFAC1.getChecksum().equals(iFAC2.getChecksum())) {
