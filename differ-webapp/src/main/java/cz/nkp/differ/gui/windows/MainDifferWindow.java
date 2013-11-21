@@ -110,7 +110,9 @@ public class MainDifferWindow extends Window implements LoginListener {
 
     @Override
     public void onLogout(User user) {
-        menuTabs.removeTab(resultsTab);
+        if (resultsTab != null) {
+            menuTabs.removeTab(resultsTab);
+        }
         resultsTab = null;
     }
     
