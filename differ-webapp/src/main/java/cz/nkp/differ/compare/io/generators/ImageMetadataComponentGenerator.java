@@ -330,7 +330,6 @@ public class ImageMetadataComponentGenerator {
         @Override
         public String getStyle(Object itemId, Object propertyId) {
             if (itemId != null && propertyId != null) {
-                System.out.println(itemId.getClass() + " " + itemId + " " + propertyId.getClass() + " " + propertyId);
                 Object a = (Object) metadataTable.getContainerProperty(itemId, propertyId).getValue();
                 if (a != null && propertyId.toString().startsWith("imageValue")) {
                     String value = a.toString();
