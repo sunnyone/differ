@@ -32,6 +32,7 @@ import java.util.Set;
  */
 public class ImageMetadataComponentGenerator {
 
+    private Window mainWindow;
     private ImageProcessorResult[] result;
     private List<String> nonConflictMetadata = Arrays.asList("exit-code");
     private CompareComponent parent;
@@ -351,7 +352,7 @@ public class ImageMetadataComponentGenerator {
         button.addListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                layout.getWindow().showNotification(toolName, "<br/>version " + ver, Window.Notification.TYPE_HUMANIZED_MESSAGE);
+                parent.getMainWindow().showNotification(toolName, "<br/>version " + ver, Window.Notification.TYPE_HUMANIZED_MESSAGE);
             } 
         });
         button.addStyleName("link");
@@ -374,8 +375,7 @@ public class ImageMetadataComponentGenerator {
 		    } if (data.getData() instanceof JP2ProfileValidationResult) {
 			window = new JP2ProfileValidationResultWindow((JP2ProfileValidationResult) data.getData());
 		    }
-                    Window mainWindow = DifferApplication.getMainApplicationWindow();
-                    mainWindow.addWindow(window);
+                    parent.getMainWindow().addWindow(window);
                 }
             });
         }

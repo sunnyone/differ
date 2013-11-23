@@ -11,9 +11,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
-import cz.nkp.differ.compare.io.ImageFileAnalysisContainer;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
-import cz.nkp.differ.compare.io.SerializableImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ResultManager;
@@ -78,7 +76,7 @@ public class ResultManagerTab extends HorizontalLayout {
 			    results.addAll(resultsToShow.getResults());
 			    ImageProcessorResult[] asArray = new ImageProcessorResult[results.size()];
 			    results.toArray(asArray);
-                            CompareComponent compareComponent = new CompareComponent(asArray);
+                            CompareComponent compareComponent = new CompareComponent(mainWindow, asArray);
 			    layout.addComponent(compareComponent.getPluginDisplayComponent());
                             ResultManagerTab.this.setCustomView(layout);
                         } catch (Exception ex) {

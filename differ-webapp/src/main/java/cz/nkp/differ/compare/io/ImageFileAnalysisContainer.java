@@ -102,7 +102,7 @@ public class ImageFileAnalysisContainer {
                     }
                     Embedded img = new Embedded(null, imageFullResource);
                     img.setType(Embedded.TYPE_IMAGE);
-                    DifferApplication.getCurrentApplication().getMainWindow().addWindow(new FullSizeImageWindow(img));
+                    parent.getMainWindow().addWindow(new FullSizeImageWindow(img));
                 }
             });
         }
@@ -150,9 +150,9 @@ public class ImageFileAnalysisContainer {
                     tmpFile.deleteOnExit();
                     FileUtils.writeByteArrayToFile(tmpFile, sb.toString().getBytes());
                     FileResource resource = new FileResource(tmpFile, DifferApplication.getCurrentApplication());
-                    DifferApplication.getCurrentApplication().getMainWindow().open(resource);
+                    parent.getMainWindow().open(resource);
                 } catch (Exception ex) {
-                    DifferApplication.getCurrentApplication().getMainWindow().showNotification("Error when creating CSV file for upload", "",
+                    parent.getMainWindow().showNotification("Error when creating CSV file for upload", "",
                             Notification.TYPE_ERROR_MESSAGE);
                 }
             }
@@ -184,12 +184,12 @@ public class ImageFileAnalysisContainer {
                                 chartComponent = newChartComponent;
                                 GUIMacros.closeWindow(zoomSettings);
                             } catch (NumberFormatException nfe) {
-                                DifferApplication.getCurrentApplication().getMainWindow().showNotification("Invalid value", "", Notification.TYPE_ERROR_MESSAGE);
+                                parent.getMainWindow().showNotification("Invalid value", "", Notification.TYPE_ERROR_MESSAGE);
                             }
                         }
                     };
                     zoomSettings.setOnSubmit(onSubmit);
-                    DifferApplication.getCurrentApplication().getMainWindow().addWindow(zoomSettings);
+                    parent.getMainWindow().addWindow(zoomSettings);
                 }
             });
             histogramLayout.addComponent(zoomButton);

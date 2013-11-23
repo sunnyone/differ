@@ -1,6 +1,5 @@
 package cz.nkp.differ.compare.io;
 
-import com.vaadin.Application;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
@@ -26,15 +25,18 @@ public class CompareComponent {
     public static final int TWO_ROW_WIDTH = 400;
 
     public static Logger LOGGER = Logger.getRootLogger();
-    private Application application = null;
+
+    private Window mainWindow;
     private PluginPollingThread currentThread;
     private Image[] images;
     private ImageProcessorResult[] results;
 
-    public CompareComponent() {
+    public CompareComponent(Window mainWindow) {
+	this.mainWindow = mainWindow;
     }
 
-    public CompareComponent(ImageProcessorResult[] results) {
+    public CompareComponent(Window mainWindow, ImageProcessorResult[] results) {
+	this.mainWindow = mainWindow;
 	this.results = results;
     }
 
@@ -43,7 +45,7 @@ public class CompareComponent {
 		"A runtime error has occured while executing a plugin. Plugin operation halted. Message: " + message,
 		Window.Notification.TYPE_ERROR_MESSAGE);
 
-	application.getMainWindow().showNotification(errorNotif);
+	mainWindow.showNotification(errorNotif);
     }
 
     public void setImages(Image[] images) {
@@ -145,6 +147,10 @@ public class CompareComponent {
 	    return layout;
 	}
     }
+
+    public Window getMainWindow() {
+	return mainWindow;
+    }
     
     private Component addExportResultsButton(final ImageProcessorResult[] ipr) {
         Button btnSave = new Button("Save Results");
@@ -152,7 +158,7 @@ public class CompareComponent {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 SaveResultWindow window = new SaveResultWindow(ipr);
-		DifferApplication.getMainApplicationWindow().addWindow(window);
+		mainWindow.addWindow(window);
             }   
         });
 	btnSave.setImmediate(true);
