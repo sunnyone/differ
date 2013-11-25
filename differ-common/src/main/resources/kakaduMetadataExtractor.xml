@@ -64,7 +64,7 @@
     	<map>
     	  <entry key="Color depth"   value="Sprecision=[\ \t]*(.*)"/>
 	  <entry key="Size" value="Ssize=[\ \t]*(.*)"/>
-	  <entry key="Components" value="Scomponents=[\ \t]*(.*)"/>
+	  <entry key="Number of components" value="Scomponents=[\ \t]*(.*)"/>
 	  <entry key="Origin" value="Sorigin=[\ \t]*(.*)"/>
 	  <entry key="Tile origin" value="Stile_origin=[\ \t]*(.*)"/>
 	  <entry key="Tiles" value="Stiles=[\ \t]*(.*)"/>

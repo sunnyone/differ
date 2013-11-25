@@ -91,7 +91,7 @@
 	  <entry key="File created"   value="Create Date[\ \t]*:[\ \t]*(.*)"/>
 	  <entry key="Version of Extractor"        value="ExifTool Version Number[\ \t]*:[\ \t]*(.*)"/>
 	  <entry key="Color transformation" value="Y Cb Cr Sub Sampling[\ \t]*:[\ \t]*(.*)"/>
-	  <entry key="Samples per pixel" value="Samples Per Pixel[\ \t]*:[\ \t]*(.*)"/>
+	  <entry key="Number of components" value="Samples Per Pixel[\ \t]*:[\ \t]*(.*)"/>
 	  <entry key="MIME type" value="MIME Type[\ \t]*:[\ \t]*(.*)"/>
 	  <entry key="Media black point" value="Media Black Point[\ \t]*:[\ \t]*(.*)"/>
 	  <entry key="Media white point" value="Media White Point[\ \t]*:[\ \t]*(.*)"/>
@@ -106,6 +106,7 @@
 	  <entry key="Pixels per unit x" value="Pixels Per Unit X[\ \t]*:[\ \t]*(.*)"/>
 	  <entry key="Pixels per unit y" value="Pixels Per Unit Y[\ \t]*:[\ \t]*(.*)"/>
 	  <entry key="Profile file signature" value="Profile File Signature[\ \t]*:[\ \t]*(.*)"/>
+	  <entry key="Number of components" value="Number of Components[\ \t]*:[\ \t]*(.*)"/>
     	</map>
       </property>
       <property name="listOfRegexp">

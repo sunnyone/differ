@@ -43,7 +43,7 @@
     <property name = "Resolution horizontal"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:xSamplingFrequency/mix:numerator"/></property>
     <property name = "Resolution vertical"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:ySamplingFrequency/mix:numerator"/></property>
     <property name = "Color depth"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:ImageColorEncoding/mix:BitsPerSample/mix:bitsPerSampleValue"/></property>
-    <property name = "Samples per pixel"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:ImageColorEncoding/mix:samplesPerPixel"/></property>
+    <property name = "Number of components"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:ImageColorEncoding/mix:samplesPerPixel"/></property>
   </xsl:template>
 
 </xsl:stylesheet>
