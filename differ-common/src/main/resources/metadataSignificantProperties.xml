@@ -17,9 +17,12 @@
     <value>Type of format</value>
     <value>Version of format</value>
     <value>PDF Version</value>
+    <value>JFIF Version</value>
   </util:set>
   
   <util:set id="validationProperties">
+    <value>Schemas Property Desription</value>
+    <value>Schemas Property Name</value>
     <value>Validation (well formed and valid)</value>
     <value>Conformance with PDF/A</value>
     <value>Signature box length is valid</value>
@@ -138,6 +141,7 @@
     <value>File size</value>
     <value>Image height</value>
     <value>Image width</value>
+    <value>Image size</value>
     <value>File created</value>
     <value>File last modified</value>
     <value>Compression</value>

@@ -156,7 +156,6 @@
     <property name="Commentary"><xsl:value-of select="contiguousCodestreamBox/com/comment"/></property>
     <property name="Number of tiles"><xsl:value-of select="contiguousCodestreamBox/siz/numberOfTiles"/></property>
     <property name="Transformation"><xsl:value-of select="contiguousCodestreamBox/cod/transformation"/></property>
-    <property name="Compression"><xsl:value-of select="contiguousCodestreamBox/cod/transformation"/></property>
     <property name="Compression ratio"><xsl:value-of select="compressionRatio"/></property>
     <property name="Number of decomposition levels"><xsl:value-of select="contiguousCodestreamBox/cod/levels"/></property>
     <property name="Number of quality layers"><xsl:value-of select="contiguousCodestreamBox/cod/layers"/></property>
