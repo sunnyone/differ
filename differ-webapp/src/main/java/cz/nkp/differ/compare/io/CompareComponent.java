@@ -92,7 +92,6 @@ public class CompareComponent {
 	    }
             ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, fileName1);
 	    Layout iFAC1Layout = iFAC1.getComponent();
-	    //iFAC1Layout.addComponent(exportResultsPanel(results));
             grid.addComponent(iFAC1Layout, 0, 0);
 
 	    String fileName2 = "";
