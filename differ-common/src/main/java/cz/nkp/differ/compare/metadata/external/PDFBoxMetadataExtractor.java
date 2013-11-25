@@ -85,7 +85,7 @@ public class PDFBoxMetadataExtractor extends AbstractMetadataExtractor {
             PDMetadata metadata = catalog.getMetadata();
             if( metadata != null){
             	InputStream xmlInputStream = metadata.createInputStream();
-            	//result.add(new ImageMetadata("XMP",xmpMetadata.toString(), metadataSource));
+            	// result.add(new ImageMetadata("XMP",xmpMetadata.toString(), metadataSource));
             }
         } catch (IOException e) {
 			// TODO Auto-generated catch block
