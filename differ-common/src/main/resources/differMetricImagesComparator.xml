@@ -12,6 +12,18 @@
 
     <bean id="differImagesComparator" class="cz.nkp.differ.compare.io.external.ExternalImagesComparator">
 	<property name="extractor" ref="metricMetadataExtractor"/>
+        <property name="imageLoader" ref="imageLoaderFactory"/>
+        <property name="suffix" value="${metric.suffix}"/>
+        <property name="supportedExtensions">
+            <bean class="org.springframework.util.CollectionUtils" factory-method="arrayToList">
+                <constructor-arg type="java.lang.Object">
+                    <bean class="org.springframework.util.StringUtils" factory-method="tokenizeToStringArray">
+                        <constructor-arg type="java.lang.String" value="${metric.supportedExtensions}"/>
+                        <constructor-arg type="java.lang.String" value=","/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
     </bean>
 
     <bean id="metricMetadataExtractor" class="cz.nkp.differ.compare.metadata.external.ExternalMetadataExtractor">

@@ -43,7 +43,7 @@ public class ImageLoaderFactory implements ImageLoader {
 	return imageLoader.load(file);
     }
 
-    private static String getExtension(String fileName) {
+    public static String getExtension(String fileName) {
 	String extension = "";
 	int dotAt = fileName.lastIndexOf('.');
 	if (dotAt != -1) {
