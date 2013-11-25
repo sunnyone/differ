@@ -6,7 +6,6 @@ package cz.nkp.differ.compare.metadata.external;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.Map;
 
 import javax.activation.FileDataSource;
 
-import org.apache.jempbox.xmp.XMPMetadata;
 import org.apache.pdfbox.Version;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;

@@ -120,7 +120,7 @@ public class DifferProgramTabButtonPanel extends CustomComponent {
                     } 
 		    HorizontalLayout layout = new HorizontalLayout();
 		    Image[] selectedImages = parent.getSelectedImages();
-		    CompareComponent cp = new CompareComponent();
+		    CompareComponent cp = new CompareComponent(parent.getWindow());
 		    layout.addComponent(new ProgressBarComponent(DifferApplication.getCurrentApplication(), cp, selectedImages));
 		    parent.setCustomView(layout);
 		} catch (Exception ex) {

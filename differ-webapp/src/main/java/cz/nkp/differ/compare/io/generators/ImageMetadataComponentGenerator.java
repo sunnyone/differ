@@ -4,6 +4,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -11,14 +12,17 @@ import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ComparedImagesMetadata;
+import cz.nkp.differ.compare.io.GlitchDetectorConfig;
 import cz.nkp.differ.compare.io.GlitchDetectorResultPostProcessor;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
 import cz.nkp.differ.compare.metadata.JP2ProfileValidationResult;
 import cz.nkp.differ.compare.metadata.MetadataGroups;
 import cz.nkp.differ.exceptions.FatalDifferException;
+import cz.nkp.differ.gui.windows.GlitchDetectorWindow;
 import cz.nkp.differ.gui.windows.JP2ProfileValidationResultWindow;
 import cz.nkp.differ.gui.windows.RawDataWindow;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +36,7 @@ import java.util.Set;
  */
 public class ImageMetadataComponentGenerator {
 
+    private Window mainWindow;
     private ImageProcessorResult[] result;
     private List<String> nonConflictMetadata = Arrays.asList("exit-code");
     private CompareComponent parent;
@@ -142,7 +147,43 @@ public class ImageMetadataComponentGenerator {
         layout.addComponent(metadataTable);
         return metadataTable;
     }
-    
+
+    private HashMap<String, ComparedImagesMetadata> getMetadataTable(List<ImageMetadata>[] datas) {
+	HashMap<String, ComparedImagesMetadata> hashmap = new HashMap<String, ComparedImagesMetadata>();
+        for (int resultIndex = 0; resultIndex < datas.length; resultIndex++) {
+	    if (datas[resultIndex] == null) {
+		return hashmap;
+	    }
+            for (ImageMetadata data : datas[resultIndex]) {
+		String sourceName = "unknown";
+		if (data.getSource() != null && data.getSource().getSourceName() != null) {
+		    sourceName = data.getSource().getSourceName();
+		}
+                String id = data.getKey() + "&&" + sourceName;
+                ComparedImagesMetadata cim = hashmap.get(id);
+                if (cim == null) {
+                    cim = new ComparedImagesMetadata(id);
+                    cim.setKey(data.getKey());
+                    cim.setUnit(data.getUnit());
+                    cim.setConflict(data.isConflict());
+                    cim.setSourceName(sourceName);
+                    ImageMetadata[] metadata = new ImageMetadata[result.length + 1];
+                    if (data.getValue() != null) {
+                        metadata[resultIndex] = data;
+                    }
+                    cim.setImageMetadata(metadata);
+                    hashmap.put(id, cim);
+                } else {
+                    if (data.getValue() != null) {
+                        ImageMetadata[] metadata = cim.getImageMetadata();
+                        metadata[resultIndex] = data;
+                    }
+                }
+            }
+        }
+        return hashmap;
+    }
+
     private HashMap<String, ComparedImagesMetadata> getMetadataTable() {
         HashMap<String, ComparedImagesMetadata> hashmap = new HashMap<String, ComparedImagesMetadata>();
         for (int resultIndex = 0; resultIndex < result.length; resultIndex++) {
@@ -180,7 +221,7 @@ public class ImageMetadataComponentGenerator {
 	HashMap<String, ComparedImagesMetadata> metadata = getMetadataTable();
 	MetadataGroups metadataGroups = DifferApplication.getMetadataGroups();
 	Map<String, ComparedImagesMetadata> profileProps = filterBySource("Profile validation", metadata);
-	Map<String, ComparedImagesMetadata> glitchProps = filterBySource(GlitchDetectorResultPostProcessor.SOURCE_NAME, metadata);
+	final Map<String, ComparedImagesMetadata> glitchProps = filterBySource(GlitchDetectorResultPostProcessor.SOURCE_NAME, metadata);
 	generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
 	generateMetadataTableForTwoResults(layout, "Identification", filterByProperties(metadata, metadataGroups.getIdentificationProperties()));
 	generateMetadataTableForTwoResults(layout, "Validation", filterByProperties(metadata, metadataGroups.getValidationProperties()));
@@ -188,10 +229,50 @@ public class ImageMetadataComponentGenerator {
 	if (!profileProps.isEmpty()) {
 	    generateMetadataTableForTwoResults(layout, "JPEG2000 profile validation", profileProps);
 	}
-	if (!glitchProps.isEmpty()) {
-	    generateMetadataTableForTwoResults(layout, GlitchDetectorResultPostProcessor.SOURCE_NAME, glitchProps);
-	}
 	generateMetadataTableForTwoResults(layout, "Others", filterByOtherProperties(metadata, metadataGroups.getAllProperties()));
+
+	final GlitchDetectorConfig config = new GlitchDetectorConfig();
+	if (!glitchProps.isEmpty()) {
+	    final Table table = generateMetadataTableForTwoResults(GlitchDetectorResultPostProcessor.SOURCE_NAME, glitchProps);
+	    layout.addComponent(table);
+	    final Button glitchSettingButton = new Button();
+	    glitchSettingButton.addListener(new ClickListener() {
+
+		private Table newTable = null;
+
+		@Override
+		public void buttonClick(ClickEvent event) {
+		    final GlitchDetectorWindow window = new GlitchDetectorWindow(config);
+		    window.setOnSubmit(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+			    if (newTable == null) {
+				layout.removeComponent(table);
+			    } else {
+				layout.removeComponent(newTable);
+			    }
+			    layout.removeComponent(glitchSettingButton);
+			    GlitchDetectorResultPostProcessor processor = DifferApplication.getApplicationContext().getBean(GlitchDetectorResultPostProcessor.class);
+			    List<ImageMetadata>[] datas = (List<ImageMetadata>[]) new List[result.length + 1];
+			    int index = 0;
+			    for (ImageProcessorResult res : result) {
+				datas[index] = processor.process(res, config);
+				index++;
+			    }
+			    HashMap<String, ComparedImagesMetadata> newGlitchProps = ImageMetadataComponentGenerator.this.getMetadataTable(datas);
+			    newTable = generateMetadataTableForTwoResults(GlitchDetectorResultPostProcessor.SOURCE_NAME, newGlitchProps);
+			    layout.addComponent(newTable);
+			    layout.addComponent(glitchSettingButton);
+			}
+		    });
+		    window.init();
+		    parent.getMainWindow().addWindow(window);
+		}
+	    });
+	    glitchSettingButton.setImmediate(true);
+	    layout.addComponent(glitchSettingButton);
+	}
     }
     
     private Map<String, ComparedImagesMetadata> filterBySource(String sourceName, HashMap<String, ComparedImagesMetadata> metadata) {
@@ -244,9 +325,9 @@ public class ImageMetadataComponentGenerator {
         }
 
     }
-    
-    private void generateMetadataTableForTwoResults(final Layout layout, String group, Map<String, ComparedImagesMetadata> hashmap) {
-        final Table metadataTable = new Table(group.toUpperCase());
+
+    private Table generateMetadataTableForTwoResults(String group, Map<String, ComparedImagesMetadata> hashmap) {
+	final Table metadataTable = new Table(group.toUpperCase());
         metadataTable.addContainerProperty(COLUMN_KEY_PROPERTY, String.class, null);
         metadataTable.addContainerProperty(COLUMN_SOURCE_PROPERTY, SortableButton.class, null);
         metadataTable.addContainerProperty(COLUMN_A_VALUE_PROPERTY, SortableButton.class, null);
@@ -269,7 +350,7 @@ public class ImageMetadataComponentGenerator {
         int row = 0;
         for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
             ComparedImagesMetadata cim = entry.getValue();
-            Button clickableToolName = createClickableTool(layout, cim.getSourceName(), cim.getVersion());
+            Button clickableToolName = createClickableTool(cim.getSourceName(), cim.getVersion());
 
             Button valueA = createClickableValue(cim.getImageMetadata()[0]);
             Button valueB = createClickableValue(cim.getImageMetadata()[1]);
@@ -277,20 +358,25 @@ public class ImageMetadataComponentGenerator {
                         valueB, cim.getUnit() }, row);
             row++;
         }
-        
+
         metadataTable.setSelectable(true);
         metadataTable.setMultiSelect(false);
         metadataTable.setImmediate(true);
         metadataTable.setWidth(2 * TABLE_WIDTH, Sizeable.UNITS_PIXELS);
         metadataTable.setPageLength(Math.min(row, 10));
         metadataTable.sort(new Object[]{ COLUMN_KEY_PROPERTY }, new boolean[] {true });
-        layout.addComponent(metadataTable);
-        
+
         if (group.equals("JPEG2000 profile validation")) {
             metadataTable.setCellStyleGenerator(new BooleanCellStyleGenerator(metadataTable));
         } else {
             metadataTable.setCellStyleGenerator(new ConflictCellStyleGenerator(metadataTable));
         }
+	
+	return metadataTable;
+    }
+    
+    private void generateMetadataTableForTwoResults(final Layout layout, String group, Map<String, ComparedImagesMetadata> hashmap) {
+	layout.addComponent(generateMetadataTableForTwoResults(group, hashmap));
     }
     
     private class ConflictCellStyleGenerator implements Table.CellStyleGenerator {
@@ -344,14 +430,14 @@ public class ImageMetadataComponentGenerator {
         }
     }
     
-    private SortableButton createClickableTool(final Layout layout, String source, String version) {       
+    private SortableButton createClickableTool(String source, String version) {       
         final String toolName = (source == null || source.isEmpty()) ? "tool name unknown" : source;
         final String ver = (version == null || version.isEmpty()) ? "unknown" : version;
         SortableButton button = new SortableButton(toolName);
         button.addListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                layout.getWindow().showNotification(toolName, "<br/>version " + ver, Window.Notification.TYPE_HUMANIZED_MESSAGE);
+                parent.getMainWindow().showNotification(toolName, "<br/>version " + ver, Window.Notification.TYPE_HUMANIZED_MESSAGE);
             } 
         });
         button.addStyleName("link");
@@ -374,8 +460,7 @@ public class ImageMetadataComponentGenerator {
 		    } if (data.getData() instanceof JP2ProfileValidationResult) {
 			window = new JP2ProfileValidationResultWindow((JP2ProfileValidationResult) data.getData());
 		    }
-                    Window mainWindow = DifferApplication.getMainApplicationWindow();
-                    mainWindow.addWindow(window);
+                    parent.getMainWindow().addWindow(window);
                 }
             });
         }
