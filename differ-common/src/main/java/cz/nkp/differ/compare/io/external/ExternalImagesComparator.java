@@ -73,10 +73,8 @@ public class ExternalImagesComparator implements ImagesComparator {
                 ImageIO.write(img, suffix, result);
                 result = tmpFile;
                 logger.info("Unsupported image type converted to '{}'.", tmpFile);
-            } catch (ImageDifferException ide) {
-                logger.error("Exception thrown when converting image.", ide);
-            } catch (IOException ioe) {
-                logger.error("Exception thrown when converting image.", ioe);
+            } catch (Exception ex) {
+                logger.error("Exception thrown when converting image.", ex);
             }
         }
         return result;
