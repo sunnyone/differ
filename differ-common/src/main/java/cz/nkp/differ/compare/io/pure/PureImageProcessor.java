@@ -213,11 +213,13 @@ public class PureImageProcessor extends ImageProcessor {
                 generateHistogramAndChecksum(result1);
                 generateHistogramAndChecksum(result2);
             }
-            java.awt.Image comparePreview = ImageManipulator.getBitmapScaledImage(resultOfComparison.getFullImage(), PureImageProcessor.this.getConfig().getImageWidth(), true);
-            resultOfComparison.setPreview(comparePreview);
-            resultOfComparison.setType(ImageProcessorResult.Type.COMPARISON);
-            addMetrics(resultOfComparison);
-            resultOfComparison.setType(ImageProcessorResult.Type.COMPARISON);
+            synchronized (resultOfComparison) {
+                java.awt.Image comparePreview = ImageManipulator.getBitmapScaledImage(resultOfComparison.getFullImage(),
+                    PureImageProcessor.this.getConfig().getImageWidth(), true);
+                resultOfComparison.setPreview(comparePreview);
+                addMetrics(resultOfComparison);
+                resultOfComparison.setType(ImageProcessorResult.Type.COMPARISON);
+            }
             return resultOfComparison;
         }
 
@@ -523,8 +525,10 @@ public class PureImageProcessor extends ImageProcessor {
                 second.setHeight(height);
             }
             
-            comparison.setFullImage(imageDiff);
-            comparison.setHistogram(diffHist);
+            synchronized(comparison) {
+                comparison.setFullImage(imageDiff);
+                comparison.setHistogram(diffHist);
+            }
         } catch (Exception ex) {
             logger.error("Exception thrown when comparing images", ex);
             if (ex instanceof RuntimeException) {
