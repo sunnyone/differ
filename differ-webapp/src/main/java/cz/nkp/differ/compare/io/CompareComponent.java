@@ -92,7 +92,6 @@ public class CompareComponent {
 	    }
             ImageFileAnalysisContainer iFAC1 = new ImageFileAnalysisContainer(results[0], this, 0, fileName1);
 	    Layout iFAC1Layout = iFAC1.getComponent();
-	    iFAC1Layout.addComponent(addExportResultsButton(results));
             grid.addComponent(iFAC1Layout, 0, 0);
 
 	    String fileName2 = "";
@@ -105,7 +104,9 @@ public class CompareComponent {
             ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(resultsForMetadata, this);
             Component metadataTable = table.getComponent();
-            grid.addComponent(metadataTable, 0, 1, 1, 1);
+            Layout metadataTablePanel = exportResultsPanel(results);
+            metadataTablePanel.addComponent(metadataTable);
+            grid.addComponent(metadataTablePanel, 0, 1, 1, 1);
             
             if (results[2] != null && results[2].getPreview() != null) {
                 Label comparedChecksum;
@@ -142,7 +143,7 @@ public class CompareComponent {
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
             layout.addComponent(table.getComponent());
             if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
-                layout.addComponent(addExportResultsButton(results));
+                layout.addComponent(exportResultsPanel(results));
             }
 	    return layout;
 	}
@@ -152,17 +153,23 @@ public class CompareComponent {
 	return mainWindow;
     }
     
-    private Component addExportResultsButton(final ImageProcessorResult[] ipr) {
-        Button btnSave = new Button("Save Results");
-        btnSave.addListener(new ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                SaveResultWindow window = new SaveResultWindow(ipr);
-		mainWindow.addWindow(window);
-            }   
-        });
-	btnSave.setImmediate(true);
-        return btnSave;
+    private Layout exportResultsPanel(final ImageProcessorResult[] ipr) {
+        HorizontalLayout buttonsPanel = new HorizontalLayout();
+        if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
+            Button btnSave = new Button("Save Results");
+            btnSave.addListener(new ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    SaveResultWindow window = new SaveResultWindow(ipr);
+                    mainWindow.addWindow(window);
+                }
+            });
+            btnSave.setImmediate(true);
+            buttonsPanel.addComponent(btnSave);
+        }
+        VerticalLayout panel = new VerticalLayout();
+        panel.addComponent(buttonsPanel);
+        return panel;
     }
 
 }
