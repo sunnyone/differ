@@ -52,7 +52,7 @@ public class MainDifferWindow extends Window implements LoginListener {
             resultsTab = MainDifferWindow.createDynamicContentTab(results, "Results", menuTabs);
         }
         
-	MainDifferWindow.createStaticContentTab("doc_tab", "Documents", menuTabs);
+	MainDifferWindow.createStaticContentTab("doc_tab", "Documentation", menuTabs);
 	MainDifferWindow.createStaticContentTab("about_tab", "About", menuTabs);
         MainDifferWindow.createStaticContentTab("traffic_tab", "Traffic", menuTabs);
 
