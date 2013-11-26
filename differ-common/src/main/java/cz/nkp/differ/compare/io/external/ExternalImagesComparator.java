@@ -70,7 +70,7 @@ public class ExternalImagesComparator implements ImagesComparator {
                 logger.info("About to convert unsupported image type for file '{}'", file);
                 BufferedImage img = imageLoader.load(file);
                 File tmpFile = File.createTempFile(PREFIX, '.' + suffix);
-                ImageIO.write(img, suffix, result);
+                ImageIO.write(img, suffix, tmpFile);
                 result = tmpFile;
                 logger.info("Unsupported image type converted to '{}'.", tmpFile);
             } catch (Exception ex) {
