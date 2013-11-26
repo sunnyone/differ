@@ -13,12 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author xrosecky
  */
 public class ExternalImagesComparator implements ImagesComparator {
+    
+    private static Logger logger = LogManager.getLogger(ImagesComparator.class);
 
     private static final String PREFIX = "differ";
     
@@ -63,10 +67,12 @@ public class ExternalImagesComparator implements ImagesComparator {
         String extension = ImageLoaderFactory.getExtension(file.getName()).toLowerCase();
         if (supportedExtensions != null && !supportedExtensions.contains(extension)) {
             try {
+                logger.info("About to convert unsupported image type for file '{}'", file);
                 BufferedImage img = imageLoader.load(file);
                 File tmpFile = File.createTempFile(PREFIX, '.' + suffix);
                 ImageIO.write(img, suffix, result);
                 result = tmpFile;
+                logger.info("Unsupported image type converted.", file);
             } catch (ImageDifferException ide) {
                 // FIXME
             } catch (IOException ioe) {
