@@ -54,6 +54,11 @@ public class ImageMetadataComponentGenerator {
     
     private static String COLUMN_VALUE_PROPERTY    = "value"; //not used in imageA\imageB table
     
+    private static String COLUMN_TOOL_PROPERTY    = "tool";
+    private static String COLUMN_VERSION_PROPERTY = "version";
+    private static String COLUMN_A_TIME_PROPERTY  = "image A time";
+    private static String COLUMN_B_TIME_PROPERTY  = "image B time";
+    
     /**
      * Constructor which takes a single ImageProcessorResult object (usually for comparison table)
      * @param ImageProcessorResult
@@ -222,7 +227,8 @@ public class ImageMetadataComponentGenerator {
 	MetadataGroups metadataGroups = DifferApplication.getMetadataGroups();
 	Map<String, ComparedImagesMetadata> profileProps = filterBySource("Profile validation", metadata);
 	final Map<String, ComparedImagesMetadata> glitchProps = filterBySource(GlitchDetectorResultPostProcessor.SOURCE_NAME, metadata);
-	generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
+	//generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
+        generateMetadataTableForUsedExtractors(layout, metadata);
 	generateMetadataTableForTwoResults(layout, "Identification", filterByProperties(metadata, metadataGroups.getIdentificationProperties()));
 	generateMetadataTableForTwoResults(layout, "Validation", filterByProperties(metadata, metadataGroups.getValidationProperties()));
 	generateMetadataTableForTwoResults(layout, "Characterization", filterByProperties(metadata, metadataGroups.getCharacterizationProperties()));
@@ -373,6 +379,26 @@ public class ImageMetadataComponentGenerator {
         }
 	
 	return metadataTable;
+    }
+    
+    private void generateMetadataTableForUsedExtractors(final Layout layout, Map<String, ComparedImagesMetadata> hashmap) {
+        final Table metadataTable = new Table("Used extractors".toUpperCase());
+        metadataTable.addContainerProperty(COLUMN_TOOL_PROPERTY, String.class, null);
+        metadataTable.addContainerProperty(COLUMN_VERSION_PROPERTY, String.class, null);
+        metadataTable.addContainerProperty(COLUMN_A_TIME_PROPERTY, String.class, null);
+        metadataTable.addContainerProperty(COLUMN_B_TIME_PROPERTY, String.class, null);
+        int row = 0;
+        for (ComparedImagesMetadata metadata : hashmap.values()) {
+            if (metadata.getKey().equals("Elapsed Time of Extraction")) {
+                metadataTable.addItem(new Object[] { metadata.getSourceName(), metadata.getVersion(),
+                    metadata.getImageMetadata()[0].getValue().toString(), metadata.getImageMetadata()[1].getValue().toString() }, row);
+                row++;
+            }
+        }
+        metadataTable.setWidth(2 * TABLE_WIDTH, Sizeable.UNITS_PIXELS);
+        metadataTable.setPageLength(row);
+        metadataTable.setImmediate(true);
+        layout.addComponent(metadataTable);
     }
     
     private void generateMetadataTableForTwoResults(final Layout layout, String group, Map<String, ComparedImagesMetadata> hashmap) {
