@@ -24,6 +24,11 @@
                 </constructor-arg>
             </bean>
         </property>
+        <property name="sourceNameToUnit">
+            <map>
+                <entry key="PSNR" value="db"/>
+            </map> 
+        </property>
     </bean>
 
     <bean id="metricMetadataExtractor" class="cz.nkp.differ.compare.metadata.external.ExternalMetadataExtractor">

@@ -32,6 +32,11 @@ public class ImageMetadata {
         this.value = value;
         this.source = source;
     }
+    
+    public ImageMetadata(String key, Object value, MetadataSource source, String unit) {
+        this(key, value, source);
+        this.unit = unit;
+    }
 
     public String getKey() {
         return key;

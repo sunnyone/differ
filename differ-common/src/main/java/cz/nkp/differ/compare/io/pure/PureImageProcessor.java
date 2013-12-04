@@ -49,6 +49,8 @@ public class PureImageProcessor extends ImageProcessor {
     
     private static Logger logger = LogManager.getLogger(ImageProcessor.class);
 
+    private static final String PSNR_UNIT = "db"; //decibels
+    
     private ImageLoader imageLoader;
     private ReportGenerator pdfReporter;
     private MetadataExtractors extractors;
@@ -383,7 +385,7 @@ public class PureImageProcessor extends ImageProcessor {
             double mse = (1.0 / size) * sqSum;
             double psnr = 10 * Math.log10((255 * 255) / mse);
             result.getMetadata().add(new ImageMetadata(colour, mse, mseSource));
-            result.getMetadata().add(new ImageMetadata(colour, psnr, psnrSource));
+            result.getMetadata().add(new ImageMetadata(colour, psnr, psnrSource, PSNR_UNIT));
         }
     }
 

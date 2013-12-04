@@ -26,6 +26,8 @@ public class ExternalImagesComparator implements ImagesComparator {
 
     private static final String PREFIX = "differ";
     
+    private Map<String, String> sourceNameToUnit = new HashMap<String, String>();
+    
     private MetadataExtractorWithAttributes extractor;
     
     private ImageLoader imageLoader;
@@ -51,6 +53,9 @@ public class ExternalImagesComparator implements ImagesComparator {
             attributes.put("{file1}", file1.getAbsolutePath());
             attributes.put("{file2}", file2.getAbsolutePath());
             List<ImageMetadata> metadata = extractor.getMetadata(attributes);
+            for (ImageMetadata data : metadata) {
+                data.setUnit(sourceNameToUnit.get(data.getSource().getSourceName()));
+            }
             return metadata;
         } finally {
             if (tmpFile1 != null) {
@@ -115,6 +120,14 @@ public class ExternalImagesComparator implements ImagesComparator {
 
     public void setSuffix(String suffix) {
         this.suffix = suffix;
+    }
+
+    public Map<String, String> getSourceNameToUnit() {
+        return sourceNameToUnit;
+    }
+
+    public void setSourceNameToUnit(Map<String, String> sourceNameToUnit) {
+        this.sourceNameToUnit = sourceNameToUnit;
     }
     
 }
