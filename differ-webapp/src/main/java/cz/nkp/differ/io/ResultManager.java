@@ -13,6 +13,8 @@ import java.util.List;
 public interface ResultManager {
 
     public SerializableImageProcessorResults getResult(Result result) throws IOException;
+    
+    public void delete(Result result);
 
     public List<Result> getResults();
     

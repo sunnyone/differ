@@ -31,6 +31,7 @@ public class ResultManagerTab extends HorizontalLayout {
     private BeanItemContainer<Result> resultContainer = null;
     private Button showButton;
     private Button reloadButton;
+    private Button removeButton;
     private ResultManager resultManager;
     private Layout customViewWrapper;
     private Button customLayoutBackButton;
@@ -87,13 +88,31 @@ public class ResultManagerTab extends HorizontalLayout {
             }
         });
 	panel.addComponent(showButton);
+        
+        if (!anonymous) {
+            removeButton = new Button();
+            removeButton.setCaption("delete");
+            removeButton.addListener(new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    if (resultTable.getValue() != null) {
+                        Result result = (Result) resultTable.getValue();
+                        if (result != null) {
+                            resultManager.delete(result);
+                            ResultManagerTab.this.reload();
+                        }
+                    }
+                }
+            });
+            panel.addComponent(removeButton);
+        }
+        
 	reloadButton = new Button();
 	reloadButton.setCaption("reload");
 	reloadButton.addListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                ResultManagerTab.this.removeAllComponents();
-		ResultManagerTab.this.setDefaultView();
+                ResultManagerTab.this.reload();
             }
         });
 	panel.addComponent(reloadButton);
@@ -113,6 +132,11 @@ public class ResultManagerTab extends HorizontalLayout {
         this.removeAllComponents();
         this.addComponent(customViewWrapper);
         this.setSizeUndefined();
+    }
+    
+    private void reload() {
+        removeAllComponents();
+        setDefaultView();
     }
 
     private Button.ClickListener customViewWrapperBackButtonListener = new Button.ClickListener() {
