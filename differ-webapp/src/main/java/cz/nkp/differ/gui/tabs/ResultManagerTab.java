@@ -1,9 +1,15 @@
 package cz.nkp.differ.gui.tabs;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.DefaultFieldFactory;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
@@ -15,6 +21,7 @@ import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ResultManager;
+import cz.nkp.differ.model.Image;
 import cz.nkp.differ.model.Result;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +32,8 @@ import java.util.List;
  */
 public class ResultManagerTab extends HorizontalLayout {
 
+    private static final String[] VISIBLE_COLUMNS = new String[]{ "name", "created", "shared" };
+    
     private MainDifferWindow mainWindow;
     private boolean anonymous;
     private Table resultTable;
@@ -46,7 +55,7 @@ public class ResultManagerTab extends HorizontalLayout {
     public void setDefaultView() {
 	HorizontalLayout mainLayout = new HorizontalLayout();
 	this.addComponent(mainLayout);
-        List<Result> results = null;
+        List<Result> results;
         if (anonymous) {
             results = resultManager.getSharedResults();
         } else {
@@ -54,9 +63,40 @@ public class ResultManagerTab extends HorizontalLayout {
         }
         resultContainer = new BeanItemContainer<Result>(Result.class, results);
         resultTable = new Table("results", resultContainer);
+        resultTable.setVisibleColumns(VISIBLE_COLUMNS);
+        resultTable.setColumnHeaders(VISIBLE_COLUMNS);
+        resultTable.setTableFieldFactory(new DefaultFieldFactory() {
+
+	    @Override
+	    public Field createField(Container container, Object itemId,
+		    Object propertyId, Component uiContext) {
+		Field field = super.createField(container, itemId, propertyId,
+			uiContext);
+		final Result result = (Result) itemId;
+		boolean readOnly = anonymous;
+		if (propertyId.equals("shared")) {
+		    CheckBox checkBox = new CheckBox();
+		    checkBox.setReadOnly(readOnly);
+		    checkBox.setDescription(null);
+		    checkBox.setImmediate(true);
+		    checkBox.addListener(new Property.ValueChangeListener() {
+
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+			    ResultManagerTab.this.resultManager.update(result);
+			}
+		    });
+		    return checkBox;
+		}
+		field.setHeight(1.5f, UNITS_EM);
+		field.setReadOnly(true);
+		return field;
+	    }
+	});
         resultTable.setSelectable(true);
         resultTable.setImmediate(true);
         resultTable.setMultiSelect(false);
+        resultTable.setEditable(!anonymous);
         mainLayout.addComponent(resultTable);
 	VerticalLayout buttonPanelRoot = new VerticalLayout();
 	Panel panel = new Panel();

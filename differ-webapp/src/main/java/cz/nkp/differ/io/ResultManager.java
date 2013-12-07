@@ -15,6 +15,8 @@ public interface ResultManager {
     public SerializableImageProcessorResults getResult(Result result) throws IOException;
     
     public void delete(Result result);
+    
+    public void update(Result result);
 
     public List<Result> getResults();
     
