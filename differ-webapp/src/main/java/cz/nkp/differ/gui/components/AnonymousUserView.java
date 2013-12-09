@@ -105,8 +105,8 @@ public class AnonymousUserView extends HorizontalLayout {
 
                     HorizontalLayout layout = new HorizontalLayout();
                     CompareComponent cp = new CompareComponent(parent.getWindow());
-                    layout.addComponent(new ProgressBarComponent(DifferApplication.getCurrentApplication(), cp, selectedImages));
                     parent.setCustomView(layout);
+                    layout.addComponent(new ProgressBarComponent(parent, DifferApplication.getCurrentApplication(), cp, selectedImages));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

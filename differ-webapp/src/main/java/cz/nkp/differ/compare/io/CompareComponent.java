@@ -19,7 +19,8 @@ import cz.nkp.differ.plugins.tools.PluginPollingThread;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.apache.commons.io.FileUtils;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 
@@ -109,7 +110,8 @@ public class CompareComponent {
             ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(resultsForMetadata, this);
             Component metadataTable = table.getComponent();
-            Layout metadataTablePanel = exportResultsPanel(results);
+            Layout metadataTablePanel = new HorizontalLayout();
+            //exportResultsPanel(results);
             metadataTablePanel.addComponent(metadataTable);
             grid.addComponent(metadataTablePanel, 0, 1, 1, 1);
             
@@ -147,9 +149,11 @@ public class CompareComponent {
             layout.addComponent(childLayout);
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
             layout.addComponent(table.getComponent());
+            /*
             if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
                 layout.addComponent(exportResultsPanel(results));
             }
+            */
 	    return layout;
 	}
     }
@@ -158,6 +162,16 @@ public class CompareComponent {
 	return mainWindow;
     }
     
+    public List<Button> getButtons() {
+        List<Button> buttons = new ArrayList<Button>();
+        if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
+            buttons.add(createSaveButton(results));
+        }
+        buttons.add(createExportButton(results));
+        return buttons;
+    }
+    
+    /*
     private Layout exportResultsPanel(final ImageProcessorResult[] ipr) {
         HorizontalLayout buttonsPanel = new HorizontalLayout();
         if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
@@ -168,6 +182,7 @@ public class CompareComponent {
         panel.addComponent(buttonsPanel);
         return panel;
     }
+    */
     
     private Button createSaveButton(final ImageProcessorResult[] ipr) {
         Button btnSave = new Button("Save results");
