@@ -59,41 +59,19 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
 
     @Override
     public Result save(ImageProcessorResult[] results, String name, boolean shared) throws IOException {
-	ArrayList<SerializableImageProcessorResult> resultsList = new ArrayList<SerializableImageProcessorResult>();
-        for (ImageProcessorResult result : results) {
-            SerializableImageProcessorResult res = new SerializableImageProcessorResult();
-            if (result != null) {
-                try {
-                    if (saveFullImage && result.getFullImage() != null) {
-                        res.setFullImage(new SerializableImage(result.getFullImage()));
-                    }
-                    if (result.getPreview() != null) {
-                        res.setPreview(new SerializableImage(result.getPreview()));
-                    }
-                } catch (IOException ex) {
-                    java.util.logging.Logger.getLogger(ResultManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                res.setChecksum(result.getMD5Checksum());
-                res.setHistogram(result.getHistogram());
-                res.setType(result.getType());
-                res.setWidth(result.getWidth());
-                res.setHeight(result.getHeight());
-                res.setMetadata(result.getMetadata());
-                Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
-                for (ImageMetadata data : result.getMetadata()) {
-                    if (!sourcesSet.contains(data.getSource())) {
-                        sourcesSet.add(data.getSource());
-                    }
-                }
-                List<MetadataSource> sources = new ArrayList<MetadataSource>();
-                sources.addAll(sourcesSet);
-                res.setSources(sources);
-            }
-            resultsList.add(res);
-        }
-        SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
-        sipr.setResults(resultsList);
+        SerializableImageProcessorResults sipr = convert(results);
 	return save(sipr, name, shared);
+    }
+    
+    @Override
+    public void save(ImageProcessorResult[] results, OutputStream os) {
+        SerializableImageProcessorResults sipr = convert(results);
+        StreamResult streamResult = new StreamResult(os);
+        try {
+            marshaller.marshal(sipr, streamResult);
+        } catch (JAXBException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     
     @Override
@@ -232,6 +210,44 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
     private File getFile(Result result) {
 	String fileName = Long.toString(result.getId()) + EXTENSION;
 	return new File(directory, fileName);
+    }
+    
+    public SerializableImageProcessorResults convert(ImageProcessorResult[] results) {
+        ArrayList<SerializableImageProcessorResult> resultsList = new ArrayList<SerializableImageProcessorResult>();
+        for (ImageProcessorResult result : results) {
+            SerializableImageProcessorResult res = new SerializableImageProcessorResult();
+            if (result != null) {
+                try {
+                    if (saveFullImage && result.getFullImage() != null) {
+                        res.setFullImage(new SerializableImage(result.getFullImage()));
+                    }
+                    if (result.getPreview() != null) {
+                        res.setPreview(new SerializableImage(result.getPreview()));
+                    }
+                } catch (IOException ex) {
+                    java.util.logging.Logger.getLogger(ResultManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                res.setChecksum(result.getMD5Checksum());
+                res.setHistogram(result.getHistogram());
+                res.setType(result.getType());
+                res.setWidth(result.getWidth());
+                res.setHeight(result.getHeight());
+                res.setMetadata(result.getMetadata());
+                Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
+                for (ImageMetadata data : result.getMetadata()) {
+                    if (!sourcesSet.contains(data.getSource())) {
+                        sourcesSet.add(data.getSource());
+                    }
+                }
+                List<MetadataSource> sources = new ArrayList<MetadataSource>();
+                sources.addAll(sourcesSet);
+                res.setSources(sources);
+            }
+            resultsList.add(res);
+        }
+        SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
+        sipr.setResults(resultsList);
+        return sipr;
     }
 
 }

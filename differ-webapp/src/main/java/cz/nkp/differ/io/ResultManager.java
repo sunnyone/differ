@@ -4,6 +4,7 @@ import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
 import cz.nkp.differ.model.Result;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -25,5 +26,7 @@ public interface ResultManager {
     public Result save(SerializableImageProcessorResults result, String name, boolean shared) throws IOException;
 
     public Result save(ImageProcessorResult[] results, String name, boolean shared) throws IOException;
+    
+    public void save(ImageProcessorResult[] results, OutputStream os);
     
 }

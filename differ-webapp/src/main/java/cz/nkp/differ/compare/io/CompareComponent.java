@@ -1,5 +1,6 @@
 package cz.nkp.differ.compare.io;
 
+import com.vaadin.terminal.FileResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
@@ -15,6 +16,10 @@ import cz.nkp.differ.gui.windows.SaveResultWindow;
 import cz.nkp.differ.listener.ProgressListener;
 import cz.nkp.differ.model.Image;
 import cz.nkp.differ.plugins.tools.PluginPollingThread;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 
@@ -156,20 +161,48 @@ public class CompareComponent {
     private Layout exportResultsPanel(final ImageProcessorResult[] ipr) {
         HorizontalLayout buttonsPanel = new HorizontalLayout();
         if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
-            Button btnSave = new Button("Save Results");
-            btnSave.addListener(new ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    SaveResultWindow window = new SaveResultWindow(ipr);
-                    mainWindow.addWindow(window);
-                }
-            });
-            btnSave.setImmediate(true);
-            buttonsPanel.addComponent(btnSave);
+            buttonsPanel.addComponent(createSaveButton(ipr));
         }
+        buttonsPanel.addComponent(createExportButton(ipr));
         VerticalLayout panel = new VerticalLayout();
         panel.addComponent(buttonsPanel);
         return panel;
+    }
+    
+    private Button createSaveButton(final ImageProcessorResult[] ipr) {
+        Button btnSave = new Button("Save results");
+        btnSave.addListener(new ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                SaveResultWindow window = new SaveResultWindow(ipr);
+                mainWindow.addWindow(window);
+            }
+        });
+        btnSave.setImmediate(true);
+        return btnSave;
+    }
+    
+    private Button createExportButton(final ImageProcessorResult[] ipr) {
+        Button btnExport = new Button("Export results");
+        btnExport.addListener(new ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                try {
+                    File tmpFile = File.createTempFile("export", ".xml");
+                    DifferApplication.getTemporaryFilesCleaner().addFile(tmpFile);
+                    FileOutputStream fos = new FileOutputStream(tmpFile);
+                    DifferApplication.getResultManager().save(results, fos);
+                    FileResource resource = new FileResource(tmpFile, DifferApplication.getCurrentApplication());
+                    mainWindow.open(resource);
+                } catch (IOException ioe) {
+                    DifferApplication.getMainApplicationWindow().showNotification("Failed",
+                            "<br/>Export of result failed",
+                    Window.Notification.TYPE_ERROR_MESSAGE);
+                }
+            }
+        });
+        btnExport.setImmediate(true);
+        return btnExport;
     }
 
 }
