@@ -12,7 +12,7 @@ public class ExecutionTime {
     }
     
     public void reset() {
-        long start = System.currentTimeMillis();
+        this.start = System.currentTimeMillis();
     }
     
     public long getTime() {
