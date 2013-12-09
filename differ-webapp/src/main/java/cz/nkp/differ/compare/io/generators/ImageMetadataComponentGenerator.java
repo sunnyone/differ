@@ -505,10 +505,12 @@ public class ImageMetadataComponentGenerator {
     
     private SortableButton createClickableValue(final ImageMetadata data) {
 	String value = "";
+        Object dataValue = null;
         if (data != null && data.getValue() != null) {
             value = data.getValue().toString();
+            dataValue = data.getValue();
         }
-        SortableButton button = new SortableButton(value, data.getValue());
+        SortableButton button = new SortableButton(value, dataValue);
         if (data != null && data.getSource() != null) {
             button.addListener(new Button.ClickListener() {
                 @Override
