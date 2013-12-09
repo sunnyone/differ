@@ -30,5 +30,10 @@ public class ValidatedProperty {
     public void setValid(boolean valid) {
         this.valid = valid;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
     
 }
