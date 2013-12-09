@@ -92,6 +92,17 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
         sipr.setResults(resultsList);
 	return save(sipr, name, shared);
     }
+    
+    @Override
+    public void delete(Result result) {
+        resultDAO.delete(result);
+    }
+    
+    @Override
+    public void update(Result result) {
+        result = resultDAO.merge(result);
+        resultDAO.persist(result);
+    }
 
     @Override
     public Result save(SerializableImageProcessorResults processorResult, String name, boolean shared) throws IOException {

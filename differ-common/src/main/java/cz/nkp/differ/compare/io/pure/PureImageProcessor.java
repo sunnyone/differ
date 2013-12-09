@@ -49,6 +49,8 @@ public class PureImageProcessor extends ImageProcessor {
     
     private static Logger logger = LogManager.getLogger(ImageProcessor.class);
 
+    private static final String PSNR_UNIT = "db"; //decibels
+    
     private ImageLoader imageLoader;
     private ReportGenerator pdfReporter;
     private MetadataExtractors extractors;
@@ -213,11 +215,13 @@ public class PureImageProcessor extends ImageProcessor {
                 generateHistogramAndChecksum(result1);
                 generateHistogramAndChecksum(result2);
             }
-            java.awt.Image comparePreview = ImageManipulator.getBitmapScaledImage(resultOfComparison.getFullImage(), PureImageProcessor.this.getConfig().getImageWidth(), true);
-            resultOfComparison.setPreview(comparePreview);
-            resultOfComparison.setType(ImageProcessorResult.Type.COMPARISON);
-            addMetrics(resultOfComparison);
-            resultOfComparison.setType(ImageProcessorResult.Type.COMPARISON);
+            synchronized (resultOfComparison) {
+                java.awt.Image comparePreview = ImageManipulator.getBitmapScaledImage(resultOfComparison.getFullImage(),
+                    PureImageProcessor.this.getConfig().getImageWidth(), true);
+                resultOfComparison.setPreview(comparePreview);
+                addMetrics(resultOfComparison);
+                resultOfComparison.setType(ImageProcessorResult.Type.COMPARISON);
+            }
             return resultOfComparison;
         }
 
@@ -381,7 +385,7 @@ public class PureImageProcessor extends ImageProcessor {
             double mse = (1.0 / size) * sqSum;
             double psnr = 10 * Math.log10((255 * 255) / mse);
             result.getMetadata().add(new ImageMetadata(colour, mse, mseSource));
-            result.getMetadata().add(new ImageMetadata(colour, psnr, psnrSource));
+            result.getMetadata().add(new ImageMetadata(colour, psnr, psnrSource, PSNR_UNIT));
         }
     }
 
@@ -523,8 +527,10 @@ public class PureImageProcessor extends ImageProcessor {
                 second.setHeight(height);
             }
             
-            comparison.setFullImage(imageDiff);
-            comparison.setHistogram(diffHist);
+            synchronized(comparison) {
+                comparison.setFullImage(imageDiff);
+                comparison.setHistogram(diffHist);
+            }
         } catch (Exception ex) {
             logger.error("Exception thrown when comparing images", ex);
             if (ex instanceof RuntimeException) {

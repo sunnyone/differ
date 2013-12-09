@@ -18,6 +18,7 @@ import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
 import cz.nkp.differ.compare.metadata.JP2ProfileValidationResult;
 import cz.nkp.differ.compare.metadata.MetadataGroups;
+import cz.nkp.differ.compare.metadata.ValidatedProperty;
 import cz.nkp.differ.exceptions.FatalDifferException;
 import cz.nkp.differ.gui.windows.GlitchDetectorWindow;
 import cz.nkp.differ.gui.windows.JP2ProfileValidationResultWindow;
@@ -53,6 +54,11 @@ public class ImageMetadataComponentGenerator {
     private static String COLUMN_UNIT_PROPERTY    = "unit";
     
     private static String COLUMN_VALUE_PROPERTY    = "value"; //not used in imageA\imageB table
+    
+    private static String COLUMN_TOOL_PROPERTY    = "tool";
+    private static String COLUMN_VERSION_PROPERTY = "version";
+    private static String COLUMN_A_TIME_PROPERTY  = "image A time";
+    private static String COLUMN_B_TIME_PROPERTY  = "image B time";
     
     /**
      * Constructor which takes a single ImageProcessorResult object (usually for comparison table)
@@ -222,7 +228,8 @@ public class ImageMetadataComponentGenerator {
 	MetadataGroups metadataGroups = DifferApplication.getMetadataGroups();
 	Map<String, ComparedImagesMetadata> profileProps = filterBySource("Profile validation", metadata);
 	final Map<String, ComparedImagesMetadata> glitchProps = filterBySource(GlitchDetectorResultPostProcessor.SOURCE_NAME, metadata);
-	generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
+	//generateMetadataTableForTwoResults(layout, "Used extractors", filterByProperties(metadata, metadataGroups.getExtractorProperties()));
+        generateMetadataTableForUsedExtractors(layout, metadata);
 	generateMetadataTableForTwoResults(layout, "Identification", filterByProperties(metadata, metadataGroups.getIdentificationProperties()));
 	generateMetadataTableForTwoResults(layout, "Validation", filterByProperties(metadata, metadataGroups.getValidationProperties()));
 	generateMetadataTableForTwoResults(layout, "Characterization", filterByProperties(metadata, metadataGroups.getCharacterizationProperties()));
@@ -235,7 +242,7 @@ public class ImageMetadataComponentGenerator {
 	if (!glitchProps.isEmpty()) {
 	    final Table table = generateMetadataTableForTwoResults(GlitchDetectorResultPostProcessor.SOURCE_NAME, glitchProps);
 	    layout.addComponent(table);
-	    final Button glitchSettingButton = new Button();
+	    final Button glitchSettingButton = new Button("settings");
 	    glitchSettingButton.addListener(new ClickListener() {
 
 		private Table newTable = null;
@@ -313,15 +320,22 @@ public class ImageMetadataComponentGenerator {
     private static class SortableButton extends Button implements Comparable<SortableButton> {
 
         private final String label;
+        
+        private final Object data;
 
-        SortableButton(String label) {
+        SortableButton(String label, Object data) {
             super(label);
             this.label = label;
+            this.data = data;
         }
 
         @Override
         public int compareTo(SortableButton other) {
             return label.compareTo(other.label);
+        }
+        
+        public Object getData() {
+            return data;
         }
 
     }
@@ -368,11 +382,32 @@ public class ImageMetadataComponentGenerator {
 
         if (group.equals("JPEG2000 profile validation")) {
             metadataTable.setCellStyleGenerator(new BooleanCellStyleGenerator(metadataTable));
+        } else if (group.equals(GlitchDetectorResultPostProcessor.SOURCE_NAME)) {
+            metadataTable.setCellStyleGenerator(new ValidatedPropertyCellStyleGenerator(metadataTable));
         } else {
             metadataTable.setCellStyleGenerator(new ConflictCellStyleGenerator(metadataTable));
-        }
-	
+        }	
 	return metadataTable;
+    }
+    
+    private void generateMetadataTableForUsedExtractors(final Layout layout, Map<String, ComparedImagesMetadata> hashmap) {
+        final Table metadataTable = new Table("Used extractors".toUpperCase());
+        metadataTable.addContainerProperty(COLUMN_TOOL_PROPERTY, String.class, null);
+        metadataTable.addContainerProperty(COLUMN_VERSION_PROPERTY, String.class, null);
+        metadataTable.addContainerProperty(COLUMN_A_TIME_PROPERTY, String.class, null);
+        metadataTable.addContainerProperty(COLUMN_B_TIME_PROPERTY, String.class, null);
+        int row = 0;
+        for (ComparedImagesMetadata metadata : hashmap.values()) {
+            if (metadata.getKey().equals("Elapsed Time of Extraction")) {
+                metadataTable.addItem(new Object[] { metadata.getSourceName(), metadata.getVersion(),
+                    metadata.getImageMetadata()[0].getValue().toString(), metadata.getImageMetadata()[1].getValue().toString() }, row);
+                row++;
+            }
+        }
+        metadataTable.setWidth(2 * TABLE_WIDTH, Sizeable.UNITS_PIXELS);
+        metadataTable.setPageLength(row);
+        metadataTable.setImmediate(true);
+        layout.addComponent(metadataTable);
     }
     
     private void generateMetadataTableForTwoResults(final Layout layout, String group, Map<String, ComparedImagesMetadata> hashmap) {
@@ -430,10 +465,34 @@ public class ImageMetadataComponentGenerator {
         }
     }
     
+    private class ValidatedPropertyCellStyleGenerator implements Table.CellStyleGenerator {
+        
+        private Table metadataTable;
+
+        public ValidatedPropertyCellStyleGenerator(Table metadataTable) {
+            this.metadataTable = metadataTable;
+        }
+        
+        @Override
+        public String getStyle(Object itemId, Object propertyId) {
+            if (itemId != null && propertyId != null) {
+                Object prop = (Object) metadataTable.getContainerProperty(itemId, propertyId).getValue();
+                if (prop != null && prop instanceof SortableButton) {
+                    SortableButton butt = (SortableButton) prop;
+                    if (butt.getData() instanceof ValidatedProperty) {
+                        ValidatedProperty property = (ValidatedProperty) butt.getData();
+                        return (property.isValid())? "green" : "red";
+                    }
+                }
+            }
+            return "";
+        }
+    }
+    
     private SortableButton createClickableTool(String source, String version) {       
         final String toolName = (source == null || source.isEmpty()) ? "tool name unknown" : source;
         final String ver = (version == null || version.isEmpty()) ? "unknown" : version;
-        SortableButton button = new SortableButton(toolName);
+        SortableButton button = new SortableButton(toolName, null);
         button.addListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
@@ -449,7 +508,7 @@ public class ImageMetadataComponentGenerator {
         if (data != null && data.getValue() != null) {
             value = data.getValue().toString();
         }
-        SortableButton button = new SortableButton(value);
+        SortableButton button = new SortableButton(value, data.getValue());
         if (data != null && data.getSource() != null) {
             button.addListener(new Button.ClickListener() {
                 @Override

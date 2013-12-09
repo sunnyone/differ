@@ -80,8 +80,8 @@ public class GlitchDetectorWindow extends Window {
 	    double maxAllowedRatioForAbsoluteRed = Double.parseDouble((String) form.getField("maxAllowedRatioForAbsoluteRed").getValue());
 	    double maxAllowedRatioForAbsoluteGreen = Double.parseDouble((String) form.getField("maxAllowedRatioForAbsoluteGreen").getValue());
 	    double maxAllowedRatioForAbsoluteBlue = Double.parseDouble((String) form.getField("maxAllowedRatioForAbsoluteBlue").getValue());
-	    config.setMaxAllowedRatioForAbsoluteBlue(maxAllowedRatioForAbsoluteRed);
-	    config.setMaxAllowedRatioForAbsoluteBlue(maxAllowedRatioForAbsoluteGreen);
+	    config.setMaxAllowedRatioForAbsoluteRed(maxAllowedRatioForAbsoluteRed);
+	    config.setMaxAllowedRatioForAbsoluteGreen(maxAllowedRatioForAbsoluteGreen);
 	    config.setMaxAllowedRatioForAbsoluteBlue(maxAllowedRatioForAbsoluteBlue);
 	}
 	return valid;
