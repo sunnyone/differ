@@ -147,7 +147,7 @@ public class ImageFileAnalysisContainer {
                         sb.append(i).append(',').append(bins[0][i]).append(',').append(bins[1][i]).append(',').append(bins[2][i]).append("\n");
                     }
                     File tmpFile = File.createTempFile("histogram", ".csv");
-                    tmpFile.deleteOnExit();
+                    DifferApplication.getTemporaryFilesCleaner().addFile(tmpFile);
                     FileUtils.writeByteArrayToFile(tmpFile, sb.toString().getBytes());
                     FileResource resource = new FileResource(tmpFile, DifferApplication.getCurrentApplication());
                     parent.getMainWindow().open(resource);
