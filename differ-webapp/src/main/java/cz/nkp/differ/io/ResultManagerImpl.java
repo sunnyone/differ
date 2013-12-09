@@ -6,7 +6,10 @@ import cz.nkp.differ.compare.io.SerializableImage;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResult;
 import cz.nkp.differ.compare.io.SerializableImageProcessorResults;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
+import cz.nkp.differ.compare.metadata.JP2Metadata;
+import cz.nkp.differ.compare.metadata.JP2Profile;
 import cz.nkp.differ.compare.metadata.MetadataSource;
+import cz.nkp.differ.compare.metadata.ValidatedProperty;
 import cz.nkp.differ.dao.ResultDAO;
 import cz.nkp.differ.model.Result;
 import cz.nkp.differ.model.User;
@@ -198,7 +201,12 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-	context = JAXBContext.newInstance(SerializableImageProcessorResults.class);
+	context = JAXBContext.newInstance(SerializableImageProcessorResults.class,
+                ValidatedProperty.class,
+                JP2Metadata.class,
+                JP2Profile.class,
+                SerializableImageProcessorResult.class
+        );
 	marshaller = context.createMarshaller();
 	unmarshaller = context.createUnmarshaller();
 	File dir = new File(directory);

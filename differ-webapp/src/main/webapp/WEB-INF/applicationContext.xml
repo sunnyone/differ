@@ -102,6 +102,7 @@
                 <value>cz.nkp.differ.compare.io.SerializableImageProcessorResults</value>
                 <value>cz.nkp.differ.compare.metadata.JP2Profile</value>
                 <value>cz.nkp.differ.compare.metadata.JP2Metadata</value>
+                <value>cz.nkp.differ.compare.metadata.ValidatedProperty</value>
             </list>
         </property>
         <property name="marshallerProperties">
