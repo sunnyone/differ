@@ -39,7 +39,7 @@
     <property name = "Image width"><xsl:value-of select="mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageWidth"/></property>
     <property name = "Image height"><xsl:value-of select="mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageHeight"/></property>
     <property name = "Image height"><xsl:value-of select="mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageHeight"/></property>
-    <property name = "Color space"><xsl:value-of select="mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:PhotometricInterpretation/mix:colorSpace"/></property>
+    <property name = "Color model"><xsl:value-of select="mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:PhotometricInterpretation/mix:colorSpace"/></property>
     <property name = "Resolution horizontal"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:xSamplingFrequency/mix:numerator"/></property>
     <property name = "Resolution vertical"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:ySamplingFrequency/mix:numerator"/></property>
     <property name = "Color depth"><xsl:value-of select="mix:ImageAssessmentMetadata/mix:ImageColorEncoding/mix:BitsPerSample/mix:bitsPerSampleValue"/></property>

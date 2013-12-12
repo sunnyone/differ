@@ -19,7 +19,6 @@ import cz.nkp.differ.plugins.tools.PluginPollingThread;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 

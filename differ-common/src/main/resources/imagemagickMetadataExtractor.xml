@@ -26,11 +26,12 @@
 	<map>
     	  <entry key="Image/Artifacts/filename" value="File path"/>
     	  <entry key="Image" value="File name"/>
-    	  <entry key="Image/Colorspace" value="Color space"/>
+    	  <entry key="Image/Colorspace" value="Color model"/>
     	  <entry key="Image/Format" value="Type of format"/>
     	  <entry key="Image/Depth" value="Color depth"/>
     	  <entry key="Image/Properties/date/create" value="File created"/>
     	  <entry key="Image/Properties/date/modify" value="File last modified"/>
+    	  <entry key="Image/Properties/date/modify-date" value="File last modified"/>
     	  <entry key="Image/Compression" value="Compression"/>
     	  <entry key="Image/Filesize" value="File size"/>
     	  <entry key="Image/Quality" value="Compression quality"/>
@@ -106,6 +107,7 @@
 	  <entry key="Image/Properties/png/sRGB" value="PNG sRGB"/>
 	  <entry key="Image/Properties/exif/SamplesPerPixel" value="Samples per pixel"/>
 	  <entry key="Image/Properties/exif/BitsPerSample" value="Color depth"/>
+	  <entry key="Image/Properties/exif/Software" value="Software"/>
 	  <entry key="Image/Properties/exif/ImageLength" value="Image height"/>
 	  <entry key="Image/Properties/exif/ImageWidth" value="Image width"/>
 	  <entry key="Image/Properties/exif/Orientation" value="Orientation"/>
