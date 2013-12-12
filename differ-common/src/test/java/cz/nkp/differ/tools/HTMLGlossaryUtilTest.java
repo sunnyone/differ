@@ -5,11 +5,7 @@ package cz.nkp.differ.tools;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,18 +14,23 @@ import org.junit.Test;
  * @author Jan Stavěl <stavel.jan@gmail.com>
  *
  */
+
 public class HTMLGlossaryUtilTest {
 	private HTMLGlossaryUtil glossary;
-	private String testPhrase = "Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ";
-	private String phraseResult = "This is a funky String";
-	private String phraseGlossary = "glossary of a funky String";
+	private String testPhrase = "Tĥïŝ ĩš â fůňķŷ  Šťŕĭńġ";
+	private String phraseResult = "this-is-a-funky-string";
+	private String phraseGlossary = "glossary of a funky string cs_CZ";
+	private String versionOfExtractorPhrase = "Version of  Extractor ";
+	private String versionOfExtractorNormalizedPhrase="version-of-extractor";
+	private String versionOfExtractorGlossaryCS = "Verze extraktoru, co byla použita. Například: <em>Daitss 3.0</em>";
+	private String versionOfExtractorGlossaryEN = "Version of extractor used when transforming an image.";
 			
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.glossary = new HTMLGlossaryUtil(new File("glossary"));
+		this.glossary = new HTMLGlossaryUtil();
 	}
 
 	/**
@@ -47,7 +48,17 @@ public class HTMLGlossaryUtilTest {
 	
 	@Test
 	public void testOfGlossary(){
-		String glossary = this.glossary.getGlossaryFor(this.testPhrase, new Locale("en","US"));
+		String glossary = this.glossary.getGlossaryFor(this.testPhrase, new Locale("cs","CZ"));
 		assertEquals("glossary for test phrase", this.phraseGlossary,glossary);
+	}
+	
+	@Test
+	public void testOfVersionOfExtractor(){
+		String normalizedString = this.glossary.normalize(this.versionOfExtractorPhrase);
+		assertEquals("normalize string", this.versionOfExtractorNormalizedPhrase, normalizedString);
+		String glossary = this.glossary.getGlossaryFor(this.versionOfExtractorPhrase, new Locale("en","US"));
+		assertEquals("glossary for en_US, Version of Extractor",this.versionOfExtractorGlossaryEN,glossary);
+		glossary = this.glossary.getGlossaryFor(this.versionOfExtractorPhrase, new Locale("cs","CZ"));
+		assertEquals("glossary for cs_CZ, Version of Extractor",this.versionOfExtractorGlossaryCS,glossary);
 	}
 }

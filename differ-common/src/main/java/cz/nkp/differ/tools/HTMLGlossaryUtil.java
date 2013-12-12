@@ -1,8 +1,11 @@
 package cz.nkp.differ.tools;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.Normalizer;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * @author Jan Stavěl <stavel.jan@gmail.com>
@@ -13,6 +16,7 @@ import java.util.Locale;
  * Phrase is normalized this way:
  *      s/[\t \ ]+/-/
  *      uppercase all letters
+ *      trim left, right
  *
  * Directory structure:
  *    cs_CZ/phrase-1.html
@@ -24,19 +28,27 @@ import java.util.Locale;
  */
 
 public class HTMLGlossaryUtil implements GlossaryUtil {
-	private File directory;
-
-	public HTMLGlossaryUtil (File directory){
-		
-	}
-	
 	/**
 	 * @see cz.nkp.differ.tools.GlossaryUtil#getGlossaryFor(java.lang.String, java.util.Locale)
 	 */
 	@Override
 	public String getGlossaryFor(String phrase, Locale locale) {
-		String directory = locale.toString();
-		return directory;
+		String normalized = this.normalize(phrase);
+        File directory = new File("/glossary",locale.toString());
+        File glossaryPath = new File(directory,normalized + ".html");
+	    InputStream is = this.getClass().getResourceAsStream(glossaryPath.getPath());
+	    if( is == null){
+	    	return "";
+	    }
+	    Scanner scanner = new Scanner(is,"UTF-8");
+		String glossary = scanner.useDelimiter("\\A").next();
+		scanner.close();
+		try {
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return glossary.trim();
 	}
 
 	/**
@@ -45,21 +57,7 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
 	 */
 	public String normalize(String val){
 		String normalized = java.text.Normalizer.normalize(val, Normalizer.Form.NFD)
-				.replaceAll("[^\\p{ASCII}]", "");
+				.replaceAll("[^\\p{ASCII}]", "").toLowerCase().trim().replaceAll("[\\ \\t]+","-");
 		return normalized;
-	}
-
-	/**
-	 * @return the directory
-	 */
-	public File getDirectory() {
-		return directory;
-	}
-
-	/**
-	 * @param directory the directory to set
-	 */
-	public void setDirectory(File directory) {
-		this.directory = directory;
 	}
 }
