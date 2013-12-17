@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * User: stavel
+ * User: Jan Stavel <stavel.jan@gmail.com>
  * Date: 1.1.13
  * Time: 15:37
  * To change this template use File | Settings | File Templates.
