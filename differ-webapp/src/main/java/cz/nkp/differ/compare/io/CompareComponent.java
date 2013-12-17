@@ -12,6 +12,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.generators.ImageMetadataComponentGenerator;
+import cz.nkp.differ.compare.io.generators.SimilarityMetricsTableGenerator;
 import cz.nkp.differ.gui.windows.SaveResultWindow;
 import cz.nkp.differ.listener.ProgressListener;
 import cz.nkp.differ.model.Image;
@@ -118,9 +119,13 @@ public class CompareComponent {
                 ImageFileAnalysisContainer iFAC3 = new ImageFileAnalysisContainer(results[2], this, 2);
                 iFAC3.setChecksumLabel(comparedChecksum);
                 grid.addComponent(iFAC3.getComponent(), 2, 0);
+                SimilarityMetricsTableGenerator similarity = new SimilarityMetricsTableGenerator(results[2]);
+                grid.addComponent(similarity.getComponent());
+                /*
                 ImageMetadataComponentGenerator tableComp = new ImageMetadataComponentGenerator(new ImageProcessorResult[] {results[2]}, this);
                 tableComp.setTableName("SIMILARITY METRICS");
                 grid.addComponent(tableComp.getComponent(), 2, 1);
+                */
 	    } else {
 		Label errorComponent = new Label("Images can't be compared.");
 		grid.addComponent(errorComponent, 2, 0);

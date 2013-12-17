@@ -136,18 +136,11 @@ public class ImageMetadataComponentGenerator {
                 } else {
                     metadata = (ImageMetadata) itemId;
                 }
-                if (result[0].getType() == ImageProcessorResult.Type.COMPARISON) {
-                    String key = metadata.getKey();
-                    if (Arrays.asList("red", "blue", "green").contains(key)) {
-                        return key + "-channel";
-                    }
-                } else {
-                    if (!nonConflictMetadata.contains(metadata.getKey())) {
-                        if (metadata.isConflict()) {
-                            return "red";
-                        } else {
-                            return "green";
-                        }
+                if (!nonConflictMetadata.contains(metadata.getKey())) {
+                    if (metadata.isConflict()) {
+                        return "red";
+                    } else {
+                        return "green";
                     }
                 }
                 return "";
