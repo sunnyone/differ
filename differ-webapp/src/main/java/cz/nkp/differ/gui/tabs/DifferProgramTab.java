@@ -33,7 +33,7 @@ public class DifferProgramTab extends HorizontalLayout {
     private static final String BTN_BACK_ID = "main.button.back";
 
     private Layout loggedInView, loggedOutView, customViewWrapper;
-    private Button customLayoutBackButton;
+    private Layout topPanelWithButtons;
     private UserFilesWidget fileSelector1, fileSelector2;
     private final DifferProgramTab this_internal = this;
     private MainDifferWindow mainWindow = null;
@@ -48,6 +48,7 @@ public class DifferProgramTab extends HorizontalLayout {
     }
 
     public void setLoggedInView() {
+        customViewWrapper = null;
         if (loggedInView == null) {
             loggedInView = new HorizontalLayout();
             fileSelector1 = new UserFilesWidget(false);
@@ -67,6 +68,7 @@ public class DifferProgramTab extends HorizontalLayout {
     }
 
     public void setLoggedOutView() {
+        customViewWrapper = null;
         loggedOutView = new AnonymousUserView(this);
         removeAllComponents();
         addComponent(((AnonymousUserView)loggedOutView).getComponent());
@@ -90,21 +92,28 @@ public class DifferProgramTab extends HorizontalLayout {
         return true;
     }
 
-    public void setCustomView(Layout layout) {
+    public Layout setCustomView(Layout layout) {
         if (customViewWrapper == null) {
             customViewWrapper = new VerticalLayout();
-            customLayoutBackButton = new Button("<b>↵</b> Back");
-            customLayoutBackButton.setHtmlContentAllowed(true);
-            customLayoutBackButton.setDebugId(BTN_BACK_ID);
-            customLayoutBackButton.addListener(customViewWrapperBackButtonListener);
+            topPanelWithButtons = new HorizontalLayout();
+            Button backButton = new Button("<b>↵</b> Back");
+            backButton.setHtmlContentAllowed(true);
+            backButton.setDebugId(BTN_BACK_ID);
+            backButton.addListener(customViewWrapperBackButtonListener);
+            topPanelWithButtons.addComponent(backButton);
         }
         customViewWrapper.removeAllComponents();
-        customViewWrapper.addComponent(customLayoutBackButton);
+        customViewWrapper.addComponent(topPanelWithButtons);
         customViewWrapper.addComponent(layout);
         customViewWrapper.setSizeUndefined();
         this.removeAllComponents();
         this.addComponent(customViewWrapper);
         this.setSizeUndefined();
+        return topPanelWithButtons;
+    }
+    
+    public Layout getTopPanelWithButtons() {
+        return topPanelWithButtons;
     }
 
     public cz.nkp.differ.model.Image[] getSelectedImages() {

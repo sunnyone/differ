@@ -43,7 +43,7 @@ public class ResultManagerTab extends HorizontalLayout {
     private Button removeButton;
     private ResultManager resultManager;
     private Layout customViewWrapper;
-    private Button customLayoutBackButton;
+    private Layout topPanelWithButtons;
 
     public ResultManagerTab(MainDifferWindow window, boolean anonymous) {
         this.mainWindow = window;
@@ -119,7 +119,7 @@ public class ResultManagerTab extends HorizontalLayout {
 			    results.toArray(asArray);
                             CompareComponent compareComponent = new CompareComponent(mainWindow, asArray);
 			    layout.addComponent(compareComponent.getPluginDisplayComponent());
-                            ResultManagerTab.this.setCustomView(layout);
+                            ResultManagerTab.this.setCustomView(layout, compareComponent.getButtons());
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
@@ -159,14 +159,19 @@ public class ResultManagerTab extends HorizontalLayout {
 	this.setSizeUndefined();
     }
 
-    public void setCustomView(Layout layout) {
+    public void setCustomView(Layout layout, List<Button> buttons) {
         if (customViewWrapper == null) {
             customViewWrapper = new VerticalLayout();
-            customLayoutBackButton = new Button("Back");
-            customLayoutBackButton.addListener(customViewWrapperBackButtonListener);
+            topPanelWithButtons = new HorizontalLayout();
+            Button backButton = new Button("Back");
+            backButton.addListener(customViewWrapperBackButtonListener);
+            topPanelWithButtons.addComponent(backButton);
+            for (Button button : buttons) {
+                topPanelWithButtons.addComponent(button);
+            }
         }
         customViewWrapper.removeAllComponents();
-        customViewWrapper.addComponent(customLayoutBackButton);
+        customViewWrapper.addComponent(topPanelWithButtons);
         customViewWrapper.addComponent(layout);
         customViewWrapper.setSizeUndefined();
         this.removeAllComponents();
