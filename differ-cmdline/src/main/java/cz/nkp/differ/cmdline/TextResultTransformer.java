@@ -149,7 +149,9 @@ public class TextResultTransformer implements ResultTransformer{
                                 outFile
                         );
                         writer = new FileWriter(outFile);
-                        writer.write(metadata.getSource().getStdout());
+                        if( metadata.getSource().getStdout() != null ){
+                        	writer.write(metadata.getSource().getStdout());
+                        }
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -162,7 +164,9 @@ public class TextResultTransformer implements ResultTransformer{
                                 outFile
                         );
                         writer = new FileWriter(errorOutputFile);
-                        writer.write(metadata.getSource().getStderr());
+                        if( metadata.getSource().getStderr() != null ){
+                        	writer.write(metadata.getSource().getStderr());
+                        }
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
