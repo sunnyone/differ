@@ -28,6 +28,10 @@ import java.util.Scanner;
  */
 
 public class HTMLGlossaryUtil implements GlossaryUtil {
+
+	public HTMLGlossaryUtil() {
+	}
+    
 	/**
 	 * @see cz.nkp.differ.tools.GlossaryUtil#getGlossaryFor(java.lang.String, java.util.Locale)
 	 */
@@ -38,7 +42,7 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
         File glossaryPath = new File(directory,normalized + ".html");
 	    InputStream is = this.getClass().getResourceAsStream(glossaryPath.getPath());
 	    if( is == null){
-	    	return "";
+	    	return null;
 	    }
 	    Scanner scanner = new Scanner(is,"UTF-8");
 		String glossary = scanner.useDelimiter("\\A").next();

@@ -23,11 +23,14 @@ import cz.nkp.differ.exceptions.FatalDifferException;
 import cz.nkp.differ.gui.windows.GlitchDetectorWindow;
 import cz.nkp.differ.gui.windows.JP2ProfileValidationResultWindow;
 import cz.nkp.differ.gui.windows.RawDataWindow;
+import cz.nkp.differ.tools.GlossaryUtil;
+import cz.nkp.differ.tools.HTMLGlossaryUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,6 +62,8 @@ public class ImageMetadataComponentGenerator {
     private static String COLUMN_VERSION_PROPERTY = "version";
     private static String COLUMN_A_TIME_PROPERTY  = "image A time";
     private static String COLUMN_B_TIME_PROPERTY  = "image B time";
+    
+    private GlossaryUtil glossaryUtil = new HTMLGlossaryUtil();
     
     /**
      * Constructor which takes a single ImageProcessorResult object (usually for comparison table)
@@ -342,7 +347,7 @@ public class ImageMetadataComponentGenerator {
 
     private Table generateMetadataTableForTwoResults(String group, Map<String, ComparedImagesMetadata> hashmap) {
 	final Table metadataTable = new Table(group.toUpperCase());
-        metadataTable.addContainerProperty(COLUMN_KEY_PROPERTY, String.class, null);
+        metadataTable.addContainerProperty(COLUMN_KEY_PROPERTY, SortableButton.class, null);
         metadataTable.addContainerProperty(COLUMN_SOURCE_PROPERTY, SortableButton.class, null);
         metadataTable.addContainerProperty(COLUMN_A_VALUE_PROPERTY, SortableButton.class, null);
         metadataTable.addContainerProperty(COLUMN_B_VALUE_PROPERTY, SortableButton.class, null);
@@ -364,11 +369,12 @@ public class ImageMetadataComponentGenerator {
         int row = 0;
         for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap.entrySet()) {
             ComparedImagesMetadata cim = entry.getValue();
+            Button key = createClickableKey(cim.getKey());
             Button clickableToolName = createClickableTool(cim.getSourceName(), cim.getVersion());
 
             Button valueA = createClickableValue(cim.getImageMetadata()[0]);
             Button valueB = createClickableValue(cim.getImageMetadata()[1]);
-            metadataTable.addItem(new Object[] { cim.getKey(), clickableToolName, valueA,
+            metadataTable.addItem(new Object[] { key, clickableToolName, valueA,
                         valueB, cim.getUnit() }, row);
             row++;
         }
@@ -522,6 +528,21 @@ public class ImageMetadataComponentGenerator {
 			window = new JP2ProfileValidationResultWindow((JP2ProfileValidationResult) data.getData());
 		    }
                     parent.getMainWindow().addWindow(window);
+                }
+            });
+        }
+        button.addStyleName("link");
+        return button;
+    }
+    
+    private SortableButton createClickableKey(final String key) {
+        SortableButton button = new SortableButton(key, key);
+        final String glossary = this.glossaryUtil.getGlossaryFor(key, Locale.ENGLISH);
+        if (glossary != null) {
+            button.addListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+		    parent.getMainWindow().showNotification(key, glossary);
                 }
             });
         }
