@@ -19,6 +19,8 @@ import cz.nkp.differ.plugins.tools.PluginPollingThread;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 
@@ -108,7 +110,7 @@ public class CompareComponent {
             ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(resultsForMetadata, this);
             Component metadataTable = table.getComponent();
-            Layout metadataTablePanel = exportResultsPanel(results);
+            Layout metadataTablePanel = new HorizontalLayout();
             metadataTablePanel.addComponent(metadataTable);
             grid.addComponent(metadataTablePanel, 0, 1, 1, 1);
             
@@ -146,9 +148,6 @@ public class CompareComponent {
             layout.addComponent(childLayout);
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
             layout.addComponent(table.getComponent());
-            if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
-                layout.addComponent(exportResultsPanel(results));
-            }
 	    return layout;
 	}
     }
@@ -157,15 +156,13 @@ public class CompareComponent {
 	return mainWindow;
     }
     
-    private Layout exportResultsPanel(final ImageProcessorResult[] ipr) {
-        HorizontalLayout buttonsPanel = new HorizontalLayout();
+    public List<Button> getButtons() {
+        List<Button> buttons = new ArrayList<Button>();
         if (DifferApplication.getCurrentApplication().getLoggedUser() != null) {
-            buttonsPanel.addComponent(createSaveButton(ipr));
+            buttons.add(createSaveButton(results));
         }
-        buttonsPanel.addComponent(createExportButton(ipr));
-        VerticalLayout panel = new VerticalLayout();
-        panel.addComponent(buttonsPanel);
-        return panel;
+        buttons.add(createExportButton(results));
+        return buttons;
     }
     
     private Button createSaveButton(final ImageProcessorResult[] ipr) {

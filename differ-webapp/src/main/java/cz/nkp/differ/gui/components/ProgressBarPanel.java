@@ -1,5 +1,6 @@
 package cz.nkp.differ.gui.components;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextArea;
@@ -8,6 +9,7 @@ import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.compare.io.ImageProcessorResult;
+import cz.nkp.differ.gui.tabs.DifferProgramTab;
 import cz.nkp.differ.listener.Message;
 import cz.nkp.differ.listener.ProgressType;
 import cz.nkp.differ.model.Image;
@@ -23,9 +25,11 @@ public class ProgressBarPanel extends VerticalLayout implements WebProgressListe
     private int numberOfTasks = 0;
     private final CompareComponent compareComponent;
     private final Object lock;
+    private final DifferProgramTab tab;
     static Logger LOGGER = Logger.getLogger(ProgressBarPanel.class);
 
-    public ProgressBarPanel(Object lock, CompareComponent compareComponent, Image[] images) {
+    public ProgressBarPanel(DifferProgramTab tab, Object lock, CompareComponent compareComponent, Image[] images) {
+        this.tab = tab;
         this.compareComponent = compareComponent;
         compareComponent.setImages(images);
         progress.setWidth("300px");
@@ -77,6 +81,9 @@ public class ProgressBarPanel extends VerticalLayout implements WebProgressListe
         synchronized (lock) {
             this.removeAllComponents();
             this.addComponent((Component) c);
+            for (Button button : compareComponent.getButtons()) {
+                this.tab.getTopPanelWithButtons().addComponent(button);
+            }
         }
     }
     
