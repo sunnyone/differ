@@ -7,6 +7,7 @@ import cz.nkp.differ.compare.metadata.JP2Profile;
 import cz.nkp.differ.compare.metadata.JP2ProfileValidationResult;
 import cz.nkp.differ.compare.metadata.JP2Size;
 import cz.nkp.differ.compare.metadata.MetadataSource;
+import cz.nkp.differ.compare.metadata.ValidatedProperty;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,9 @@ public class KduExpandMetadataExtractor extends ExternalMetadataExtractor {
             ImageMetadata entry = new ImageMetadata();
             entry.setSource(source);
             entry.setKey(profile.getName());
-            entry.setValue(Boolean.toString(validationResult.isValid()));
+            boolean valid = validationResult.isValid();
+            ValidatedProperty val = new ValidatedProperty(Boolean.toString(valid), valid);
+            entry.setValue(val);
 	    entry.setData(validationResult);
             result.add(entry);
         }

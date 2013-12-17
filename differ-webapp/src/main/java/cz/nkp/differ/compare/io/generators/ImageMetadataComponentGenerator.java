@@ -25,7 +25,6 @@ import cz.nkp.differ.gui.windows.JP2ProfileValidationResultWindow;
 import cz.nkp.differ.gui.windows.RawDataWindow;
 import cz.nkp.differ.tools.GlossaryUtil;
 import cz.nkp.differ.tools.HTMLGlossaryUtil;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,7 +39,6 @@ import java.util.Set;
  */
 public class ImageMetadataComponentGenerator {
 
-    private Window mainWindow;
     private ImageProcessorResult[] result;
     private List<String> nonConflictMetadata = Arrays.asList("exit-code");
     private CompareComponent parent;
@@ -49,7 +47,7 @@ public class ImageMetadataComponentGenerator {
     
     private static int TABLE_WIDTH = 400;
     
-    private static String VERSION_PROPERTY_NAME   =  "Version";
+    private static String VERSION_PROPERTY_NAME   = "Version";
     private static String COLUMN_KEY_PROPERTY     = "key";
     private static String COLUMN_SOURCE_PROPERTY  = "source";
     private static String COLUMN_A_VALUE_PROPERTY = "imageValueA";
@@ -387,7 +385,7 @@ public class ImageMetadataComponentGenerator {
         metadataTable.sort(new Object[]{ COLUMN_KEY_PROPERTY }, new boolean[] {true });
 
         if (group.equals("JPEG2000 profile validation")) {
-            metadataTable.setCellStyleGenerator(new BooleanCellStyleGenerator(metadataTable));
+            metadataTable.setCellStyleGenerator(new ValidatedPropertyCellStyleGenerator(metadataTable));
         } else if (group.equals(GlitchDetectorResultPostProcessor.SOURCE_NAME)) {
             metadataTable.setCellStyleGenerator(new ValidatedPropertyCellStyleGenerator(metadataTable));
         } else {
@@ -444,31 +442,6 @@ public class ImageMetadataComponentGenerator {
             return "";
         }
         
-    }
-    
-    private class BooleanCellStyleGenerator implements Table.CellStyleGenerator {
-        
-        private Table metadataTable;
-
-        public BooleanCellStyleGenerator(Table metadataTable) {
-            this.metadataTable = metadataTable;
-        }
-        
-        @Override
-        public String getStyle(Object itemId, Object propertyId) {
-            if (itemId != null && propertyId != null) {
-                Object a = (Object) metadataTable.getContainerProperty(itemId, propertyId).getValue();
-                if (a != null && propertyId.toString().startsWith("imageValue")) {
-                    String value = a.toString();
-                    if (value.equals("true")) {
-                        return "green";
-                    } else if (value.equals("false")) {
-                        return "red";
-                    }
-                }
-            }
-            return "";
-        }
     }
     
     private class ValidatedPropertyCellStyleGenerator implements Table.CellStyleGenerator {
