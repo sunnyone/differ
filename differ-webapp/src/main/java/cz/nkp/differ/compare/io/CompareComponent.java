@@ -12,6 +12,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.generators.ImageMetadataComponentGenerator;
+import cz.nkp.differ.compare.io.generators.ImageMetadataTableGenerator;
 import cz.nkp.differ.compare.io.generators.SimilarityMetricsTableGenerator;
 import cz.nkp.differ.gui.windows.SaveResultWindow;
 import cz.nkp.differ.listener.ProgressListener;
@@ -102,7 +103,11 @@ public class CompareComponent {
             grid.addComponent(iFAC2.getComponent(), 1, 0);
             
             ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
+            /*
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(resultsForMetadata, this);
+            Component metadataTable = table.getComponent();
+            */
+            ImageMetadataTableGenerator table = new ImageMetadataTableGenerator(resultsForMetadata, this);
             Component metadataTable = table.getComponent();
             Layout metadataTablePanel = new HorizontalLayout();
             metadataTablePanel.addComponent(metadataTable);
@@ -143,8 +148,10 @@ public class CompareComponent {
 		}
 	    }
             layout.addComponent(childLayout);
+            /*
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
             layout.addComponent(table.getComponent());
+            */
 	    return layout;
 	}
     }
