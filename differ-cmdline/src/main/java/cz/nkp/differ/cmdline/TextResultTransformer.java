@@ -2,6 +2,7 @@ package cz.nkp.differ.cmdline;
 
 import cz.nkp.differ.compare.io.ImageProcessorResult;
 import cz.nkp.differ.compare.metadata.ImageMetadata;
+
 import org.springframework.context.ApplicationContext;
 
 import java.io.File;
@@ -44,6 +45,7 @@ public class TextResultTransformer implements ResultTransformer{
     public Boolean saveProperties = false;
 
     protected ApplicationContext context;
+    private PropertiesSummary propertiesSummary = new PropertiesSummary();
     public TextResultTransformer(ApplicationContext context,
                                  OutputNamer outputNamer,
                                  Boolean includeOutputs,
@@ -184,11 +186,11 @@ public class TextResultTransformer implements ResultTransformer{
             output += String.format("\n  `web report <%s>`_\n", this.outputNamer.reportName(file, result));
         }
         if( this.saveProperties ){
+        	File outFile = this.outputNamer.propertiesSummaryName(file, result);
             output += "\nUsed significant properties";
             output += "\n===========================\n";
-            output += String.format("\n  `used properties <%s>`_",
-                        this.outputNamer.propertiesSummaryName(file, result)
-            );
+            output += String.format("\n  `used properties <%s>`_", outFile);
+            this.saveUsedProperties(outFile);
         }
         return output;
     }
@@ -199,7 +201,7 @@ public class TextResultTransformer implements ResultTransformer{
         Integer unitLength = "Unit".length();
         Integer valueWithUnitLength = "Value".length();
         Integer valueLength = "Value".length();
-        PropertiesSummary propertiesSummary = new PropertiesSummary();
+        //PropertiesSummary propertiesSummary = new PropertiesSummary();
 
         for(ImageMetadata metadata: metadataList){
             keyLength = Math.max(keyLength, metadata.getKey().length());
@@ -232,7 +234,6 @@ public class TextResultTransformer implements ResultTransformer{
         TheSameValueHider propertyNameHider = new TheSameValueHider();
         String output = "";
         String format = String.format("%%-%ds %%-%ds  %%-%ds  %%-%ds\n", keyLength, sourceLength,valueLength, unitLength);
-        String formatWithUnit = String.format("%%-%ds %%s", valueWithUnitLength );
         output += String.format(format, "Significant Property", "Source", "Value", "Unit");
         output += String.format(format,
                 getStringGivenLength(keyLength,'-'),
@@ -267,5 +268,17 @@ public class TextResultTransformer implements ResultTransformer{
 
     private void saveColorMap(ImageMetadata metadata) {
         /* Todo: */
+    }
+    private void saveUsedProperties(File outFile){
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(outFile);
+            for(String property: propertiesSummary.getProperties()){
+                writer.write(String.format("1;%s\n",property));
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
