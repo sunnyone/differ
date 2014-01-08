@@ -67,6 +67,7 @@
     	  <entry key="Type of format"        value="File Type[\ \t]*:[\ \t]*(.+)"/>
     	  <entry key="MIME type"        value="MIME Type[\ \t]*:[\ \t]*(.+)"/>
 	  <entry key="MIME type"        value="Format[\ \t]*:[\ \t]*(.+)"/>
+	  <entry key="Version of format"        value="PDF Version[\ \t]*:[\ \t]*(.+)"/>
     	  <entry key="Software type"    value="Software[\ \t]*:[\ \t]*(.+)"/>
     	  <entry key="File last modified"    value="File Modification Date/Time[\ \t]*:[\ \t]*(.+)"/>
     	  <entry key="Image width"      value="^[\ \t]*Image Width[\ \t]*:[\ \t]*(.+)"/>

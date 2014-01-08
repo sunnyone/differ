@@ -43,7 +43,7 @@
     </bean>
 
 
-    <bean id="pdfImageLoader" class="cz.nkp.differ.images.PDFImageLoader">
+    <bean id="pdfImageLoader" class="cz.nkp.differ.images.PDFBoxImageLoader">
     </bean>
 
     <!-- <bean id="pdfImageLoader" class="cz.nkp.differ.images.ExternalImageLoader"> -->
