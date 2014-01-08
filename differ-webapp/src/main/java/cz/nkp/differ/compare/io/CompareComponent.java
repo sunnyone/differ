@@ -21,16 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 
 
 public class CompareComponent {
-    
-    public static final int ONE_ROW_WIDTH = 400;
-    
-    public static final int TWO_ROW_WIDTH = 400;
-
-    public static Logger LOGGER = Logger.getRootLogger();
 
     private Window mainWindow;
     private PluginPollingThread currentThread;
@@ -141,7 +134,6 @@ public class CompareComponent {
 		    ImageFileAnalysisContainer iFAC = new ImageFileAnalysisContainer(results[i], this, i, images[i].getFileName());
 		    childLayout.addComponent(iFAC.getComponent());
 		} catch (Exception ex) {
-		    ex.printStackTrace();
 		    throw new RuntimeException(ex);
 		}
 	    }

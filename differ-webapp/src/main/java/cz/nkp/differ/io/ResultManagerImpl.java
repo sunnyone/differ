@@ -13,6 +13,7 @@ import cz.nkp.differ.compare.metadata.ValidatedProperty;
 import cz.nkp.differ.dao.ResultDAO;
 import cz.nkp.differ.model.Result;
 import cz.nkp.differ.model.User;
+import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -219,10 +220,10 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
             if (result != null) {
                 try {
                     if (saveFullImage && result.getFullImage() != null) {
-                        res.setFullImage(new SerializableImage(result.getFullImage()));
+                        res.setFullImage(convert(result.getFullImage()));
                     }
                     if (result.getPreview() != null) {
-                        res.setPreview(new SerializableImage(result.getPreview()));
+                        res.setPreview(convert(result.getPreview()));
                     }
                 } catch (IOException ex) {
                     java.util.logging.Logger.getLogger(ResultManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -234,9 +235,11 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
                 res.setHeight(result.getHeight());
                 res.setMetadata(result.getMetadata());
                 Set<MetadataSource> sourcesSet = new HashSet<MetadataSource>();
-                for (ImageMetadata data : result.getMetadata()) {
-                    if (!sourcesSet.contains(data.getSource())) {
-                        sourcesSet.add(data.getSource());
+                if (result.getMetadata() != null) {
+                    for (ImageMetadata data : result.getMetadata()) {
+                        if (!sourcesSet.contains(data.getSource())) {
+                            sourcesSet.add(data.getSource());
+                        }
                     }
                 }
                 List<MetadataSource> sources = new ArrayList<MetadataSource>();
@@ -248,6 +251,14 @@ public class ResultManagerImpl implements ResultManager, InitializingBean {
         SerializableImageProcessorResults sipr = new SerializableImageProcessorResults();
         sipr.setResults(resultsList);
         return sipr;
+    }
+    
+    private SerializableImage convert(Image image) throws IOException {
+        if (image instanceof SerializableImage) {
+            return (SerializableImage) image;
+        } else {
+            return new SerializableImage(image);
+        }
     }
 
 }
