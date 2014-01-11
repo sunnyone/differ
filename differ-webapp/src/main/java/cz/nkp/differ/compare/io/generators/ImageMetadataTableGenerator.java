@@ -21,11 +21,14 @@ import cz.nkp.differ.compare.metadata.ValidatedProperty;
 import cz.nkp.differ.gui.windows.GlitchDetectorWindow;
 import cz.nkp.differ.gui.windows.JP2ProfileValidationResultWindow;
 import cz.nkp.differ.gui.windows.RawDataWindow;
+import cz.nkp.differ.tools.GlossaryUtil;
+import cz.nkp.differ.tools.HTMLGlossaryUtil;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,6 +47,7 @@ public class ImageMetadataTableGenerator {
 
 	private ImageProcessorResult[] results;
 	private CompareComponent parent;
+	private GlossaryUtil glossaryUtil = new HTMLGlossaryUtil();
 
 	public ImageMetadataTableGenerator(ImageProcessorResult[] results,
 			CompareComponent parent) {
@@ -211,7 +215,7 @@ public class ImageMetadataTableGenerator {
 		for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap
 				.entrySet()) {
 			ComparedImagesMetadata cim = entry.getValue();
-			Button key = createClickableTool(cim.getKey(), ""); // fixme
+			Button key = createClickableProperty(cim.getKey()); // fixme
 			Button clickableToolName = createClickableTool(cim.getSourceName(),
 					cim.getVersion());
 
@@ -289,6 +293,24 @@ public class ImageMetadataTableGenerator {
 			metadata.remove(propertyToRemove);
 		}
 		return results;
+	}
+
+	private SortableButton createClickableProperty(final String propertyName) {
+		final String glossary = glossaryUtil.getGlossaryFor(propertyName, Locale.ENGLISH);
+		SortableButton button = new SortableButton(propertyName, null);
+		if (glossary != null) {
+			button.addListener(new Button.ClickListener() {
+
+				@Override
+				public void buttonClick(Button.ClickEvent event) {
+					parent.getMainWindow().showNotification(propertyName,
+						"<br/>" + glossary,
+						Window.Notification.TYPE_HUMANIZED_MESSAGE);
+				}
+			});
+		}
+		button.addStyleName("link");
+		return button;
 	}
 
 	private SortableButton createClickableTool(String source, String version) {
