@@ -16,7 +16,11 @@ public class GlitchDetectorResultPostProcessor implements ResultPostProcessor, R
     public static final String SOURCE_NAME = "Glitch detector";
 
     private static final MetadataSource source = new MetadataSource(SOURCE_NAME);
-    
+
+    private static final String PIXEL_UNIT = "px";
+
+    private static final String PERCENT_UNIT = "%";
+
     private static final String[] colours = new String[]{ "Max red ratio", "Max green ratio", "Max blue ratio" };
 
     private GlitchDetectorConfig config = new GlitchDetectorConfig();
@@ -36,9 +40,9 @@ public class GlitchDetectorResultPostProcessor implements ResultPostProcessor, R
                 glitchDetected = true;
                 valid = false;
             }
-	    ImageMetadata white = createImageMetadataEntry("Number of absolute white pixels", Integer.toString(grayscaleHistogram[0]), valid);
+	    ImageMetadata white = createImageMetadataEntry("Number of absolute white pixels", Integer.toString(grayscaleHistogram[255]), valid, PIXEL_UNIT);
 	    metadata.add(white);
-	    ImageMetadata black = createImageMetadataEntry("Number of absolute black pixels", Integer.toString(grayscaleHistogram[255]), valid);
+	    ImageMetadata black = createImageMetadataEntry("Number of absolute black pixels", Integer.toString(grayscaleHistogram[0]), valid, PIXEL_UNIT);
 	    metadata.add(black);
         }
         int[][] colorHistogram = result.getHistogram();
@@ -56,7 +60,7 @@ public class GlitchDetectorResultPostProcessor implements ResultPostProcessor, R
                     glitchDetected = true;
                     valid = false;
                 }
-		ImageMetadata entry = createImageMetadataEntry(colours[i], Double.toString(ratio * 100),  valid);
+		ImageMetadata entry = createImageMetadataEntry(colours[i], Double.toString(ratio * 100),  valid, PERCENT_UNIT);
 		metadata.add(entry);
             }
         }
@@ -81,10 +85,11 @@ public class GlitchDetectorResultPostProcessor implements ResultPostProcessor, R
 	this.config = config;
     }
     
-    private ImageMetadata createImageMetadataEntry(String key, String value, boolean valid) {
+    private ImageMetadata createImageMetadataEntry(String key, String value, boolean valid, String unit) {
 	ImageMetadata entry = new ImageMetadata();
         entry.setSource(source);
         entry.setKey(key);
+	entry.setUnit(unit);
         ValidatedProperty property = new ValidatedProperty(value, valid);
         entry.setValue(property);
 	return entry;
