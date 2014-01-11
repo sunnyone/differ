@@ -38,7 +38,7 @@ import java.util.Set;
  */
 public class ImageMetadataTableGenerator {
 
-	private static final int TABLE_WIDTH = 400;
+	private static final int TABLE_WIDTH = 417;
 	private static final String COLUMN_KEY_PROPERTY = "key";
 	private static final String COLUMN_SOURCE_PROPERTY = "source";
 	private static final String COLUMN_VALUE_PROPERTY = "image value";
