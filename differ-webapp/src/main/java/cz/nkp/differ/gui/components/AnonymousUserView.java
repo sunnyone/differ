@@ -20,6 +20,7 @@ import cz.nkp.differ.compare.io.CompareComponent;
 import cz.nkp.differ.exceptions.ImageDifferException;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
 import cz.nkp.differ.gui.windows.FullSizeImageWindow;
+import cz.nkp.differ.gui.windows.JP2ProfileWindow;
 import java.io.File;
 
 /**
@@ -124,6 +125,16 @@ public class AnonymousUserView extends HorizontalLayout {
         });
         resetButton.setDebugId(BTN_RESET_ID);
 
+	Button jp2ProfileButton = new Button("profile");
+	jp2ProfileButton.addStyleName("v-longbutton");
+        jp2ProfileButton.addListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                JP2ProfileWindow window = new JP2ProfileWindow();
+		DifferApplication.getMainApplicationWindow().addWindow(window);
+            }
+        });
+
         innerUploadSection.addComponent(addFileUploadComponent(0), "left: 10px; top: 10px;");
         innerUploadSection.addComponent(addFileUploadComponent(1), "left: 10px; top: 250px;");
 
@@ -137,8 +148,10 @@ public class AnonymousUserView extends HorizontalLayout {
         innerUploadSection.addComponent(lbl, "left: 10px; top: 470px;");
         innerCompareSection.addComponent(compareButton);
         innerCompareSection.addComponent(resetButton);
+	innerCompareSection.addComponent(jp2ProfileButton);
         innerCompareSection.setComponentAlignment(compareButton, Alignment.BOTTOM_CENTER);
         innerCompareSection.setComponentAlignment(resetButton, Alignment.TOP_CENTER);
+	innerCompareSection.setComponentAlignment(jp2ProfileButton, Alignment.TOP_CENTER);
 
         addComponent(innerUploadSection);
         addComponent(innerCompareSection);
