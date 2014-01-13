@@ -2,6 +2,7 @@ package cz.nkp.differ.compare.io;
 
 import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.Resource;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -35,6 +36,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.vaadin.addon.JFreeChartWrapper;
 
 public class ImageFileAnalysisContainer {
+
+    private static final int WIDTH = 400;
 
     private ImageProcessorResult result;
     private String imgLabel = "Image";
@@ -80,6 +83,8 @@ public class ImageFileAnalysisContainer {
     private void generateComponent(final Layout layout) {
         // Image preview
         layout.addStyleName("v-preview-reg");
+	layout.setWidth(WIDTH, Sizeable.UNITS_PIXELS);
+	layout.setMargin(false);
         
         final Resource imageScaledResource = GUIMacros.imageToResource(DifferApplication.getCurrentApplication(), result.getPreview());
 
