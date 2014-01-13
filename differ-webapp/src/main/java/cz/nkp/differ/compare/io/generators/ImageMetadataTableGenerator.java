@@ -296,7 +296,7 @@ public class ImageMetadataTableGenerator {
 	}
 
 	private SortableButton createClickableProperty(final String propertyName) {
-		final String glossary = glossaryUtil.getGlossaryFor(propertyName, Locale.ENGLISH);
+		final String glossary = glossaryUtil.getGlossaryFor(propertyName, Locale.US);
 		SortableButton button = new SortableButton(propertyName, null);
 		if (glossary != null) {
 			button.addListener(new Button.ClickListener() {
