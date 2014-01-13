@@ -12,6 +12,8 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import cz.nkp.differ.DifferApplication;
 import cz.nkp.differ.compare.io.generators.ImageMetadataComponentGenerator;
+import cz.nkp.differ.compare.io.generators.ImageMetadataTableGenerator;
+import cz.nkp.differ.compare.io.generators.SimilarityMetricsTableGenerator;
 import cz.nkp.differ.gui.windows.SaveResultWindow;
 import cz.nkp.differ.listener.ProgressListener;
 import cz.nkp.differ.model.Image;
@@ -101,7 +103,11 @@ public class CompareComponent {
             grid.addComponent(iFAC2.getComponent(), 1, 0);
             
             ImageProcessorResult[] resultsForMetadata = new ImageProcessorResult[] {results[0], results[1]};
+            /*
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(resultsForMetadata, this);
+            Component metadataTable = table.getComponent();
+            */
+            ImageMetadataTableGenerator table = new ImageMetadataTableGenerator(resultsForMetadata, this);
             Component metadataTable = table.getComponent();
             Layout metadataTablePanel = new HorizontalLayout();
             metadataTablePanel.addComponent(metadataTable);
@@ -118,9 +124,13 @@ public class CompareComponent {
                 ImageFileAnalysisContainer iFAC3 = new ImageFileAnalysisContainer(results[2], this, 2);
                 iFAC3.setChecksumLabel(comparedChecksum);
                 grid.addComponent(iFAC3.getComponent(), 2, 0);
+                SimilarityMetricsTableGenerator similarity = new SimilarityMetricsTableGenerator(results[2]);
+                grid.addComponent(similarity.getComponent());
+                /*
                 ImageMetadataComponentGenerator tableComp = new ImageMetadataComponentGenerator(new ImageProcessorResult[] {results[2]}, this);
                 tableComp.setTableName("SIMILARITY METRICS");
                 grid.addComponent(tableComp.getComponent(), 2, 1);
+                */
 	    } else {
 		Label errorComponent = new Label("Images can't be compared.");
 		grid.addComponent(errorComponent, 2, 0);
@@ -138,8 +148,10 @@ public class CompareComponent {
 		}
 	    }
             layout.addComponent(childLayout);
+            /*
             ImageMetadataComponentGenerator table = new ImageMetadataComponentGenerator(results, this);
             layout.addComponent(table.getComponent());
+            */
 	    return layout;
 	}
     }
