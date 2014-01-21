@@ -65,4 +65,12 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
             .replaceAll("[^\\p{ASCII}]", "").toLowerCase().trim().replaceAll("[\\ \\t]+","-");
         return normalized;
     }
+
+	/* 
+	 * @see cz.nkp.differ.tools.GlossaryUtil#existsGlossaryFor(java.lang.String, java.util.Locale)
+	 */
+	@Override
+	public Boolean existsGlossaryFor(String phrase, Locale locale) {
+		return getGlossaryFor(phrase, locale) != null;
+	}
 }
