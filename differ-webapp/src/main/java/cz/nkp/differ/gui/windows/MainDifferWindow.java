@@ -54,7 +54,7 @@ public class MainDifferWindow extends Window implements LoginListener {
         
 	MainDifferWindow.createStaticContentTab("doc_tab", "Documentation", menuTabs);
 	MainDifferWindow.createStaticContentTab("about_tab", "About", menuTabs);
-        MainDifferWindow.createStaticContentTab("traffic_tab", "Traffic", menuTabs);
+        MainDifferWindow.createStaticContentTab("roadmap_tab", "Roadmap", menuTabs);
 
 	/*
 	 * Add the actual completed UI components to the root
