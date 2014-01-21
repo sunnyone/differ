@@ -7,6 +7,8 @@ import java.text.Normalizer;
 import java.util.Locale;
 import java.util.Scanner;
 
+import org.springframework.cache.annotation.Cacheable;
+
 /**
  * @author Jan Stavěl <stavel.jan@gmail.com>
  */
@@ -36,6 +38,7 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
     /**
      * @see cz.nkp.differ.tools.GlossaryUtil#getGlossaryFor(java.lang.String, java.util.Locale)
      */
+    @Cacheable("getGlossaryFor")
     @Override
     public String getGlossaryFor(String phrase, Locale locale) {
         String normalized = this.normalize(phrase);
@@ -69,6 +72,7 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
 	/* 
 	 * @see cz.nkp.differ.tools.GlossaryUtil#existsGlossaryFor(java.lang.String, java.util.Locale)
 	 */
+    @Cacheable("existsGlossaryFor")
 	@Override
 	public Boolean existsGlossaryFor(String phrase, Locale locale) {
 		return getGlossaryFor(phrase, locale) != null;
