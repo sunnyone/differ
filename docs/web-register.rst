@@ -1,9 +1,10 @@
-Register
-................................................
+Registration of an user
+.................................................................
 
+.. image:: tests/home-page.png
 
-- click on a button **Register**.
-- fill a **login** and **password** fields
+.. robot_tests::
+   :source: tests/test_registration.robot
 
 .. note::
 

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20140128 12:49:04.382" generator="Robot 2.8.3 (Python 2.7.5+ on linux2)">
+<suite source="/opt/differ/docs/tests/test_registration.robot" id="s1" name="Test Registration">
+<test id="s1-t1" name="Registration of an user">
+<kw type="setup" name="Selenium2Library.Open Browser">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>http://differ.nkp.cz</arg>
+<arg>firefox</arg>
+<arg>timeout=10s</arg>
+</arguments>
+<msg timestamp="20140128 12:49:04.461" level="INFO">Opening browser 'firefox' to base url 'http://differ.nkp.cz'</msg>
+<status status="PASS" endtime="20140128 12:49:06.810" starttime="20140128 12:49:04.461"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Wait Until Page Contains">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>Register</arg>
+</arguments>
+<status status="PASS" endtime="20140128 12:49:07.518" starttime="20140128 12:49:06.810"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Capture Page Screenshot">
+<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
+<arguments>
+<arg>home-page.png</arg>
+</arguments>
+<msg timestamp="20140128 12:49:07.610" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="home-page.png"&gt;&lt;img src="home-page.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20140128 12:49:07.610" starttime="20140128 12:49:07.519"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Click Link">
+<doc>Clicks a link identified by locator.</doc>
+<arguments>
+<arg>Register</arg>
+</arguments>
+<msg timestamp="20140128 12:49:07.610" level="INFO">Clicking link 'Register'.</msg>
+<kw type="kw" name="Selenium2Library.Capture Page Screenshot">
+<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
+<arguments>
+</arguments>
+<msg timestamp="20140128 12:49:07.717" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20140128 12:49:07.717" starttime="20140128 12:49:07.625"></status>
+</kw>
+<msg timestamp="20140128 12:49:07.717" level="FAIL">ValueError: Element locator 'Register' did not match any elements.</msg>
+<status status="FAIL" endtime="20140128 12:49:07.718" starttime="20140128 12:49:07.610"></status>
+</kw>
+<kw type="teardown" name="Selenium2Library.Close All Browsers">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<arguments>
+</arguments>
+<status status="PASS" endtime="20140128 12:49:07.751" starttime="20140128 12:49:07.718"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="FAIL" endtime="20140128 12:49:07.751" critical="yes" starttime="20140128 12:49:04.460">ValueError: Element locator 'Register' did not match any elements.</status>
+</test>
+<doc></doc>
+<metadata>
+</metadata>
+<status status="FAIL" endtime="20140128 12:49:07.752" starttime="20140128 12:49:04.383"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="0">Critical Tests</stat>
+<stat fail="1" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" pass="0" id="s1" name="Test Registration">Test Registration</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
