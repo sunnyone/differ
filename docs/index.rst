@@ -21,6 +21,10 @@ The Image Validator - DIFFER
    gsoc2013-ideas-list
    running-jobs
 
+:download:`test report <tests/report.html>`
+
+:download:`test log <tests/log.html>`
+
 .. raw:: html
 
 	 <a class="poster" href="_static/poster.png" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">

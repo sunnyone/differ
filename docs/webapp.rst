@@ -66,4 +66,3 @@ This application supports selected image formats:
 
    You can use profiles if you log into the application.
 
-

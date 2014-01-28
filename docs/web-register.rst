@@ -1,6 +1,7 @@
 Registration of an user
 .................................................................
 
+
 .. image:: tests/home-page.png
 
 .. robot_tests::
@@ -9,3 +10,5 @@ Registration of an user
 .. note::
 
    An application does not send any email to confirmation.
+
+.. image:: tests/login.png
