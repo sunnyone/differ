@@ -8,7 +8,9 @@ Test Teardown  Close all browsers
 *** Test Cases ***
 
 Registration of an user
-    Wait Until Page Contains  Register
+    Wait Until Page Contains   You are not logged in.
     Capture Page Screenshot    home-page.png
-    Click Link               Register
+#    Click Element              xpath=//span[text()="Register"]
+#    Wait Until Page Contains   Register User    
+
 
