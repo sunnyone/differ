@@ -13,6 +13,20 @@
     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
     
     <cache:annotation-driven />
+    
+    <context:component-scan base-package="cz.nkp.differ" />
+
+	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		<property name="caches">
+			<set>
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" name="existsGlossaryFor" />
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" name="getGlossaryFor" />
+			</set>
+		</property>
+	</bean>
+    
     <bean id="commandRunner" class="cz.nkp.differ.plugins.tools.CommandRunnerImpl"/>
 
     <bean id="genericImageLoader" class="cz.nkp.differ.images.GenericImageLoader"/>

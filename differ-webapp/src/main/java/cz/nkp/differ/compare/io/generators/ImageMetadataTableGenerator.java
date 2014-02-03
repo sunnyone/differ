@@ -47,7 +47,7 @@ public class ImageMetadataTableGenerator {
 
 	private ImageProcessorResult[] results;
 	private CompareComponent parent;
-	private GlossaryUtil glossaryUtil = new HTMLGlossaryUtil();
+	private GlossaryUtil glossaryUtil = DifferApplication.getGlossaryUtil();
 
 	public ImageMetadataTableGenerator(ImageProcessorResult[] results,
 			CompareComponent parent) {
@@ -215,7 +215,7 @@ public class ImageMetadataTableGenerator {
 		for (Map.Entry<String, ComparedImagesMetadata> entry : hashmap
 				.entrySet()) {
 			ComparedImagesMetadata cim = entry.getValue();
-			Button key = createClickableProperty(cim.getKey()); // fixme
+			Object key = createClickableProperty(cim.getKey());
 			Button clickableToolName = createClickableTool(cim.getSourceName(),
 					cim.getVersion());
 
@@ -296,9 +296,9 @@ public class ImageMetadataTableGenerator {
 	}
 
 	private SortableButton createClickableProperty(final String propertyName) {
-		final String glossary = glossaryUtil.getGlossaryFor(propertyName, Locale.US);
 		SortableButton button = new SortableButton(propertyName, null);
-		if (glossary != null) {
+		if (glossaryUtil.existsGlossaryFor(propertyName, Locale.US)) {
+			final String glossary = glossaryUtil.getGlossaryFor(propertyName, Locale.US);
 			button.addListener(new Button.ClickListener() {
 
 				@Override
@@ -308,8 +308,10 @@ public class ImageMetadataTableGenerator {
 						Window.Notification.TYPE_HUMANIZED_MESSAGE);
 				}
 			});
+			button.addStyleName("link");
+		} else {
+			button.addStyleName("nolink");
 		}
-		button.addStyleName("link");
 		return button;
 	}
 

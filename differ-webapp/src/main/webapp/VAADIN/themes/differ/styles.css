@@ -157,3 +157,17 @@
     border-width:1px;
     border-color:#aaa;
 }
+
+.v-button-nolink .v-button-caption, .v-nativebutton-nolink .v-nativebutton-caption {
+    text-decoration: none;
+    color: inherit;
+    text-align: left;
+}
+
+.v-button-nolink .v-button-wrap, .v-disabled.v-button-nolink .v-button-wrap {
+    background: none;
+    border: none;
+    color: #464f52;
+    padding: 0px 0px;
+    text-shadow: none;
+}
