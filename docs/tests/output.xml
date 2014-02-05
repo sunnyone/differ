@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generated="20140128 14:32:00.653" generator="Robot 2.8.3 (Python 2.7.5+ on linux2)">
-<suite source="/opt/differ/docs/tests/test_registration.robot" id="s1" name="Test Registration">
-<test id="s1-t1" name="Registration of an user">
+<robot generated="20140205 12:16:11.576" generator="Robot 2.8.3 (Python 2.7.5+ on linux2)">
+<suite source="/opt/differ/docs/tests/test_differ-compare.robot" id="s1" name="Test Differ-Compare">
+<test id="s1-t1" name="Compare two files">
 <kw type="setup" name="Selenium2Library.Open Browser">
 <doc>Opens a new browser instance to given URL.</doc>
 <arguments>
@@ -9,241 +9,110 @@
 <arg>firefox</arg>
 <arg>timeout=10s</arg>
 </arguments>
-<msg timestamp="20140128 14:32:00.742" level="INFO">Opening browser 'firefox' to base url 'http://differ.nkp.cz'</msg>
-<status status="PASS" endtime="20140128 14:32:03.093" starttime="20140128 14:32:00.742"></status>
+<msg timestamp="20140205 12:16:11.652" level="INFO">Opening browser 'firefox' to base url 'http://differ.nkp.cz'</msg>
+<status status="PASS" endtime="20140205 12:16:15.024" starttime="20140205 12:16:11.652"></status>
 </kw>
-<kw type="kw" name="Selenium2Library.Wait Until Page Contains">
-<doc>Waits until `text` appears on current page.</doc>
+<kw type="kw" name="BuiltIn.Sleep">
+<doc>Pauses the test executed for the given time.</doc>
 <arguments>
-<arg>You are not logged in.</arg>
+<arg>5s</arg>
 </arguments>
-<status status="PASS" endtime="20140128 14:32:03.860" starttime="20140128 14:32:03.093"></status>
+<msg timestamp="20140205 12:16:20.028" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" endtime="20140205 12:16:20.029" starttime="20140205 12:16:15.026"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Choose File">
+<doc>Inputs the `file_path` into file input field found by `identifier`.</doc>
+<arguments>
+<arg>xpath=//input[@name="PID25_file"]</arg>
+<arg>/opt/differ/docs/images/TIFF/1002186430_000015.tif</arg>
+</arguments>
+<status status="PASS" endtime="20140205 12:16:20.097" starttime="20140205 12:16:20.030"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Choose File">
+<doc>Inputs the `file_path` into file input field found by `identifier`.</doc>
+<arguments>
+<arg>xpath=//input[@name="PID32_file"]</arg>
+<arg>/opt/differ/docs/images/JP2/1002186430_000015 kvalita 100.jpf</arg>
+</arguments>
+<status status="PASS" endtime="20140205 12:16:20.131" starttime="20140205 12:16:20.097"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Sleep">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>15s</arg>
+</arguments>
+<msg timestamp="20140205 12:16:35.134" level="INFO">Slept 15 seconds</msg>
+<status status="PASS" endtime="20140205 12:16:35.134" starttime="20140205 12:16:20.132"></status>
 </kw>
 <kw type="kw" name="Selenium2Library.Capture Page Screenshot">
 <doc>Takes a screenshot of the current page and embeds it into the log.</doc>
 <arguments>
-<arg>home-page.png</arg>
+<arg>differ-compare-01.png</arg>
 </arguments>
-<msg timestamp="20140128 14:32:03.958" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="home-page.png"&gt;&lt;img src="home-page.png" width="800px"&gt;&lt;/a&gt;</msg>
-<status status="PASS" endtime="20140128 14:32:03.958" starttime="20140128 14:32:03.860"></status>
+<msg timestamp="20140205 12:16:35.286" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="differ-compare-01.png"&gt;&lt;img src="differ-compare-01.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20140205 12:16:35.286" starttime="20140205 12:16:35.134"></status>
 </kw>
-<kw type="kw" name="BuiltIn.Sleep">
-<doc>Pauses the test executed for the given time.</doc>
-<arguments>
-<arg>2s</arg>
-</arguments>
-<msg timestamp="20140128 14:32:05.959" level="INFO">Slept 2 seconds</msg>
-<status status="PASS" endtime="20140128 14:32:05.960" starttime="20140128 14:32:03.958"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Click Element">
-<doc>Click element identified by `locator`.</doc>
-<arguments>
-<arg>xpath=//span[text()="Register"]</arg>
-</arguments>
-<msg timestamp="20140128 14:32:05.960" level="INFO">Clicking element 'xpath=//span[text()="Register"]'.</msg>
-<status status="PASS" endtime="20140128 14:32:07.963" starttime="20140128 14:32:05.960"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Wait Until Page Contains">
-<doc>Waits until `text` appears on current page.</doc>
-<arguments>
-<arg>Register User</arg>
-</arguments>
-<status status="PASS" endtime="20140128 14:32:08.083" starttime="20140128 14:32:07.963"></status>
-</kw>
-<kw type="kw" name="Input User Name">
-<doc></doc>
-<arguments>
-<arg>testuser03</arg>
-</arguments>
-<kw type="kw" name="Selenium2Library.Input Text">
-<doc>Types the given `text` into text field identified by `locator`.</doc>
-<arguments>
-<arg>css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; input:nth-child(1)</arg>
-<arg>${username}</arg>
-</arguments>
-<msg timestamp="20140128 14:32:08.084" level="INFO">Typing text 'testuser03' into text field 'css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; input:nth-child(1)'</msg>
-<status status="PASS" endtime="20140128 14:32:08.550" starttime="20140128 14:32:08.084"></status>
-</kw>
-<status status="PASS" endtime="20140128 14:32:08.551" starttime="20140128 14:32:08.083"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Input Text">
-<doc>Types the given `text` into text field identified by `locator`.</doc>
-<arguments>
-<arg>css=input[type="password"]</arg>
-<arg>atE87cuv</arg>
-</arguments>
-<msg timestamp="20140128 14:32:08.551" level="INFO">Typing text 'atE87cuv' into text field 'css=input[type="password"]'</msg>
-<status status="PASS" endtime="20140128 14:32:08.904" starttime="20140128 14:32:08.551"></status>
-</kw>
-<kw type="kw" name="Click on Button Register">
+<kw type="kw" name="Submit compare">
 <doc></doc>
 <arguments>
 </arguments>
 <kw type="kw" name="Selenium2Library.Click Element">
 <doc>Click element identified by `locator`.</doc>
 <arguments>
-<arg>css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; span:nth-child(1) &gt; span:nth-child(1)</arg>
+<arg>css=.compare-button-caption</arg>
 </arguments>
-<msg timestamp="20140128 14:32:08.905" level="INFO">Clicking element 'css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; span:nth-child(1) &gt; span:nth-child(1)'.</msg>
-<status status="PASS" endtime="20140128 14:32:10.092" starttime="20140128 14:32:08.905"></status>
+<msg timestamp="20140205 12:16:35.289" level="INFO">Clicking element 'css=.compare-button-caption'.</msg>
+<status status="PASS" endtime="20140205 12:16:36.993" starttime="20140205 12:16:35.288"></status>
 </kw>
-<status status="PASS" endtime="20140128 14:32:10.092" starttime="20140128 14:32:08.904"></status>
+<status status="PASS" endtime="20140205 12:16:36.993" starttime="20140205 12:16:35.287"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Maximize Browser Window">
+<doc>Maximizes current browser window.</doc>
+<arguments>
+</arguments>
+<status status="PASS" endtime="20140205 12:16:37.077" starttime="20140205 12:16:36.993"></status>
 </kw>
 <kw type="kw" name="BuiltIn.Sleep">
 <doc>Pauses the test executed for the given time.</doc>
 <arguments>
-<arg>2s</arg>
+<arg>20s</arg>
 </arguments>
-<msg timestamp="20140128 14:32:12.093" level="INFO">Slept 2 seconds</msg>
-<status status="PASS" endtime="20140128 14:32:12.093" starttime="20140128 14:32:10.092"></status>
+<msg timestamp="20140205 12:16:57.080" level="INFO">Slept 20 seconds</msg>
+<status status="PASS" endtime="20140205 12:16:57.080" starttime="20140205 12:16:37.078"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Capture Page Screenshot">
+<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
+<arguments>
+<arg>differ-compare-02.png</arg>
+</arguments>
+<msg timestamp="20140205 12:16:57.333" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="differ-compare-02.png"&gt;&lt;img src="differ-compare-02.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20140205 12:16:57.334" starttime="20140205 12:16:57.082"></status>
 </kw>
 <kw type="teardown" name="Selenium2Library.Close All Browsers">
 <doc>Closes all open browsers and resets the browser cache.</doc>
 <arguments>
 </arguments>
-<status status="PASS" endtime="20140128 14:32:12.145" starttime="20140128 14:32:12.094"></status>
+<status status="PASS" endtime="20140205 12:16:57.363" starttime="20140205 12:16:57.334"></status>
 </kw>
 <doc></doc>
 <tags>
 </tags>
-<status status="PASS" endtime="20140128 14:32:12.145" critical="yes" starttime="20140128 14:32:00.741"></status>
-</test>
-<test id="s1-t2" name="Login into an application">
-<kw type="setup" name="Selenium2Library.Open Browser">
-<doc>Opens a new browser instance to given URL.</doc>
-<arguments>
-<arg>http://differ.nkp.cz</arg>
-<arg>firefox</arg>
-<arg>timeout=10s</arg>
-</arguments>
-<msg timestamp="20140128 14:32:12.153" level="INFO">Opening browser 'firefox' to base url 'http://differ.nkp.cz'</msg>
-<status status="PASS" endtime="20140128 14:32:14.623" starttime="20140128 14:32:12.153"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Wait Until Page Contains">
-<doc>Waits until `text` appears on current page.</doc>
-<arguments>
-<arg>You are not logged in.</arg>
-</arguments>
-<status status="PASS" endtime="20140128 14:32:15.522" starttime="20140128 14:32:14.628"></status>
-</kw>
-<kw type="kw" name="BuiltIn.Sleep">
-<doc>Pauses the test executed for the given time.</doc>
-<arguments>
-<arg>2s</arg>
-</arguments>
-<msg timestamp="20140128 14:32:17.523" level="INFO">Slept 2 seconds</msg>
-<status status="PASS" endtime="20140128 14:32:17.523" starttime="20140128 14:32:15.522"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Click Element">
-<doc>Click element identified by `locator`.</doc>
-<arguments>
-<arg>xpath=//span[text()="Login"]</arg>
-</arguments>
-<msg timestamp="20140128 14:32:17.524" level="INFO">Clicking element 'xpath=//span[text()="Login"]'.</msg>
-<status status="PASS" endtime="20140128 14:32:19.398" starttime="20140128 14:32:17.524"></status>
-</kw>
-<kw type="kw" name="Input Login Username">
-<doc></doc>
-<arguments>
-<arg>testuser01</arg>
-</arguments>
-<kw type="kw" name="Selenium2Library.Input Text">
-<doc>Types the given `text` into text field identified by `locator`.</doc>
-<arguments>
-<arg>css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; input:nth-child(1)</arg>
-<arg>${username}</arg>
-</arguments>
-<msg timestamp="20140128 14:32:19.399" level="INFO">Typing text 'testuser01' into text field 'css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; input:nth-child(1)'</msg>
-<status status="PASS" endtime="20140128 14:32:19.969" starttime="20140128 14:32:19.399"></status>
-</kw>
-<status status="PASS" endtime="20140128 14:32:19.969" starttime="20140128 14:32:19.399"></status>
-</kw>
-<kw type="kw" name="Input Login Password">
-<doc></doc>
-<arguments>
-<arg>atE87cuv</arg>
-</arguments>
-<kw type="kw" name="Selenium2Library.Input Text">
-<doc>Types the given `text` into text field identified by `locator`.</doc>
-<arguments>
-<arg>css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; div:nth-child(2) &gt; input:nth-child(1)</arg>
-<arg>${password}</arg>
-</arguments>
-<msg timestamp="20140128 14:32:19.970" level="INFO">Typing text 'atE87cuv' into text field 'css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; div:nth-child(2) &gt; input:nth-child(1)'</msg>
-<status status="PASS" endtime="20140128 14:32:20.329" starttime="20140128 14:32:19.970"></status>
-</kw>
-<status status="PASS" endtime="20140128 14:32:20.329" starttime="20140128 14:32:19.969"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Capture Page Screenshot">
-<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
-<arguments>
-<arg>login.png</arg>
-</arguments>
-<msg timestamp="20140128 14:32:20.432" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="login.png"&gt;&lt;img src="login.png" width="800px"&gt;&lt;/a&gt;</msg>
-<status status="PASS" endtime="20140128 14:32:20.432" starttime="20140128 14:32:20.329"></status>
-</kw>
-<kw type="kw" name="Click on Button Login">
-<doc></doc>
-<arguments>
-</arguments>
-<kw type="kw" name="Selenium2Library.Click Element">
-<doc>Click element identified by `locator`.</doc>
-<arguments>
-<arg>css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; span:nth-child(1) &gt; span:nth-child(1)</arg>
-</arguments>
-<msg timestamp="20140128 14:32:20.434" level="INFO">Clicking element 'css=.v-window-contents &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(2) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; div:nth-child(1) &gt; span:nth-child(1) &gt; span:nth-child(1)'.</msg>
-<status status="PASS" endtime="20140128 14:32:21.502" starttime="20140128 14:32:20.433"></status>
-</kw>
-<status status="PASS" endtime="20140128 14:32:21.502" starttime="20140128 14:32:20.433"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Wait Until Page Contains">
-<doc>Waits until `text` appears on current page.</doc>
-<arguments>
-<arg>You are now logged in as</arg>
-</arguments>
-<status status="PASS" endtime="20140128 14:32:21.897" starttime="20140128 14:32:21.503"></status>
-</kw>
-<kw type="kw" name="BuiltIn.Sleep">
-<doc>Pauses the test executed for the given time.</doc>
-<arguments>
-<arg>1s</arg>
-</arguments>
-<msg timestamp="20140128 14:32:22.898" level="INFO">Slept 1 second</msg>
-<status status="PASS" endtime="20140128 14:32:22.898" starttime="20140128 14:32:21.897"></status>
-</kw>
-<kw type="kw" name="Selenium2Library.Capture Page Screenshot">
-<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
-<arguments>
-<arg>login-succeed.png</arg>
-</arguments>
-<msg timestamp="20140128 14:32:23.010" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="login-succeed.png"&gt;&lt;img src="login-succeed.png" width="800px"&gt;&lt;/a&gt;</msg>
-<status status="PASS" endtime="20140128 14:32:23.010" starttime="20140128 14:32:22.899"></status>
-</kw>
-<kw type="teardown" name="Selenium2Library.Close All Browsers">
-<doc>Closes all open browsers and resets the browser cache.</doc>
-<arguments>
-</arguments>
-<status status="PASS" endtime="20140128 14:32:23.053" starttime="20140128 14:32:23.010"></status>
-</kw>
-<doc></doc>
-<tags>
-</tags>
-<status status="PASS" endtime="20140128 14:32:23.054" critical="yes" starttime="20140128 14:32:12.152"></status>
+<status status="PASS" endtime="20140205 12:16:57.363" critical="yes" starttime="20140205 12:16:11.651"></status>
 </test>
 <doc></doc>
 <metadata>
 </metadata>
-<status status="PASS" endtime="20140128 14:32:23.055" starttime="20140128 14:32:00.653"></status>
+<status status="PASS" endtime="20140205 12:16:57.364" starttime="20140205 12:16:11.576"></status>
 </suite>
 <statistics>
 <total>
-<stat fail="0" pass="2">Critical Tests</stat>
-<stat fail="0" pass="2">All Tests</stat>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat fail="0" pass="2" id="s1" name="Test Registration">Test Registration</stat>
+<stat fail="0" pass="1" id="s1" name="Test Differ-Compare">Test Differ-Compare</stat>
 </suite>
 </statistics>
 <errors>
