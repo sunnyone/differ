@@ -91,6 +91,8 @@
         <property name="googleAnalyticsConfiguration" ref="googleAnalyticsConfiguration"/>
         <property name="captchaEnabled" value="${differ.captchaEnabled}"/>
     </bean>
+    
+    <bean id="glossaryUtil" class="cz.nkp.differ.tools.HTMLGlossaryUtil" />
 
     <!-- Rest API -->
     <context:component-scan base-package="cz.nkp.differ"/>
