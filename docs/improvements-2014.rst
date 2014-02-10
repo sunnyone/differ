@@ -26,28 +26,52 @@ Calling of **external java extractors** is **slow**
     Metadata extractors that are written in java can be called in running JVM 
     calling some class methods. It must speed up an application a lot.
 
-Interface for an application using **RabbitMQ** or **Apache ActiveMQ**
-------------------------------------------------------------------------------------------
+Rest API for an application
+-----------------------------------------------------------------------------
 
 ::
     
-    The intention is to run the external processes in a separate 
-    JVM to be more robust and to offer standard integration pattern.
+    The intention is to offer common integration pattern. All
+    functions will be available throught REST Api.
 
-Add a way to **exclude properties** that user does not need
+
+
+Add a way to use just **important properties** that user wants
 ----------------------------------------------------------------------------------------
 
 ::
 
-    A user will choose properties that will be shown.
+    A user will choose properties that will be shown. An application
+    allows him to save it as profile for later use.
+
+    An application applies a user profile and gives an simple result if
+    all items of a profile are the same when comparing two images.
+
+
+see :ref:`detail description <improvements-exclude-properties>`
+
+
+Update application to Vaadin 7.x version
+---------------------------------------------------------------
+
+::
+
+   The application uses Vaadin 6.x version at the moment. The goal is to
+   use Vaadin 7.x version.
+
+
+Well arranged a way to choose two images to compare
+---------------------------------------------------------------------
+
+::
+   
+   An application will show thumbnails of uploaded images and an easy
+   way to choose two of them to compare.
+
+see :ref:`detail <improvements-easy-selection>`
 
 Required knowledges:
 
 - Java
 - JUnit testing
 - Spring framework
-
-desirable skills:
-
-- experience with continuous integration
-
