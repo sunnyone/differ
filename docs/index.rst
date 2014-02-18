@@ -19,7 +19,8 @@ The Image Validator - DIFFER
    source
    gsoc2014-ideas-list
    gsoc2013-ideas-list
-   running-jobs
+
+..   running-jobs
 
 :download:`test report <tests/report.html>`
 

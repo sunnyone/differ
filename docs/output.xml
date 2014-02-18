@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20140121 15:59:59.095" generator="Robot 2.8.3 (Python 2.7.5+ on linux2)">
+<suite source="/opt/differ/docs/tests/test_01.robot" id="s1" name="Test 01">
+<test id="s1-t1" name="Problém s barvením hodnot">
+<kw type="setup" name="Selenium2Library.Open Browser">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>http://differ.nkp.cz</arg>
+<arg>firefox</arg>
+<arg>timeout=10s</arg>
+</arguments>
+<msg timestamp="20140121 15:59:59.169" level="INFO">Opening browser 'firefox' to base url 'http://differ.nkp.cz'</msg>
+<status status="PASS" endtime="20140121 16:00:02.491" starttime="20140121 15:59:59.168"></status>
+</kw>
+<kw type="kw" name="Dialogs.Pause Execution">
+<doc>Pauses test execution until user clicks `Ok` button.</doc>
+<arguments>
+</arguments>
+<status status="PASS" endtime="20140121 16:00:25.253" starttime="20140121 16:00:02.492"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Choose File">
+<doc>Inputs the `file_path` into file input field found by `identifier`.</doc>
+<arguments>
+<arg>xpath=//input[@name="PID25_file"]</arg>
+<arg>/opt/differ/docs/images/TIFF/1002186430_000015.tif</arg>
+</arguments>
+<status status="PASS" endtime="20140121 16:00:25.392" starttime="20140121 16:00:25.253"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Choose File">
+<doc>Inputs the `file_path` into file input field found by `identifier`.</doc>
+<arguments>
+<arg>xpath=//input[@name="PID32_file"]</arg>
+<arg>/opt/differ/docs/images/JP2/1002186430_000015 kvalita 100.jpf</arg>
+</arguments>
+<status status="PASS" endtime="20140121 16:00:25.435" starttime="20140121 16:00:25.393"></status>
+</kw>
+<kw type="kw" name="Dialogs.Pause Execution">
+<doc>Pauses test execution until user clicks `Ok` button.</doc>
+<arguments>
+</arguments>
+<status status="PASS" endtime="20140121 16:00:35.920" starttime="20140121 16:00:25.436"></status>
+</kw>
+<kw type="kw" name="Click">
+<doc></doc>
+<arguments>
+<arg>css=#main.button.compare</arg>
+</arguments>
+<msg timestamp="20140121 16:00:35.921" level="FAIL">No keyword with name 'Click' found.</msg>
+<status status="FAIL" endtime="20140121 16:00:35.921" starttime="20140121 16:00:35.920"></status>
+</kw>
+<kw type="teardown" name="Selenium2Library.Close All Browsers">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<arguments>
+</arguments>
+<status status="PASS" endtime="20140121 16:00:35.954" starttime="20140121 16:00:35.922"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="FAIL" endtime="20140121 16:00:35.955" critical="yes" starttime="20140121 15:59:59.168">No keyword with name 'Click' found.</status>
+</test>
+<doc></doc>
+<metadata>
+</metadata>
+<status status="FAIL" endtime="20140121 16:00:35.955" starttime="20140121 15:59:59.095"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="0">Critical Tests</stat>
+<stat fail="1" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" pass="0" id="s1" name="Test 01">Test 01</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -1,13 +1,18 @@
-**result of comparion** can be in **other** than **text format**
-------------------------------------------------------------------------------------------------
+Extending of application functionality
+-----------------------------------------------------------------------------------------------------------
+
+
+
+**Result of comparion** in **html** and **pdf**
+.....................................................................................
 
 ::
 
     It could be great to have a comparison report in `html`.
-    Or in `pdf`. Report can be done using JasperReport or Docbook or something similar.
+    Or in `pdf`. Report can be done using JasperReport.
 
 Significant properties **processing**  *speed-up*
-----------------------------------------------------------------
+...........................................................................................
 
 ::
     
@@ -19,26 +24,37 @@ Significant properties **processing**  *speed-up*
     At least ArrayHash by property name could help.
     
 Calling of **external java extractors** **speed-up** 
-------------------------------------------
+.................................................................................................
 
 ::
 
     Metadata extractors that are written in java can be called in running JVM 
     calling some class methods. It must speed up an application a lot.
 
-Improvement an application by Rest API
------------------------------------------------------------------------------
+    Student will provide problem description at first.
+
+    At second he find out the slowest part of an application and he
+    will sudgest a solution.
+
+    At the end he will implement the solution.
+
+Improvement by Rest API
+...........................................
 
 ::
     
     The intention is to offer common integration pattern. All
-    functions will be available throught REST Api.
+    functions of an application will be available throught REST Api.
 
-    The REST Api should manage user profiles too.
+    The REST Api should offer managing of user profiles too.
+
+
+Extending of application web GUI
+--------------------------------------------------------------------------------------------
 
 
 User profile for **important properties**
-----------------------------------------------------------------------------------------
+.............................................................................
 
 ::
 
@@ -52,8 +68,9 @@ User profile for **important properties**
 see :ref:`detail description <improvements-exclude-properties>`
 
 
+
 Update application to Vaadin 7.x version
----------------------------------------------------------------
+............................................................................
 
 ::
 
@@ -61,8 +78,8 @@ Update application to Vaadin 7.x version
    use Vaadin 7.x version.
 
 
-Well arranged a way to choose two images to compare
----------------------------------------------------------------------
+Well arranged way to choose two images for comparison
+.................................................................................................
 
 ::
    
