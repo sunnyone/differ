@@ -1,6 +1,6 @@
 .. _improvements-exclude-properties:
 
-Add a way to **exclude properties** that user does not need
+User profile for **important properties**
 ------------------------------------------------------------------------------------------------
 
 .. robot_tests::
@@ -10,3 +10,8 @@ Requirements:
 
 - java
 - Vaadin at least 6.x version
+
+
+Good to know:
+
+- robot framework

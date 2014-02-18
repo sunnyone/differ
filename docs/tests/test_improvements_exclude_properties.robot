@@ -17,8 +17,8 @@ Submit compare
 Apply properties profile when comparing two images
     Wait Until Page Contains   You are not logged in.
     Log In
-    Select one image
-    Select other image    
+    Select image A
+    Select image B
     See available properties profiles
     Select one profile
     Submit Compare
@@ -31,7 +31,7 @@ Apply properties profile when comparing two images
 Apply properties profile when processing one image
     Wait Until Page Contains   You are not logged in.
     Log In
-    Select one image
+    Select image A
     See available properties profiles   
     Select one profile
     Submit Proceed
@@ -44,7 +44,7 @@ Apply properties profile when processing one image
 Create properties profile for one image proceed
     Wait Until Page Contains   You are not logged in.
     Log In
-    Select one image
+    Select image A
     See available properties profiles
     Click on button Create profile
     See properties tree
@@ -65,7 +65,7 @@ Create properties profile for one image proceed
 Create properties profile for two images comparision
     Wait Until Page Contains   You are not logged in.
     Log In
-    Select two images
+    Select image A and image B
     See available properties profiles
     Click on button Create profile
     See properties tree

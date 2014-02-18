@@ -6,7 +6,7 @@
     It could be great to have a comparison report in `html`.
     Or in `pdf`. Report can be done using JasperReport or Docbook or something similar.
 
-Significant properties **processing** is **slow**
+Significant properties **processing**  *speed-up*
 ----------------------------------------------------------------
 
 ::
@@ -18,15 +18,15 @@ Significant properties **processing** is **slow**
     Implementing some kind of index by property name must speed up an aplication.
     At least ArrayHash by property name could help.
     
-Calling of **external java extractors** is **slow**
----------------------------------------------------------------------
+Calling of **external java extractors** **speed-up** 
+------------------------------------------
 
 ::
 
     Metadata extractors that are written in java can be called in running JVM 
     calling some class methods. It must speed up an application a lot.
 
-Rest API for an application
+Improvement an application by Rest API
 -----------------------------------------------------------------------------
 
 ::
@@ -34,9 +34,10 @@ Rest API for an application
     The intention is to offer common integration pattern. All
     functions will be available throught REST Api.
 
+    The REST Api should manage user profiles too.
 
 
-Add a way to use just **important properties** that user wants
+User profile for **important properties**
 ----------------------------------------------------------------------------------------
 
 ::
