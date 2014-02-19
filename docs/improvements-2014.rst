@@ -1,9 +1,9 @@
-Extending of application functionality
+Extension of application functionality
 -----------------------------------------------------------------------------------------------------------
 
 
 
-Comparison result in **html** and **pdf**
+Design comparison result in **html** and **pdf**
 .....................................................................................
 
 ::
@@ -11,7 +11,7 @@ Comparison result in **html** and **pdf**
     It could be great to have a comparison report in `html`.
     Or in `pdf`. Report can be done using JasperReport.
 
-Speed-up of significant properties **processing**
+Speed up significant properties **processing**
 ...........................................................................................
 
 ::
@@ -23,7 +23,7 @@ Speed-up of significant properties **processing**
     Implementing some kind of index by property name must speed up an aplication.
     At least ArrayHash by property name could help.
     
-Speed-up of calling of **external java extractors**
+Speed up calling of **external java extractors**
 .................................................................................................
 
 ::
@@ -69,7 +69,7 @@ see :ref:`detail description <improvements-exclude-properties>`
 
 
 
-Update application to Vaadin 7.x version
+Update version of Vaadin to 7.x version
 ............................................................................
 
 ::
@@ -78,8 +78,8 @@ Update application to Vaadin 7.x version
    use Vaadin 7.x version.
 
 
-Rearranged way of choosing two images for comparison
-.................................................................................................
+Rearranged way of choosing images for comparison
+...........................................................................................
 
 ::
    
