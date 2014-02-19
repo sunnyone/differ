@@ -3,7 +3,7 @@ Extending of application functionality
 
 
 
-**Result of comparion** in **html** and **pdf**
+Comparison result in **html** and **pdf**
 .....................................................................................
 
 ::
@@ -11,7 +11,7 @@ Extending of application functionality
     It could be great to have a comparison report in `html`.
     Or in `pdf`. Report can be done using JasperReport.
 
-Significant properties **processing**  *speed-up*
+Speed-up of significant properties **processing**
 ...........................................................................................
 
 ::
@@ -23,7 +23,7 @@ Significant properties **processing**  *speed-up*
     Implementing some kind of index by property name must speed up an aplication.
     At least ArrayHash by property name could help.
     
-Calling of **external java extractors** **speed-up** 
+Speed-up of calling of **external java extractors**
 .................................................................................................
 
 ::
@@ -38,7 +38,7 @@ Calling of **external java extractors** **speed-up**
 
     At the end he will implement the solution.
 
-Improvement by Rest API
+Rest API improvement
 ...........................................
 
 ::
@@ -49,12 +49,12 @@ Improvement by Rest API
     The REST Api should offer managing of user profiles too.
 
 
-Extending of application web GUI
---------------------------------------------------------------------------------------------
+Web application GUI extension
+-----------------------------------------------------------------------------------
 
 
-User profile for **important properties**
-.............................................................................
+Create user profile for selected **properties**
+..............................................................................................................
 
 ::
 
@@ -78,7 +78,7 @@ Update application to Vaadin 7.x version
    use Vaadin 7.x version.
 
 
-Well arranged way to choose two images for comparison
+Rearranged way of choosing two images for comparison
 .................................................................................................
 
 ::
