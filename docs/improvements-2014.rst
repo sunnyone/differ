@@ -3,15 +3,15 @@ Extension of application functionality
 
 
 
-Design comparison result in **html** and **pdf**
-.....................................................................................
+Design a comparison result in **html** and **pdf**
+...............................................................................................
 
 ::
 
     It could be great to have a comparison report in `html`.
     Or in `pdf`. Report can be done using JasperReport.
 
-Speed up significant properties **processing**
+Speed up the significant properties **processing**
 ...........................................................................................
 
 ::
@@ -23,7 +23,7 @@ Speed up significant properties **processing**
     Implementing some kind of index by property name must speed up an aplication.
     At least ArrayHash by property name could help.
     
-Speed up calling of **external java extractors**
+Speed up the calling of **external java extractors**
 .................................................................................................
 
 ::
@@ -53,8 +53,8 @@ Web application GUI extension
 -----------------------------------------------------------------------------------
 
 
-Create user profile for selected **properties**
-..............................................................................................................
+Create a user profile for selected **properties**
+.............................................................................................
 
 ::
 
@@ -69,8 +69,8 @@ see :ref:`detail description <improvements-exclude-properties>`
 
 
 
-Update version of Vaadin to 7.x version
-............................................................................
+Update the version of Vaadin to 7.x version
+..................................................................................
 
 ::
 
@@ -78,8 +78,8 @@ Update version of Vaadin to 7.x version
    use Vaadin 7.x version.
 
 
-Rearranged way of choosing images for comparison
-...........................................................................................
+Rearranged the way of choosing images for comparison
+....................................................................................................
 
 ::
    
