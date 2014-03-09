@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20140205 12:16:11.576" generator="Robot 2.8.3 (Python 2.7.5+ on linux2)">
+<suite source="/opt/differ/docs/tests/test_differ-compare.robot" id="s1" name="Test Differ-Compare">
+<test id="s1-t1" name="Compare two files">
+<kw type="setup" name="Selenium2Library.Open Browser">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>http://differ.nkp.cz</arg>
+<arg>firefox</arg>
+<arg>timeout=10s</arg>
+</arguments>
+<msg timestamp="20140205 12:16:11.652" level="INFO">Opening browser 'firefox' to base url 'http://differ.nkp.cz'</msg>
+<status status="PASS" endtime="20140205 12:16:15.024" starttime="20140205 12:16:11.652"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Sleep">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>5s</arg>
+</arguments>
+<msg timestamp="20140205 12:16:20.028" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" endtime="20140205 12:16:20.029" starttime="20140205 12:16:15.026"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Choose File">
+<doc>Inputs the `file_path` into file input field found by `identifier`.</doc>
+<arguments>
+<arg>xpath=//input[@name="PID25_file"]</arg>
+<arg>/opt/differ/docs/images/TIFF/1002186430_000015.tif</arg>
+</arguments>
+<status status="PASS" endtime="20140205 12:16:20.097" starttime="20140205 12:16:20.030"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Choose File">
+<doc>Inputs the `file_path` into file input field found by `identifier`.</doc>
+<arguments>
+<arg>xpath=//input[@name="PID32_file"]</arg>
+<arg>/opt/differ/docs/images/JP2/1002186430_000015 kvalita 100.jpf</arg>
+</arguments>
+<status status="PASS" endtime="20140205 12:16:20.131" starttime="20140205 12:16:20.097"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Sleep">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>15s</arg>
+</arguments>
+<msg timestamp="20140205 12:16:35.134" level="INFO">Slept 15 seconds</msg>
+<status status="PASS" endtime="20140205 12:16:35.134" starttime="20140205 12:16:20.132"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Capture Page Screenshot">
+<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
+<arguments>
+<arg>differ-compare-01.png</arg>
+</arguments>
+<msg timestamp="20140205 12:16:35.286" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="differ-compare-01.png"&gt;&lt;img src="differ-compare-01.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20140205 12:16:35.286" starttime="20140205 12:16:35.134"></status>
+</kw>
+<kw type="kw" name="Submit compare">
+<doc></doc>
+<arguments>
+</arguments>
+<kw type="kw" name="Selenium2Library.Click Element">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>css=.compare-button-caption</arg>
+</arguments>
+<msg timestamp="20140205 12:16:35.289" level="INFO">Clicking element 'css=.compare-button-caption'.</msg>
+<status status="PASS" endtime="20140205 12:16:36.993" starttime="20140205 12:16:35.288"></status>
+</kw>
+<status status="PASS" endtime="20140205 12:16:36.993" starttime="20140205 12:16:35.287"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Maximize Browser Window">
+<doc>Maximizes current browser window.</doc>
+<arguments>
+</arguments>
+<status status="PASS" endtime="20140205 12:16:37.077" starttime="20140205 12:16:36.993"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Sleep">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>20s</arg>
+</arguments>
+<msg timestamp="20140205 12:16:57.080" level="INFO">Slept 20 seconds</msg>
+<status status="PASS" endtime="20140205 12:16:57.080" starttime="20140205 12:16:37.078"></status>
+</kw>
+<kw type="kw" name="Selenium2Library.Capture Page Screenshot">
+<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
+<arguments>
+<arg>differ-compare-02.png</arg>
+</arguments>
+<msg timestamp="20140205 12:16:57.333" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="differ-compare-02.png"&gt;&lt;img src="differ-compare-02.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20140205 12:16:57.334" starttime="20140205 12:16:57.082"></status>
+</kw>
+<kw type="teardown" name="Selenium2Library.Close All Browsers">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<arguments>
+</arguments>
+<status status="PASS" endtime="20140205 12:16:57.363" starttime="20140205 12:16:57.334"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="PASS" endtime="20140205 12:16:57.363" critical="yes" starttime="20140205 12:16:11.651"></status>
+</test>
+<doc></doc>
+<metadata>
+</metadata>
+<status status="PASS" endtime="20140205 12:16:57.364" starttime="20140205 12:16:11.576"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" pass="1" id="s1" name="Test Differ-Compare">Test Differ-Compare</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

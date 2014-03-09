@@ -58,17 +58,17 @@ public class GlitchDetectorWindow extends Window {
 
     private void createForm() {
 	form = new Form();
-	TextField maxRedRatio = new TextField("Max absolute red ratio");
+	TextField maxRedRatio = new TextField("Max absolute red ratio (in %)");
         maxRedRatio.setValue(Double.toString(config.getMaxAllowedRatioForAbsoluteRed()));
         maxRedRatio.addValidator(new DoubleValidator("Value must be double"));
         form.addField("maxAllowedRatioForAbsoluteRed", maxRedRatio);
 
-	TextField maxGreenRatio = new TextField("Max absolute green ratio");
+	TextField maxGreenRatio = new TextField("Max absolute green ratio (in %)");
         maxGreenRatio.setValue(Double.toString(config.getMaxAllowedRatioForAbsoluteGreen()));
         maxGreenRatio.addValidator(new DoubleValidator("Value must be double"));
         form.addField("maxAllowedRatioForAbsoluteGreen", maxGreenRatio);
 
-	TextField maxBlueRatio = new TextField("Max absolute blue ratio");
+	TextField maxBlueRatio = new TextField("Max absolute blue ratio (in %)");
         maxBlueRatio.setValue(Double.toString(config.getMaxAllowedRatioForAbsoluteBlue()));
         maxBlueRatio.addValidator(new DoubleValidator("Value must be double"));
         form.addField("maxAllowedRatioForAbsoluteBlue", maxBlueRatio);

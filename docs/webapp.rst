@@ -65,3 +65,4 @@ This application supports selected image formats:
    If you log into the application you can compare images without any restriction.
 
    You can use profiles if you log into the application.
+

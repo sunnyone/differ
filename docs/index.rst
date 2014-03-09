@@ -17,8 +17,14 @@ The Image Validator - DIFFER
    cmdline-app
    important-links
    source
+   gsoc2014-ideas-list
    gsoc2013-ideas-list
-   running-jobs
+
+..   running-jobs
+
+:download:`test report <tests/report.html>`
+
+:download:`test log <tests/log.html>`
 
 .. raw:: html
 

@@ -14,4 +14,9 @@ public interface GlossaryUtil {
 	 * provide String glossary for given phrase and given environment locale.
 	 */
 	public String getGlossaryFor (String phrase, Locale locale);
+	
+	/*
+	 * whether the glossary exists for given phrase.
+	 */
+	public Boolean existsGlossaryFor (String phrase, Locale locale);
 }

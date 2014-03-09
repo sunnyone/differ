@@ -13,6 +13,8 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +23,7 @@ import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * User: stavel
+ * User: Jan Stavel <stavel.jan@gmail.com>
  * Date: 30.1.13
  * Time: 6:51
  */
@@ -29,6 +31,7 @@ public class ReportHTTPSender {
     private String url;
     private String user;
     private String password;
+    private static Logger logger = LogManager.getLogger(ReportHTTPSender.class);
 
     public void setUrl(String url){
         this.url = url;
@@ -60,8 +63,13 @@ public class ReportHTTPSender {
         FileEntity input = new FileEntity(report);
 	    input.setContentType("application/xml");
 		httpPost.setEntity(input);
+		System.out.println("sending output to differ web");
         try {
+        	logger.debug("try to connect differ web");
+        	System.out.println("sending output to differ web - before");
             response = client.execute(httpPost);
+            System.out.println(response.getStatusLine());
+    		System.out.println("sending output to differ web - done");
         } catch (IOException e) {
             e.printStackTrace();
         }

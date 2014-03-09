@@ -59,7 +59,7 @@ public class MainDifferWindow extends Window implements LoginListener {
 		MainDifferWindow.createStaticContentTab("doc_tab", "Documentation",
 				menuTabs);
 		MainDifferWindow.createStaticContentTab("about_tab", "About", menuTabs);
-		MainDifferWindow.createStaticContentTab("traffic_tab", "Traffic",
+		MainDifferWindow.createStaticContentTab("roadmap_tab", "Roadmap",
 				menuTabs);
 
 		/*
@@ -87,9 +87,8 @@ public class MainDifferWindow extends Window implements LoginListener {
 			tab.setCaption(caption);
 			return parent.addTab(tab);
 		} catch (IOException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 
 	private static Tab createDynamicContentTab(Layout source, String caption,

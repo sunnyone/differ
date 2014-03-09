@@ -70,6 +70,8 @@
 	  <value>djvu</value>
 	  <value>png</value>
 	  <value>pdf</value>
+	  <value>tif</value>
+	  <value>tiff</value>
 	</list>
       </property>
     </bean>

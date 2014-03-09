@@ -53,6 +53,18 @@ public class HTMLGlossaryUtilTest {
 	}
 	
 	@Test
+	public void testOfExistenceGlossary(){
+		Boolean existence = this.glossary.existsGlossaryFor(this.testPhrase, new Locale("cs","CZ"));
+		assertEquals("existence of a glossary for test phrase", existence, true);
+	}
+
+	@Test
+	public void testOfNonExistenceGlossary(){
+		Boolean existence = this.glossary.existsGlossaryFor("unknown phrase", new Locale("cs","CZ"));
+		assertEquals("existence of a glossary for test phrase", existence, false);
+	}
+
+	@Test
 	public void testOfVersionOfExtractor(){
 		String normalizedString = this.glossary.normalize(this.versionOfExtractorPhrase);
 		assertEquals("normalize string", this.versionOfExtractorNormalizedPhrase, normalizedString);

@@ -1,6 +1,18 @@
 Compare
 ................................................
 
+.. image:: tests/differ-compare-01.png
+
+.. robot_tests::
+   :source: tests/test_differ-compare.robot
+
+.. note::
+
+   An application does not send any email to confirmation.
+
+.. image:: tests/differ-compare-02.png
+
+
 .. note:: 
 
    When processing images you can see box with progress of
