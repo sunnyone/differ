@@ -60,7 +60,7 @@ public class PDFBoxMetadataExtractor extends AbstractMetadataExtractor {
 	            return Collections.emptyList();
 	    };
 	    List<ImageMetadata> result = new ArrayList<ImageMetadata>();
-        MetadataSource metadataSource = new MetadataSource(0, new String(""), new String(""), this.source);
+        MetadataSource metadataSource = new MetadataSource(0, "", "", this.source, getExtractorVersion());
         result.add(new ImageMetadata("File name", imageFile.getName(), metadataSource));
         result.add(new ImageMetadata("exit-code", "OK", metadataSource));
         result.add(new ImageMetadata("Version of Extractor", getExtractorVersion(), metadataSource));
