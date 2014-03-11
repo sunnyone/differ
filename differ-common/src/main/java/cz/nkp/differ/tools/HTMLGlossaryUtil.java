@@ -7,6 +7,7 @@ import java.text.Normalizer;
 import java.util.Locale;
 import java.util.Scanner;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.cache.annotation.Cacheable;
 
 /**
@@ -40,10 +41,10 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
      */
     @Cacheable("getGlossaryFor")
     @Override
-    public String getGlossaryFor(String phrase, Locale locale) {
+    public String getGlossaryFor(String phrase, Locale locale, String directory) {
         String normalized = this.normalize(phrase);
-        File directory = new File("/glossary",locale.toString());
-        File glossaryPath = new File(directory,normalized + ".html");
+        String directoryPath = FilenameUtils.normalize("/" + directory + "/" + locale.toString());
+        File glossaryPath = new File(directoryPath,normalized + ".html");
         InputStream is = this.getClass().getResourceAsStream(glossaryPath.getPath());
         if( is == null){
             return null;
@@ -74,7 +75,7 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
 	 */
     @Cacheable("existsGlossaryFor")
 	@Override
-	public Boolean existsGlossaryFor(String phrase, Locale locale) {
-		return getGlossaryFor(phrase, locale) != null;
+	public Boolean existsGlossaryFor(String phrase, Locale locale, String directory) {
+		return getGlossaryFor(phrase, locale, directory) != null;
 	}
 }

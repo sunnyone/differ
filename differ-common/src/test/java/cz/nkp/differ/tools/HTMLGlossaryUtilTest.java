@@ -48,19 +48,19 @@ public class HTMLGlossaryUtilTest {
 	
 	@Test
 	public void testOfGlossary(){
-		String glossary = this.glossary.getGlossaryFor(this.testPhrase, new Locale("cs","CZ"));
+		String glossary = this.glossary.getGlossaryFor(this.testPhrase, new Locale("cs","CZ"),"glossary");
 		assertEquals("glossary for test phrase", this.phraseGlossary,glossary);
 	}
 	
 	@Test
 	public void testOfExistenceGlossary(){
-		Boolean existence = this.glossary.existsGlossaryFor(this.testPhrase, new Locale("cs","CZ"));
+		Boolean existence = this.glossary.existsGlossaryFor(this.testPhrase, new Locale("cs","CZ"),"glossary");
 		assertEquals("existence of a glossary for test phrase", existence, true);
 	}
 
 	@Test
 	public void testOfNonExistenceGlossary(){
-		Boolean existence = this.glossary.existsGlossaryFor("unknown phrase", new Locale("cs","CZ"));
+		Boolean existence = this.glossary.existsGlossaryFor("unknown phrase", new Locale("cs","CZ"),"glossary");
 		assertEquals("existence of a glossary for test phrase", existence, false);
 	}
 
@@ -68,9 +68,9 @@ public class HTMLGlossaryUtilTest {
 	public void testOfVersionOfExtractor(){
 		String normalizedString = this.glossary.normalize(this.versionOfExtractorPhrase);
 		assertEquals("normalize string", this.versionOfExtractorNormalizedPhrase, normalizedString);
-		String glossary = this.glossary.getGlossaryFor(this.versionOfExtractorPhrase, new Locale("en","US"));
+		String glossary = this.glossary.getGlossaryFor(this.versionOfExtractorPhrase, new Locale("en","US"),"glossary");
 		assertEquals("glossary for en_US, Version of Extractor",this.versionOfExtractorGlossaryEN,glossary);
-		glossary = this.glossary.getGlossaryFor(this.versionOfExtractorPhrase, new Locale("cs","CZ"));
+		glossary = this.glossary.getGlossaryFor(this.versionOfExtractorPhrase, new Locale("cs","CZ"),"glossary");
 		assertEquals("glossary for cs_CZ, Version of Extractor",this.versionOfExtractorGlossaryCS,glossary);
 	}
 }
