@@ -37,7 +37,7 @@ public class HTMLGlossaryUtil implements GlossaryUtil {
     }
     
     /**
-     * @see cz.nkp.differ.tools.GlossaryUtil#getGlossaryFor(java.lang.String, java.util.Locale)
+     * @see cz.nkp.differ.tools.GlossaryUtil#getGlossaryFor(java.lang.String, java.util.Locale, java.lang.String)
      */
     @Cacheable("getGlossaryFor")
     @Override

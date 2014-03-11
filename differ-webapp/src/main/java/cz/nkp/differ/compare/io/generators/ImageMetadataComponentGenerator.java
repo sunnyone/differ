@@ -503,7 +503,7 @@ public class ImageMetadataComponentGenerator {
     
     private SortableButton createClickableKey(final String key) {
         SortableButton button = new SortableButton(key, key);
-        final String glossary = this.glossaryUtil.getGlossaryFor(key, Locale.ENGLISH);
+        final String glossary = this.glossaryUtil.getGlossaryFor(key, Locale.ENGLISH,"glossary");
         if (glossary != null) {
             button.addListener(new Button.ClickListener() {
                 @Override
