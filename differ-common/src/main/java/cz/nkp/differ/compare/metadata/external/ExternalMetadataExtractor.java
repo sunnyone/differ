@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ExternalMetadataExtractor extends AbstractMetadataExtractor implements MetadataExtractorWithAttributes {
 
-    private static final String VERSION_PROPERTY = "Version" ;
+    private static final String VERSION_PROPERTY = "version of extractor" ;
 
     Logger logger = LogManager.getLogger(ExternalMetadataExtractor.class);
 
@@ -117,7 +117,7 @@ public class ExternalMetadataExtractor extends AbstractMetadataExtractor impleme
                 Map<String, MetadataSource> sources = new HashMap<String, MetadataSource>();
                 List<Entry> entries = transformer.transform(cmdResult.getStdout(), cmdResult.getStderr());
 		for (Entry entry : entries) {
-			if (entry.getKey().equals(VERSION_PROPERTY)) {
+			if (entry.getKey().toLowerCase().equals(VERSION_PROPERTY)) {
 				metadataSource.setVersion(entry.getValue());
 			}
 		}
