@@ -10,6 +10,7 @@ import cz.nkp.differ.gui.components.ProjectFooterComponent;
 import cz.nkp.differ.gui.components.ProjectHeaderPanel;
 import cz.nkp.differ.gui.components.UserFilesWidget;
 import cz.nkp.differ.gui.tabs.DifferProgramTab;
+import cz.nkp.differ.gui.tabs.ExamplesTab;
 import cz.nkp.differ.gui.tabs.ResultManagerTab;
 import cz.nkp.differ.gui.tabs.TabLoader;
 import cz.nkp.differ.listener.LoginListener;
@@ -46,7 +47,7 @@ public class MainDifferWindow extends Window implements LoginListener {
 		MainDifferWindow.createDynamicContentTab(loginContext, "DIFFER",
 				menuTabs);
 
-		ResultManagerTab examples = new ResultManagerTab(this, true);
+		ExamplesTab examples = new ExamplesTab(this);
 		MainDifferWindow
 				.createDynamicContentTab(examples, "Examples", menuTabs);
 

@@ -81,6 +81,9 @@ public class ProgressBarPanel extends VerticalLayout implements WebProgressListe
         synchronized (lock) {
             this.removeAllComponents();
             this.addComponent((Component) c);
+            if (tab == null) {
+            	return;
+            }
             for (Button button : compareComponent.getButtons()) {
                 this.tab.getTopPanelWithButtons().addComponent(button);
             }

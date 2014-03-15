@@ -8,6 +8,7 @@ import cz.nkp.differ.compare.io.ImageThumbnailProvider;
 import cz.nkp.differ.compare.metadata.MetadataGroups;
 import cz.nkp.differ.configuration.Configuration;
 import cz.nkp.differ.configuration.GoogleAnalyticsConfiguration;
+import cz.nkp.differ.example.ExampleProvider;
 import cz.nkp.differ.gui.windows.MainDifferWindow;
 import cz.nkp.differ.io.ImageManager;
 import cz.nkp.differ.io.ResultManager;
@@ -15,7 +16,6 @@ import cz.nkp.differ.listener.LoginListener;
 import cz.nkp.differ.model.User;
 import cz.nkp.differ.profile.EditableJP2ProfileProvider;
 import cz.nkp.differ.tools.GlossaryUtil;
-import cz.nkp.differ.tools.HTMLGlossaryUtil;
 import cz.nkp.differ.user.UserManager;
 import cz.nkp.differ.util.TemporaryFilesCleaner;
 import eu.livotov.tpt.TPTApplication;
@@ -60,6 +60,7 @@ public class DifferApplication extends TPTApplication {
 	protected static Configuration configuration = null;
 	protected static GoogleAnalyticsTracker gaTracker = null;
 	protected static GlossaryUtil glossaryUtil = null;
+	protected static ExampleProvider exampleProvider = null;
 
 	protected static final TemporaryFilesCleaner temporaryFilesCleaner = new TemporaryFilesCleaner();
 	static {
@@ -114,6 +115,7 @@ public class DifferApplication extends TPTApplication {
 		metadataGroups = (MetadataGroups) applicationContext
 				.getBean("metadataGroups");
 		glossaryUtil = (GlossaryUtil) applicationContext.getBean("glossaryUtil"); 
+		exampleProvider = (ExampleProvider) applicationContext.getBean(ExampleProvider.class);
 
 		configuration = (Configuration) applicationContext
 				.getBean("differConfiguration");
@@ -211,6 +213,10 @@ public class DifferApplication extends TPTApplication {
 
 	public static TemporaryFilesCleaner getTemporaryFilesCleaner() {
 		return temporaryFilesCleaner;
+	}
+	
+	public static ExampleProvider getExampleProvider() {
+		return exampleProvider;
 	}
 
 	public static ApplicationContext getApplicationContext() {
