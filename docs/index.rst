@@ -17,7 +17,7 @@ The Image Validator - DIFFER
    cmdline-app
    important-links
    source
-   gsoc2014-ideas-list
+   improvements-2014
    gsoc2013-ideas-list
 
 ..   running-jobs
