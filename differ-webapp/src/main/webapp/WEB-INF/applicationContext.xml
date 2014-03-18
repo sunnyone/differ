@@ -93,6 +93,10 @@
     </bean>
     
     <bean id="glossaryUtil" class="cz.nkp.differ.tools.HTMLGlossaryUtil" />
+    
+    <bean id="exampleProvider" class="cz.nkp.differ.example.ExampleProviderImpl" >
+        <property name="propertiesFileWithExamples" value="${differ.exampleResourceURL}"/>
+    </bean>
 
     <!-- Rest API -->
     <context:component-scan base-package="cz.nkp.differ"/>

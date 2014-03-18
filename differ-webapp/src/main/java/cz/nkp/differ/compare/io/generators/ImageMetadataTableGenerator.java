@@ -298,14 +298,15 @@ public class ImageMetadataTableGenerator {
 	private SortableButton createClickableProperty(final String propertyName) {
 		SortableButton button = new SortableButton(propertyName, null);
 		if (glossaryUtil.existsGlossaryFor(propertyName, Locale.US, "glossary")) {
-                    final String glossary = glossaryUtil.getGlossaryFor(propertyName, Locale.US,"glossary");
+			final String glossary = glossaryUtil.getGlossaryFor(propertyName,
+					Locale.US, "glossary");
 			button.addListener(new Button.ClickListener() {
 
 				@Override
 				public void buttonClick(Button.ClickEvent event) {
 					parent.getMainWindow().showNotification(propertyName,
-						"<br/>" + glossary,
-						Window.Notification.TYPE_HUMANIZED_MESSAGE);
+							"<br/>" + glossary,
+							Window.Notification.TYPE_HUMANIZED_MESSAGE);
 				}
 			});
 			button.addStyleName("link");
@@ -361,12 +362,41 @@ public class ImageMetadataTableGenerator {
 		return button;
 	}
 
-	private static class ConflictCellStyleGenerator implements
+	private class ConflictCellStyleGenerator implements
 			Table.CellStyleGenerator {
 
 		private Table metadataTable;
 
 		public ConflictCellStyleGenerator(Table metadataTable) {
+			this.metadataTable = metadataTable;
+		}
+
+		@Override
+		public String getStyle(Object itemId, Object propertyId) {
+			if (results.length == 2 && propertyId == null) {
+				Button valA = (Button) metadataTable.getContainerProperty(
+						itemId, COLUMN_VALUE_PROPERTY + " 1").getValue();
+				Button valB = (Button) metadataTable.getContainerProperty(
+						itemId, COLUMN_VALUE_PROPERTY + " 2").getValue();
+				if (valA != null && valB != null) {
+					String a = (String) valA.getCaption();
+					String b = (String) valB.getCaption();
+					if (a != null && b != null && !a.isEmpty() && !b.isEmpty()) {
+						return (a.equalsIgnoreCase(b)) ? "green" : "red";
+					}
+				}
+			}
+			return "";
+		}
+
+	}
+
+	private static class ConflictCellFromMetadataStyleGenerator implements
+			Table.CellStyleGenerator {
+
+		private Table metadataTable;
+
+		public ConflictCellFromMetadataStyleGenerator(Table metadataTable) {
 			this.metadataTable = metadataTable;
 		}
 
