@@ -123,9 +123,10 @@ public class ExternalMetadataExtractor extends AbstractMetadataExtractor
 						cmdResult.getStdout(), cmdResult.getStderr());
 				String version = null;
 				for (Entry entry : entries) {
-					if (entry.getKey().trim().toLowerCase().equals(VERSION_PROPERTY)) {
+					if (entry.getKey().trim().toLowerCase().equals(VERSION_PROPERTY)) {						
 						version = entry.getValue();
 						metadataSource.setVersion(version);
+						logger.info("Tool {} has version {}", source, version);
 					}
 				}
 				for (Entry entry : entries) {

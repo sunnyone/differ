@@ -156,9 +156,11 @@ public class ImageMetadataTableGenerator {
 			}
 			for (ImageMetadata data : dataArray[resultIndex]) {
 				String sourceName = "unknown";
+				String version = null;
 				if (data.getSource() != null
 						&& data.getSource().getSourceName() != null) {
 					sourceName = data.getSource().getSourceName();
+					version = data.getSource().getVersion();
 				}
 				String id = data.getKey() + "&&" + sourceName;
 				ComparedImagesMetadata cim = hashmap.get(id);
@@ -168,6 +170,7 @@ public class ImageMetadataTableGenerator {
 					cim.setUnit(data.getUnit());
 					cim.setConflict(data.isConflict());
 					cim.setSourceName(sourceName);
+					cim.setVersion(version);
 					ImageMetadata[] metadata = new ImageMetadata[dataArray.length + 1];
 					if (data.getValue() != null) {
 						metadata[resultIndex] = data;
