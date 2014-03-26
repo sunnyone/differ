@@ -170,4 +170,6 @@
     color: #464f52;
     padding: 0px 0px;
     text-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
 }
