@@ -319,21 +319,32 @@ public class ImageMetadataTableGenerator {
 		return button;
 	}
 
-	private SortableButton createClickableTool(String source, String version) {
+	private SortableButton createClickableTool(final String source, String version) {
 		final String toolName = (source == null || source.isEmpty()) ? "tool name unknown"
 				: source;
-		final String ver = (version == null || version.isEmpty()) ? "unknown"
-				: version;
-		SortableButton button = new SortableButton(toolName, null);
+		String label = toolName;
+		if (version != null) {
+			label = toolName + " (" + version + ")";
+		}
+		SortableButton button = new SortableButton(label, null);
+		if (!glossaryUtil.existsGlossaryFor(source, Locale.US, "glossary")) {
+			button.addStyleName("nolink");
+			return button;
+		}
+		button.addStyleName("link");
+		final String glossary = glossaryUtil.getGlossaryFor(source, Locale.US, 
+				"glossary");
 		button.addListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
-				parent.getMainWindow().showNotification(toolName,
-						"<br/>version " + ver,
+				
+				parent.getMainWindow().showNotification(source,
+						"<br/>" + glossary,
 						Window.Notification.TYPE_HUMANIZED_MESSAGE);
 			}
 		});
-		button.addStyleName("link");
 		return button;
 	}
 
