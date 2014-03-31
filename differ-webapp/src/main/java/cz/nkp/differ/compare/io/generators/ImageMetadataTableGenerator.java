@@ -191,7 +191,7 @@ public class ImageMetadataTableGenerator {
 	private Table generateMetadataTable(String group,
 			Map<String, ComparedImagesMetadata> hashmap) {
 		final Table metadataTable = new Table(group.toUpperCase());
-		Object[] visibleColumns = new Object[results.length + 3];
+		Object[] visibleColumns = new Object[results.length + (group.equals("Identification")? 2 : 3)];
 		// header
 		metadataTable.addContainerProperty(COLUMN_KEY_PROPERTY,
 				SortableButton.class, null);
@@ -208,7 +208,9 @@ public class ImageMetadataTableGenerator {
 		}
 		metadataTable.addContainerProperty(COLUMN_UNIT_PROPERTY, String.class,
 				null);
-		visibleColumns[2 + results.length] = COLUMN_UNIT_PROPERTY;
+		if (!group.equals("Identification")) {
+			visibleColumns[2 + results.length] = COLUMN_UNIT_PROPERTY;
+		}
 		metadataTable.addContainerProperty(COLUMN_UNIT_PROPERTY, String.class,
 				null);
 		metadataTable.addContainerProperty(COLUMN_CONFLICT_PROPERTY,
